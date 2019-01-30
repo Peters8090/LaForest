@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerWeapons : MonoBehaviour
 {
-    int weaponIndex;
-    List<Weapon> weapons;
+    public int weaponIndex;
+    public List<Weapon> weapons;
     GameObject eq;
     public bool disarmed = false;
 
@@ -23,18 +23,9 @@ public class PlayerWeapons : MonoBehaviour
 
     void Start()
     {
-        axeImgTexture = (Texture2D) Resources.Load("axeImage");
-        axeImg = Sprite.Create(axeImgTexture, new Rect(0f, 0f, axeImgTexture.width, axeImgTexture.height), new Vector2(0.5f, 0.5f), 100f);
-
-        flashlightImgTexture = (Texture2D)Resources.Load("flashlightImage");
-        flashlightImg = Sprite.Create(flashlightImgTexture, new Rect(0f, 0f, flashlightImgTexture.width, flashlightImgTexture.height), new Vector2(0.5f, 0.5f), 100f);
-
-        swordImgTexture = (Texture2D)Resources.Load("swordImage");
-        swordImg = Sprite.Create(swordImgTexture, new Rect(0f, 0f, swordImgTexture.width, swordImgTexture.height), new Vector2(0.5f, 0.5f), 100f);
-
-        axeTemplate = new Weapon("Axe", axeImg);
-        flashlightTemplate = new Weapon("Flashlight", flashlightImg);
-        swordTemplate = new Weapon("Sword", swordImg);
+        axeTemplate = new Weapon("Axe");
+        flashlightTemplate = new Weapon("Flashlight");
+        swordTemplate = new Weapon("Sword");
 
         weapons = new List<Weapon>() { axeTemplate, flashlightTemplate, swordTemplate };
         eq = UsefulReferences.eq;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 744}
   - component: {fileID: 725}
   - component: {fileID: 746}
+  - component: {fileID: 7819272955105251620}
   - component: {fileID: 712}
   - component: {fileID: 745}
   - component: {fileID: 743}
@@ -59,7 +60,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 746}
   viewIdField: 0
-  InstantiationId: 2
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!143 &725
 CharacterController:
@@ -91,8 +92,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f794ba411297dfb4fb19458c35efd470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPos: {x: 0, y: 0, z: 0}
-  targetRot: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7819272955105251620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76882190dd95f154b98b98414489c94c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &712
 AudioSource:
   m_ObjectHideFlags: 0
@@ -219,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948664292e3604149ae88734d11f83c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponIndex: 0
   disarmed: 0
 --- !u!95 &714
 Animator:
@@ -2530,7 +2542,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 747}
   viewIdField: 0
-  InstantiationId: 1
+  InstantiationId: 2
   isRuntimeInstantiated: 0
 --- !u!114 &747
 MonoBehaviour:

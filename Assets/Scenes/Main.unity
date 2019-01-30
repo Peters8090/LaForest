@@ -524,19 +524,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 744, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
       propertyPath: viewIdField
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 744, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
       propertyPath: InstantiationId
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 748, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
       propertyPath: viewIdField
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 748, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
       propertyPath: InstantiationId
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}

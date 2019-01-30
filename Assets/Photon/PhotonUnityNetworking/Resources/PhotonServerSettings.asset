@@ -31,9 +31,9 @@ MonoBehaviour:
   RpcList:
   - DestroySpaceship
   - Fire
-  - RespawnSpaceship
   - PlayerConnected
   - PlayerDisconnected
+  - RespawnSpaceship
   - SetSpawnedPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1

@@ -16,6 +16,12 @@ public class LocalGameControlScript : MonoBehaviour
             Moving();
             Jumping();
             Attacking();
+            if(Input.GetKey(KeyCode.Escape))
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                UsefulReferences.playerMovement.mouseLookLocked = true;
+            }
         }
     }
 
