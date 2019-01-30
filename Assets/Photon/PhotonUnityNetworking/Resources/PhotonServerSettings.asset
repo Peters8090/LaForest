@@ -29,11 +29,8 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   RpcList:
-  - DestroySpaceship
-  - Fire
   - PlayerConnected
   - PlayerDisconnected
-  - RespawnSpaceship
   - SetSpawnedPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
