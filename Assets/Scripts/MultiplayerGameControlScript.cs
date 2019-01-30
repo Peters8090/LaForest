@@ -45,6 +45,7 @@ public class MultiplayerGameControlScript : MonoBehaviour
         if (pmi.Sender == PhotonNetwork.LocalPlayer)
         {
             UsefulReferences.Initialize(newPlayer);
+            UsefulReferences.mainMenuCamera.GetComponent<Menu>().SetGame(false);
         }
     }
 }

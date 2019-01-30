@@ -12,6 +12,9 @@ public class UsefulReferences
     public static Animator playerAnimator;
     public static CharacterController playerCharacterController;
     public static GameObject ui;
+    public static GameObject environment;
+    public static GameObject mainMenuCamera;
+    public static GameObject multiplayerGameControlObject;
     public static bool initialized = false;
 
     public static void Initialize(GameObject myPlayer)
@@ -24,6 +27,8 @@ public class UsefulReferences
         playerAnimator = player.transform.Find("ybot").gameObject.GetComponent<Animator>();
         playerCharacterController = player.GetComponent<CharacterController>();
         ui = GameObject.Find("UI");
+        environment = GameObject.Find("Environment");
+        multiplayerGameControlObject = GameObject.Find("MultiplayerGameControlObject");
         initialized = true;
     }
 }

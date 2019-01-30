@@ -8,11 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class Connecting : MonoBehaviourPunCallbacks
 {
-    void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.L) && PhotonNetwork.NetworkClientState.ToString() == "Joined")
@@ -21,16 +16,15 @@ public class Connecting : MonoBehaviourPunCallbacks
         }
     }
 
-    public void Play()
+    public void Play(GameObject nickInputField)
     {
-        if (GameObject.Find("NickInputField").GetComponent<InputField>().text.Length > 0)
+        if (nickInputField.GetComponent<InputField>().text.Length > 0)
         {
             PhotonNetwork.SendRate = 30;
             PhotonNetwork.SerializationRate = 30;
             PhotonNetwork.GameVersion = "LaForest: Development";
             PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.LocalPlayer.NickName = GameObject.Find("NickInputField").GetComponent<InputField>().text;
-            Application.LoadLevel("Main");
+            PhotonNetwork.LocalPlayer.NickName = nickInputField.GetComponent<InputField>().text;
         }
     }
 

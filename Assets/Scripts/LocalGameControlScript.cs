@@ -10,19 +10,16 @@ public class LocalGameControlScript : MonoBehaviour
     void Update()
     {
         //the position is higher, the priority is lower
-        if(UsefulReferences.initialized)
+        if(UsefulReferences.initialized && !Menu.menu)
         {
             Normal();
             Moving();
             Jumping();
             Attacking();
-            if(Input.GetKey(KeyCode.Escape))
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                UsefulReferences.playerMovement.mouseLookLocked = true;
-            }
+            Tests();
         }
+        else
+            MainMenu();
     }
 
     /// <summary>
@@ -37,11 +34,13 @@ public class LocalGameControlScript : MonoBehaviour
         UsefulReferences.playerWeapons.disarmed = false;
         UsefulReferences.playerMovement.slowDown = false;
     }
+
     void Moving()
     {
         if(UsefulReferences.playerMovement.moving)
             UsefulReferences.playerWeapons.disarmed = true;
     }
+
     void Jumping()
     {
         if(!UsefulReferences.playerCharacterController.isGrounded)
@@ -50,9 +49,26 @@ public class LocalGameControlScript : MonoBehaviour
             UsefulReferences.playerWeapons.disarmed = true;
         }
     }
+
     void Attacking()
     {
         if(UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             UsefulReferences.playerMovement.slowDown = true;
+    }
+
+    void MainMenu()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    void Tests()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            UsefulReferences.playerMovement.mouseLookLocked = true;
+        }
     }
 }
