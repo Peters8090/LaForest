@@ -27,18 +27,23 @@ public class Menu : MonoBehaviour
         {
             panels.Add((mainMenuUIObj.transform.Find("Panels").GetChild(i).name), (mainMenuUIObj.transform.Find("Panels").GetChild(i).gameObject));
         }
+
+        panels["Settings"].SetActive(true);
     }
 
     void Update()
     {
-
+        if (Application.isEditor)
+        {
+            Play();
+        }
     }
         
     public void Play()
     {
         SetBtnColor("Play");
         SetPanelsActive("Play");
-        GameObject.Find("MultiplayerGameControlObject").GetComponent<Connecting>().Play(panels["Settings"].transform.Find("NickInputField").gameObject);
+        GameObject.Find("MultiplayerGameControlObject").GetComponent<Connecting>().Play(panels["Play"].transform.Find("NetworkClientStateText").gameObject.GetComponent<Text>());
     }
 
     public void Info()

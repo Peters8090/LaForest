@@ -9,13 +9,9 @@ public class PlayerInfo
 {
     public static List<PlayerInfo> players = new List<PlayerInfo>();
     public Player pp;
+    public GameObject gameObject;
     public string nick = "";
     public static PlayerInfo myPlayerInfo;
-
-    public GameObject gameObject()
-    {
-        return GameObject.Find(nick);
-    }
 
     public static void DebugPlayersList()
     {
@@ -27,13 +23,25 @@ public class PlayerInfo
         Debug.Log(text2Debug);
     }
 
-    public static PlayerInfo FindPlayer(Player pp)
+    public static PlayerInfo FindPlayerInfoByPP(Player pp)
     {
         for (int i = 0; i < players.Count; i++)
         {
             if (players[i].pp == pp)
             {
                 return players[i];
+            }
+        }
+        return null;
+    }
+
+    public static Player FindPPByGO(GameObject go)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].gameObject == go)
+            {
+                return players[i].pp;
             }
         }
         return null;

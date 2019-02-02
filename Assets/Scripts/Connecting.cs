@@ -8,23 +8,43 @@ using UnityEngine.SceneManagement;
 
 public class Connecting : MonoBehaviourPunCallbacks
 {
+    Text playPanelText;
+    GameObject playPanelImage;
+
+    void Start()
+    {
+        
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.L) && PhotonNetwork.NetworkClientState.ToString() == "Joined")
         {
             PlayerInfo.DebugPlayersList();
         }
+
+        if(playPanelText)
+            playPanelText.text = PhotonNetwork.NetworkClientState.ToString();
+        if (playPanelImage)
+            playPanelImage.transform.Rotate(Vector3.back * 10);
     }
 
-    public void Play(GameObject nickInputField)
+    public void Play(Text playPanelText)
     {
-        if (nickInputField.GetComponent<InputField>().text.Length > 0)
+        if (GameSettings.nick.Length > 0)
         {
+            this.playPanelText = playPanelText;
+            playPanelImage = playPanelText.transform.parent.Find("SpiderImage").gameObject;
+
             PhotonNetwork.SendRate = 30;
             PhotonNetwork.SerializationRate = 30;
             PhotonNetwork.GameVersion = "LaForest: Development";
             PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.LocalPlayer.NickName = nickInputField.GetComponent<InputField>().text;
+            if(GameSettings.nick != null)
+                PhotonNetwork.LocalPlayer.NickName = GameSettings.nick;
+        } else
+        {
+            playPanelText.text = "Go to game settings and enter your nick";
         }
     }
 
@@ -84,15 +104,15 @@ public class Connecting : MonoBehaviourPunCallbacks
     [PunRPC]
     void PlayerDisconnected(Player pp)
     {
-        PlayerInfo player = PlayerInfo.FindPlayer(pp);
+        PlayerInfo player = PlayerInfo.FindPlayerInfoByPP(pp);
         if (player != null)
         {
             PlayerInfo.players.Remove(player);
         }
     }
-
+    /*
     void OnGUI()
     {
         GUI.Label(new Rect(5, 5, 200, 20), PhotonNetwork.NetworkClientState.ToString());
-    }
+    }*/
 }
