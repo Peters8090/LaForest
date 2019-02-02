@@ -10,13 +10,13 @@ public class LocalGameControlScript : MonoBehaviour
     void Update()
     {
         //the position is higher, the priority is lower
-        if(UsefulReferences.initialized && !Menu.menu)
+        if(UsefulReferences.initialized && !global::MainMenu.menu)
         {
             Normal();
             Moving();
             Jumping();
             Attacking();
-            Tests();
+            PauseMenu();
         }
         else
             MainMenu();
@@ -32,6 +32,7 @@ public class LocalGameControlScript : MonoBehaviour
         UsefulReferences.playerMovement.movementLocked = false;
         UsefulReferences.playerMovement.mouseLookLocked = false;
         UsefulReferences.playerWeapons.disarmed = false;
+        UsefulReferences.playerWeapons.canAttack = true;
         UsefulReferences.playerMovement.slowDown = false;
     }
 
@@ -47,13 +48,17 @@ public class LocalGameControlScript : MonoBehaviour
         {
             UsefulReferences.playerMovement.slowDown = true;
             UsefulReferences.playerWeapons.disarmed = true;
+            UsefulReferences.playerWeapons.canAttack = false;
         }
     }
 
     void Attacking()
     {
         if(UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            UsefulReferences.playerWeapons.canAttack = false;
             UsefulReferences.playerMovement.slowDown = true;
+        }
     }
 
     void MainMenu()
@@ -62,13 +67,15 @@ public class LocalGameControlScript : MonoBehaviour
         Cursor.visible = true;
     }
 
-    void Tests()
+    void PauseMenu()
     {
-        if (Input.GetKey(KeyCode.Escape))
+        if(global::PauseMenu.menu)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            UsefulReferences.playerMovement.movementLocked = true;
             UsefulReferences.playerMovement.mouseLookLocked = true;
+            UsefulReferences.playerWeapons.canAttack = false;
         }
     }
 }

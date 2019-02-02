@@ -42,10 +42,8 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        if (!mouseLookLocked)
-            MouseLook();
-        if (!movementLocked)
-            Wsad();
+        MouseLook();
+        Wsad();
     }
 
     void Wsad()
@@ -59,37 +57,52 @@ public class PlayerMovement : MonoBehaviour
                 audioSource.PlayOneShot(landingSound);
                 jumped = false;
             }
-            animator.SetFloat("VelX", Input.GetAxis("Horizontal"));
-            animator.SetFloat("VelY", Input.GetAxis("Vertical"));
-        }
-
-        if (slowDown)
-        {
-            if (running)
+            if(!movementLocked)
             {
-                movementY = Input.GetAxis("Vertical") * runningSpeed / 2;
-                movementX = Input.GetAxis("Horizontal") * runningSpeed / 2;
+                animator.SetFloat("VelX", Input.GetAxis("Horizontal"));
+                animator.SetFloat("VelY", Input.GetAxis("Vertical"));
+            } else
+            {
+                animator.SetFloat("VelX", 0);
+                animator.SetFloat("VelY", 0);
+            }
+        }
+        if(!movementLocked)
+        {
+            if (slowDown)
+            {
+                if (running)
+                {
+                    movementY = Input.GetAxis("Vertical") * runningSpeed / 2;
+                    movementX = Input.GetAxis("Horizontal") * runningSpeed / 2;
+                }
+                else
+                {
+                    movementY = Input.GetAxis("Vertical") * movingSpeed / 2;
+                    movementX = Input.GetAxis("Horizontal") * movingSpeed / 2;
+                }
             }
             else
             {
-                movementY = Input.GetAxis("Vertical") * movingSpeed / 2;
-                movementX = Input.GetAxis("Horizontal") * movingSpeed / 2;
-            }
-        } else
-        {
-            if (running)
-            {
-                movementY = Input.GetAxis("Vertical") * runningSpeed;
-                movementX = Input.GetAxis("Horizontal") * runningSpeed;
-            }
-            else
-            {
-                movementY = Input.GetAxis("Vertical") * movingSpeed;
-                movementX = Input.GetAxis("Horizontal") * movingSpeed;
+                if (running)
+                {
+                    movementY = Input.GetAxis("Vertical") * runningSpeed;
+                    movementX = Input.GetAxis("Horizontal") * runningSpeed;
+                }
+                else
+                {
+                    movementY = Input.GetAxis("Vertical") * movingSpeed;
+                    movementX = Input.GetAxis("Horizontal") * movingSpeed;
+                }
             }
         }
+        else
+        {
+            movementX = 0f;
+            movementY = 0f;
+        }
 
-        if (cc.isGrounded && Input.GetButton("Jump"))
+        if (cc.isGrounded && Input.GetButton("Jump") && !movementLocked)
         {
             playerY = jumpHeight;
             animator.Play("Jump");
@@ -143,8 +156,10 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         JoysticksCompatibility();
-
-        transform.Rotate(0, mouseX, 0);
-        mainCamera.transform.localRotation = Quaternion.Euler(mouseY, 0, 0);
+        if(!mouseLookLocked)
+        {
+            transform.Rotate(0, mouseX, 0);
+            mainCamera.transform.localRotation = Quaternion.Euler(mouseY, 0, 0);
+        }
     }
 }

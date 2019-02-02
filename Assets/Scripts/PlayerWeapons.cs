@@ -9,6 +9,7 @@ public class PlayerWeapons : MonoBehaviour
     public List<Weapon> weapons;
     GameObject eq;
     public bool disarmed = false;
+    public bool canAttack = true;
 
     Sprite axeImg;
     Texture2D axeImgTexture;
@@ -21,6 +22,8 @@ public class PlayerWeapons : MonoBehaviour
     Weapon flashlightTemplate;
     Weapon swordTemplate;
 
+    Image activeWeaponImg;
+
     void Start()
     {
         axeTemplate = new Weapon("Axe");
@@ -29,6 +32,8 @@ public class PlayerWeapons : MonoBehaviour
 
         weapons = new List<Weapon>() { axeTemplate, flashlightTemplate, swordTemplate };
         eq = UsefulReferences.eq;
+        activeWeaponImg = UsefulReferences.ui.transform.Find("ActiveWeapon").gameObject.GetComponent<Image>();
+        activeWeaponImg.gameObject.SetActive(true);
     }
     
     void Update()
@@ -49,10 +54,10 @@ public class PlayerWeapons : MonoBehaviour
             GameObject go = Instantiate((GameObject) Resources.Load("EmptyGameObject"));
             go.transform.parent = UsefulReferences.eq.transform;
         }
-        
-        UsefulReferences.ui.transform.Find("ActiveWeapon").gameObject.GetComponent<Image>().sprite = weapons[weaponIndex].image;
 
-        if(Input.GetButtonDown("Fire1"))
+        activeWeaponImg.sprite = weapons[weaponIndex].image;
+
+        if(Input.GetButtonDown("Fire1") && canAttack)
         {
             UsefulReferences.playerAnimator.Play("Attack");
         }

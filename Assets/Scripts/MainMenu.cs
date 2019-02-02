@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Menu : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     public static bool menu;
     GameObject mainMenuUIObj;
+    GameObject mainMenuCameraObj;
     Dictionary<string, GameObject> buttons = new Dictionary<string, GameObject>();
     Dictionary<string, GameObject> panels = new Dictionary<string, GameObject>();
 
     void Start()
     {
         UsefulReferences.mainMenuCamera = gameObject;
-        SetGame(true);
+        mainMenuCameraObj = GameObject.Find("Main Menu Camera");
         mainMenuUIObj = GameObject.Find("UI").transform.Find("Main Menu").gameObject;
+        SetGame(true);
 
         //inserts to the dictionary all main menu buttons; play, info, settings, copyrights, exit
-        for(int i = 0; i < mainMenuUIObj.transform.Find("Buttons").childCount; i++)
+        for (int i = 0; i < mainMenuUIObj.transform.Find("Buttons").childCount; i++)
         {
             buttons.Add((mainMenuUIObj.transform.Find("Buttons").GetChild(i).name), (mainMenuUIObj.transform.Find("Buttons").GetChild(i).gameObject));
         }
@@ -35,7 +37,7 @@ public class Menu : MonoBehaviour
     {
         if (Application.isEditor)
         {
-            Play();
+            //Play();
         }
     }
         
@@ -80,8 +82,10 @@ public class Menu : MonoBehaviour
         GameObject.Find("UI").transform.Find("Main Menu").gameObject.SetActive(how);
         GameObject.Find("UI").transform.Find("ActiveWeapon").gameObject.SetActive(!how);
         GameObject.Find("Environment").transform.Find("Main Menu Objects").gameObject.SetActive(how);
+        SetBtnColor("");
+        SetPanelsActive("");
         menu = how;
-        gameObject.SetActive(how);
+        mainMenuCameraObj.SetActive(how);
     }
 
     /// <summary>
