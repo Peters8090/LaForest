@@ -76,6 +76,7 @@ public class LocalGameControlScript : MonoBehaviour
             UsefulReferences.playerMovement.movementLocked = true;
             UsefulReferences.playerMovement.mouseLookLocked = true;
             UsefulReferences.playerWeapons.canAttack = false;
+            UsefulReferences.playerWeapons.disarmed = true;
         }
     }
 }

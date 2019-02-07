@@ -38,8 +38,9 @@ public class PlayerWeapons : MonoBehaviour
     
     void Update()
     {
-        GetNumberKeys();
-        if(eq.transform.GetChild(0).name != weapons[weaponIndex].name && !disarmed)
+        if(!disarmed)
+            GetNumberKeys();
+        if (eq.transform.GetChild(0).name != weapons[weaponIndex].name && !disarmed)
         {
             Destroy(eq.transform.GetChild(0).gameObject);
             GameObject go = Instantiate((GameObject) Resources.Load(weapons[weaponIndex].name));

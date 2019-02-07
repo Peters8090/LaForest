@@ -218,6 +218,7 @@ MonoBehaviour:
   slowDown: 0
   jumpingSound: {fileID: 8300000, guid: 50dd8b06c3187b943af5621cde3eee8a, type: 3}
   landingSound: {fileID: 8300000, guid: 6ecb61d2fe0065b4ebbbebaebda415ed, type: 3}
+  footstepSounds: []
 --- !u!114 &304
 MonoBehaviour:
   m_ObjectHideFlags: 0

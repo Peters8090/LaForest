@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     float runningSpeed = 15f;
     float jumpHeight = 5f;
     float mouseSensitivity = 3f;
+    float mouseSensitivityDefaultValue;
     float mouseX = 0f;
     float mouseY = 0f;
     CharacterController cc;
@@ -29,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     AudioClip jumpingSound;
     [SerializeField]
     AudioClip landingSound;
+    [SerializeField]
+    AudioClip[] footstepSounds;
 
 
     void Start()
@@ -38,36 +42,67 @@ public class PlayerMovement : MonoBehaviour
         mainCamera = UsefulReferences.mainCamera;
         audioSource = GetComponent<AudioSource>();
         obj = transform.Find("ybot/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/MainCameraPosRot").gameObject;
+        mouseSensitivityDefaultValue = mouseSensitivity;
     }
     
     void Update()
     {
-        MouseLook();
-        Wsad();
-    }
+        if (mouseLookLocked)
+            mouseSensitivity = 0f;
+        else
+            mouseSensitivity = mouseSensitivityDefaultValue;
 
-    void Wsad()
-    {
+        //set the main camera's pos and rot equal to obj's (without setting its parent to head in hips)
+        mainCamera.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z);
+        mainCamera.transform.rotation = obj.transform.rotation;
+        
+        mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        mouseY -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+        mouseY = Mathf.Clamp(mouseY, -90, 90);
+
+        //Joysticks compatibility
+        if (Input.GetAxis("Joystick 4th axis") > 0.22f)
+        {
+            mouseX = Input.GetAxis("Joystick 4th axis") * mouseSensitivity;
+        }
+        else if (Input.GetAxis("Joystick 4th axis") < -0.22f)
+        {
+            mouseX = Input.GetAxis("Joystick 4th axis") * mouseSensitivity;
+        }
+
+        if (Input.GetAxis("Joystick 5th axis") > 0.22f)
+        {
+            mouseY -= Input.GetAxis("Joystick 5th axis") * mouseSensitivity;
+        }
+        else if (Input.GetAxis("Joystick 5th axis") < -0.22f)
+        {
+            mouseY -= Input.GetAxis("Joystick 5th axis") * mouseSensitivity;
+        }
+
+        transform.Rotate(0, mouseX, 0);
+        mainCamera.transform.localRotation = Quaternion.Euler(mouseY, 0, 0);
+
         running = Input.GetButton("Run");
 
-        if(cc.isGrounded)
+        if (cc.isGrounded)
         {
             if (jumped)
             {
                 audioSource.PlayOneShot(landingSound);
                 jumped = false;
             }
-            if(!movementLocked)
+            if (!movementLocked)
             {
                 animator.SetFloat("VelX", Input.GetAxis("Horizontal"));
                 animator.SetFloat("VelY", Input.GetAxis("Vertical"));
-            } else
+            }
+            else
             {
                 animator.SetFloat("VelX", 0);
                 animator.SetFloat("VelY", 0);
             }
         }
-        if(!movementLocked)
+        if (!movementLocked)
         {
             if (slowDown)
             {
@@ -108,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
             animator.Play("Jump");
             audioSource.PlayOneShot(jumpingSound);
             jumped = true;
-            
+
         }
         else if (!cc.isGrounded)
         {
@@ -117,6 +152,18 @@ public class PlayerMovement : MonoBehaviour
 
         moving = animator.GetCurrentAnimatorStateInfo(0).IsName("Movement") && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Idle";
 
+        /*if (!audioSource.isPlaying)
+        {
+            if (moving)
+            {
+                audioSource.PlayOneShot(walkingSounds[Random.Range(0, walkingSounds.Length)]);
+            }
+            else
+            {
+                audioSource.Stop();
+            }
+        }*/
+
         //move the player
         Vector3 move = new Vector3(movementX, playerY, movementY);
         move = transform.rotation * move;
@@ -124,42 +171,13 @@ public class PlayerMovement : MonoBehaviour
         cc.Move(move * Time.deltaTime);
     }
 
+    void Wsad()
+    {
+
+    }
+
     void MouseLook()
     {
-        //set the main camera's pos and rot equal to obj's (without setting its parent to head in hips)
-        mainCamera.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z);
-        mainCamera.transform.rotation = obj.transform.rotation;
-
-        mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        mouseY -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-        mouseY = Mathf.Clamp(mouseY, -90, 90);
-
-        void JoysticksCompatibility()
-        {
-            //Joysticks compatibility
-            if (Input.GetAxis("Joystick 4th axis") > 0.22f)
-            {
-                mouseX = Input.GetAxis("Joystick 4th axis") * mouseSensitivity;
-            }
-            else if (Input.GetAxis("Joystick 4th axis") < -0.22f)
-            {
-                mouseX = Input.GetAxis("Joystick 4th axis") * mouseSensitivity;
-            }
-
-            if (Input.GetAxis("Joystick 5th axis") > 0.22f)
-            {
-                mouseY -= Input.GetAxis("Joystick 5th axis") * mouseSensitivity;
-            }
-            else if (Input.GetAxis("Joystick 5th axis") < -0.22f)
-            {
-                mouseY -= Input.GetAxis("Joystick 5th axis") * mouseSensitivity;
-            }
-        }
-        JoysticksCompatibility();
-        if(!mouseLookLocked)
-        {
-            transform.Rotate(0, mouseX, 0);
-            mainCamera.transform.localRotation = Quaternion.Euler(mouseY, 0, 0);
-        }
+        
     }
 }
