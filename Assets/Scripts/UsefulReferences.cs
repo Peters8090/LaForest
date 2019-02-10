@@ -21,7 +21,8 @@ public class UsefulReferences
     {
         player = myPlayer;
         mainCamera = player.transform.Find("Main Camera").gameObject;
-        eq = player.transform.Find("ybot/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/Equipment").gameObject;
+        eq = player.GetComponent<UsefulReferencesPlayer>().eq;
+        //eq = player.transform.Find("ybot/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/Equipment").gameObject;
         playerMovement = player.GetComponent<PlayerMovement>();
         playerWeapons = player.GetComponent<PlayerWeapons>();
         playerAnimator = player.transform.Find("ybot").gameObject.GetComponent<Animator>();

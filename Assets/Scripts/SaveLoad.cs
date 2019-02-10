@@ -27,7 +27,17 @@ public class SaveLoad : MonoBehaviour
         }
     }
 
-    
+    void Start()
+    {
+        InvokeRepeating("Save", 1.0f, 0.25f);
+    }
+
+    void Save()
+    {
+        FileSaveLoad.Save();
+    }
+
+
     void Update()
     {
         if(GameSettings.loaded)
@@ -41,7 +51,7 @@ public class SaveLoad : MonoBehaviour
             sd.nick = GameSettings.nick;
         }
         
-        FileSaveLoad.Save();
+        //FileSaveLoad.Save();
     }
 }
 
@@ -83,7 +93,7 @@ public class SaveData : ISerializable
 
 public class FileSaveLoad {
 
-	public static string currentFilePath = Application.persistentDataPath + @"/SaveData.cjc";
+	public static string currentFilePath = Application.persistentDataPath + @"/saveData.dat";
   
 	public static void Save()
 	{
@@ -92,13 +102,13 @@ public class FileSaveLoad {
 
 	public static void Save(string filePath)
 	{
-		SaveData data = SaveLoad.sd;
-		Stream stream = File.Open(filePath, FileMode.Create);
-		BinaryFormatter bformatter = new BinaryFormatter();
-		bformatter.Binder = new VersionDeserializationBinder(); 
-		bformatter.Serialize(stream, data);
-		stream.Close();
-	}
+        Stream stream = File.Open(filePath, FileMode.Create);
+        SaveData data = SaveLoad.sd;
+        BinaryFormatter bformatter = new BinaryFormatter();
+        bformatter.Binder = new VersionDeserializationBinder();
+        bformatter.Serialize(stream, data);
+        stream.Close();
+    }
 	
 	public static bool Load ()
     {
@@ -114,14 +124,14 @@ public class FileSaveLoad {
 
 	public static void Load (string filePath) 
 	{
-		SaveData data = new SaveData ();
-		Stream stream = File.Open(filePath, FileMode.Open);
-		BinaryFormatter bformatter = new BinaryFormatter();
-		bformatter.Binder = new VersionDeserializationBinder(); 
-		data = (SaveData)bformatter.Deserialize(stream);
+        Stream stream = File.Open(filePath, FileMode.Open);
+        SaveData data = new SaveData();
+        BinaryFormatter bformatter = new BinaryFormatter();
+        bformatter.Binder = new VersionDeserializationBinder();
+        data = (SaveData)bformatter.Deserialize(stream);
         SaveLoad.sd = data;
-		stream.Close();
-	}
+        stream.Close();
+    }
 }
 
 public sealed class VersionDeserializationBinder : SerializationBinder 
@@ -130,10 +140,10 @@ public sealed class VersionDeserializationBinder : SerializationBinder
     { 
         if (!string.IsNullOrEmpty(assemblyName) && !string.IsNullOrEmpty(typeName)) 
         { 
-            Type typeToDeserialize = null; 
-            assemblyName = Assembly.GetExecutingAssembly().FullName; 
-            typeToDeserialize = Type.GetType( String.Format( "{0}, {1}", typeName, assemblyName ) ); 
-            return typeToDeserialize; 
+            Type typeToDeserialize = null;
+            assemblyName = Assembly.GetExecutingAssembly().FullName;
+            typeToDeserialize = Type.GetType(string.Format("{0}, {1}", typeName, assemblyName));
+            return typeToDeserialize;
         } 
         return null; 
     } 

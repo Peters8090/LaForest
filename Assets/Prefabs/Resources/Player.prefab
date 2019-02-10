@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 287}
   - component: {fileID: 307}
   - component: {fileID: 310}
-  - component: {fileID: 281}
+  - component: {fileID: 282}
   - component: {fileID: 306}
   - component: {fileID: 304}
-  - component: {fileID: 283}
+  - component: {fileID: 311}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -60,7 +60,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 307}
   viewIdField: 0
-  InstantiationId: 1
+  InstantiationId: 3
   isRuntimeInstantiated: 0
 --- !u!143 &287
 CharacterController:
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76882190dd95f154b98b98414489c94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &281
+--- !u!82 &282
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,7 +218,9 @@ MonoBehaviour:
   slowDown: 0
   jumpingSound: {fileID: 8300000, guid: 50dd8b06c3187b943af5621cde3eee8a, type: 3}
   landingSound: {fileID: 8300000, guid: 6ecb61d2fe0065b4ebbbebaebda415ed, type: 3}
-  footstepSounds: []
+  footstepSounds:
+  - {fileID: 8300000, guid: 9ea21b9ce2f12b04684fba622771e630, type: 3}
+  - {fileID: 8300000, guid: 96856df1160451c43b8b66369d8a4d98, type: 3}
 --- !u!114 &304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,25 +236,19 @@ MonoBehaviour:
   weaponIndex: 0
   disarmed: 0
   canAttack: 1
---- !u!95 &283
-Animator:
-  serializedVersion: 3
+--- !u!114 &311
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ed5c2f7e37f4fb49aff40f7fb42e6ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eq: {fileID: 169}
 --- !u!1 &96
 GameObject:
   m_ObjectHideFlags: 0
@@ -1632,12 +1628,12 @@ GameObject:
   m_Component:
   - component: {fileID: 218}
   m_Layer: 0
-  m_Name: mixamorig:RightHand
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &218
 Transform:
   m_ObjectHideFlags: 0
@@ -2478,9 +2474,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 245}
-  - component: {fileID: 282}
+  - component: {fileID: 283}
   - component: {fileID: 309}
   - component: {fileID: 308}
+  - component: {fileID: 280}
   m_Layer: 0
   m_Name: ybot
   m_TagString: Untagged
@@ -2505,7 +2502,7 @@ Transform:
   m_Father: {fileID: 180}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &282
+--- !u!95 &283
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -2544,7 +2541,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 308}
   viewIdField: 0
-  InstantiationId: 2
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &308
 MonoBehaviour:
@@ -2570,6 +2567,20 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!64 &280
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 15cbac790af9b484f8880b04fb7f3c6c, type: 3}
 --- !u!1 &161
 GameObject:
   m_ObjectHideFlags: 0
@@ -2739,7 +2750,7 @@ GameObject:
   m_Component:
   - component: {fileID: 251}
   - component: {fileID: 265}
-  - component: {fileID: 280}
+  - component: {fileID: 281}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2803,7 +2814,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &280
+--- !u!81 &281
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

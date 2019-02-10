@@ -12,7 +12,8 @@ public class WeaponsSync : MonoBehaviour
     {
         if (gameObject == UsefulReferences.player)
             enabled = false;
-        eq = transform.Find("ybot/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/Equipment").gameObject;
+        eq = GetComponent<UsefulReferencesPlayer>().eq;
+        //eq = transform.Find("ybot/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/Equipment").gameObject;
     }
     
     void Update()

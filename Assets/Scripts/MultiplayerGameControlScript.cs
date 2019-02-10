@@ -38,15 +38,18 @@ public class MultiplayerGameControlScript : MonoBehaviour
     [PunRPC]
     void SetSpawnedPlayer(string nick, int pvID, PhotonMessageInfo pmi)
     {
-        GameObject newPlayer = PhotonView.Find(pvID).gameObject;
-        newPlayer.name = nick;
-        newPlayer.transform.position = new Vector3(917, 175, 325);
-        PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject = newPlayer;
-        //here set the text mesh text to player's nick
-        if (pmi.Sender == PhotonNetwork.LocalPlayer)
+        if(pmi.Sender != null)
         {
-            UsefulReferences.Initialize(newPlayer);
-            UsefulReferences.mainMenuCamera.GetComponent<MainMenu>().SetGame(false);
+            GameObject newPlayer = PhotonView.Find(pvID).gameObject;
+            newPlayer.name = nick;
+            newPlayer.transform.position = new Vector3(917, 175, 325);
+            PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject = newPlayer;
+            //here set the text mesh text to player's nick
+            if (pmi.Sender == PhotonNetwork.LocalPlayer)
+            {
+                UsefulReferences.Initialize(newPlayer);
+                UsefulReferences.mainMenuCamera.GetComponent<MainMenu>().SetGame(false);
+            }
         }
     }
 }

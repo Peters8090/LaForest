@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
 {
     bool running = false;
     bool jumped = false;
-    [HideInInspector]
     public bool movementLocked = false;
     public bool mouseLookLocked = false;
     public bool moving = false;
@@ -17,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     float playerY = 0f;
     float movingSpeed = 10f;
     float runningSpeed = 15f;
+    float accMaxSpeed = 0f;
     float jumpHeight = 5f;
     float mouseSensitivity = 3f;
     float mouseSensitivityDefaultValue;
@@ -32,8 +32,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     AudioClip landingSound;
     [SerializeField]
-    AudioClip[] footstepSounds;
 
+    //variables for playing footstep sounds
+    AudioClip[] footstepSounds;
+    float m_StepCycle = 0;
+    float m_NextStep = 0;
+    float m_RunstepLenghten = 1;
+    float m_StepInterval = 6;
 
     void Start()
     {
@@ -101,35 +106,32 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetFloat("VelX", 0);
                 animator.SetFloat("VelY", 0);
             }
+        } else
+        {
+            //animator.SetFloat("VelX", 0);
+            //animator.SetFloat("VelY", 0);
         }
-        if (!movementLocked)
+        
+
+        if (running)
+        {
+            if(slowDown)
+                accMaxSpeed = runningSpeed / 2;
+            else
+                accMaxSpeed = runningSpeed;
+        }
+        else
         {
             if (slowDown)
-            {
-                if (running)
-                {
-                    movementY = Input.GetAxis("Vertical") * runningSpeed / 2;
-                    movementX = Input.GetAxis("Horizontal") * runningSpeed / 2;
-                }
-                else
-                {
-                    movementY = Input.GetAxis("Vertical") * movingSpeed / 2;
-                    movementX = Input.GetAxis("Horizontal") * movingSpeed / 2;
-                }
-            }
+                accMaxSpeed = movingSpeed / 2;
             else
-            {
-                if (running)
-                {
-                    movementY = Input.GetAxis("Vertical") * runningSpeed;
-                    movementX = Input.GetAxis("Horizontal") * runningSpeed;
-                }
-                else
-                {
-                    movementY = Input.GetAxis("Vertical") * movingSpeed;
-                    movementX = Input.GetAxis("Horizontal") * movingSpeed;
-                }
-            }
+                accMaxSpeed = movingSpeed;
+        }
+
+        if (!movementLocked)
+        {
+            movementY = Input.GetAxis("Vertical") * accMaxSpeed;
+            movementX = Input.GetAxis("Horizontal") * accMaxSpeed;
         }
         else
         {
@@ -137,10 +139,13 @@ public class PlayerMovement : MonoBehaviour
             movementY = 0f;
         }
 
+        
+
         if (cc.isGrounded && Input.GetButton("Jump") && !movementLocked)
         {
             playerY = jumpHeight;
             animator.Play("Jump");
+            audioSource.Stop();
             audioSource.PlayOneShot(jumpingSound);
             jumped = true;
 
@@ -149,20 +154,8 @@ public class PlayerMovement : MonoBehaviour
         {
             playerY += Physics.gravity.y * Time.deltaTime;
         }
-
+        
         moving = animator.GetCurrentAnimatorStateInfo(0).IsName("Movement") && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Idle";
-
-        /*if (!audioSource.isPlaying)
-        {
-            if (moving)
-            {
-                audioSource.PlayOneShot(walkingSounds[Random.Range(0, walkingSounds.Length)]);
-            }
-            else
-            {
-                audioSource.Stop();
-            }
-        }*/
 
         //move the player
         Vector3 move = new Vector3(movementX, playerY, movementY);
@@ -171,13 +164,67 @@ public class PlayerMovement : MonoBehaviour
         cc.Move(move * Time.deltaTime);
     }
 
-    void Wsad()
+    void FixedUpdate()
     {
-
+        if(!movementLocked)
+            ProgressStepCycle();
     }
 
-    void MouseLook()
+    /// <summary>
+    /// Method from FirstPersonController script from Unity Standard Assets
+    /// </summary>
+    void ProgressStepCycle()
     {
-        
+        if (cc.velocity.sqrMagnitude > 0 && (movementX != 0 || movementY != 0))
+        {
+            m_StepCycle += (cc.velocity.magnitude + (accMaxSpeed * (!running ? 1f : m_RunstepLenghten))) * Time.fixedDeltaTime;
+        }
+
+        if (!(m_StepCycle > m_NextStep) || !cc.isGrounded)
+        {
+            return;
+        }
+
+        m_NextStep = m_StepCycle + m_StepInterval;
+
+        PlayFootStepSounds();
+    }
+
+    //for PlayFootstepSounds method to check which once it is executed
+    int i = 0;
+    /// <summary>
+    /// Every footstepSounds.Length times footstepsSounds array is randomly ordered with 0% possibility that one sound would play two times in row
+    /// </summary>
+    void PlayFootStepSounds()
+    {
+        if (i%footstepSounds.Length == 0 || i==0)
+        {
+            ShuffleFootStepSounds();
+        }
+        audioSource.PlayOneShot(footstepSounds[0]);
+
+        //To make one sound never play two times in row
+        void ShuffleFootStepSounds()
+        {
+            AudioClip prevFirstClip;
+            prevFirstClip = footstepSounds[0];
+            footstepSounds = ShuffleArray(footstepSounds);
+            if (prevFirstClip == footstepSounds[0])
+                ShuffleFootStepSounds();
+        }
+    }
+
+    
+
+    AudioClip[] ShuffleArray(AudioClip[] sounds)
+    {
+        for (int t = 0; t < sounds.Length; t++)
+        {
+            AudioClip tmp = sounds[t];
+            int r = Random.Range(t, sounds.Length);
+            sounds[t] = sounds[r];
+            sounds[r] = tmp;
+        }
+        return sounds;
     }
 }
