@@ -7,14 +7,10 @@ using Photon.Realtime;
 
 public class Tests : MonoBehaviour
 {
-    public static bool initialized = false;
+    public static bool tests = false;
 
     void Awake()
-    {/*
-        if (!initialized && SceneManager.GetActiveScene().name == "Main")
-        {
-            Menu.simulatePlay = true;
-            SceneManager.LoadScene("Menu");
-        }*/
+    {
+        tests = Application.isEditor;
     }
 }

@@ -7,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class LocalGameControlScript : MonoBehaviour
 {
+    void Awake()
+    {
+        UsefulReferences.Initialize(null);
+    }
+
     void Update()
     {
         //the position is higher, the priority is lower
@@ -34,6 +39,7 @@ public class LocalGameControlScript : MonoBehaviour
         UsefulReferences.playerWeapons.disarmed = false;
         UsefulReferences.playerWeapons.canAttack = true;
         UsefulReferences.playerMovement.slowDown = false;
+        UsefulReferences.healthUI.SetActive(true);
     }
 
     void Moving()
@@ -65,6 +71,7 @@ public class LocalGameControlScript : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        UsefulReferences.healthUI.SetActive(false);
     }
 
     void PauseMenu()
@@ -77,6 +84,7 @@ public class LocalGameControlScript : MonoBehaviour
             UsefulReferences.playerMovement.mouseLookLocked = true;
             UsefulReferences.playerWeapons.canAttack = false;
             UsefulReferences.playerWeapons.disarmed = true;
+            UsefulReferences.healthUI.SetActive(false);
         }
     }
 }

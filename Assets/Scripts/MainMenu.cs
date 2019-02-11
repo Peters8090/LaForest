@@ -31,13 +31,14 @@ public class MainMenu : MonoBehaviour
         }
 
         panels["Settings"].SetActive(true);
+
     }
 
     void Update()
     {
-        if (Application.isEditor)
+        if (Tests.tests)
         {
-            //Play();
+            Play();
         }
     }
         
@@ -80,7 +81,7 @@ public class MainMenu : MonoBehaviour
     public void SetGame(bool how)
     {
         GameObject.Find("UI").transform.Find("Main Menu").gameObject.SetActive(how);
-        GameObject.Find("UI").transform.Find("ActiveWeapon").gameObject.SetActive(!how);
+        UsefulReferences.activeWeaponImg.transform.parent.gameObject.SetActive(!how);
         GameObject.Find("Environment").transform.Find("Main Menu Objects").gameObject.SetActive(how);
         SetBtnColor("");
         SetPanelsActive("");

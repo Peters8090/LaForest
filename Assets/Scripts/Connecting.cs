@@ -13,7 +13,7 @@ public class Connecting : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -42,7 +42,7 @@ public class Connecting : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
             if(GameSettings.nick != null)
                 PhotonNetwork.LocalPlayer.NickName = GameSettings.nick;
-        } else
+        } else if(!Tests.tests)
         {
             playPanelText.text = "Go to game settings and enter your nick";
         }

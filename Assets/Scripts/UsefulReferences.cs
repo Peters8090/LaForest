@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UsefulReferences
 {
@@ -15,21 +16,29 @@ public class UsefulReferences
     public static GameObject environment;
     public static GameObject mainMenuCamera;
     public static GameObject multiplayerGameControlObject;
+    public static RawImage activeWeaponImg;
+    public static GameObject healthUI;
     public static bool initialized = false;
 
     public static void Initialize(GameObject myPlayer)
     {
-        player = myPlayer;
-        mainCamera = player.transform.Find("Main Camera").gameObject;
-        eq = player.GetComponent<UsefulReferencesPlayer>().eq;
-        //eq = player.transform.Find("ybot/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/Equipment").gameObject;
-        playerMovement = player.GetComponent<PlayerMovement>();
-        playerWeapons = player.GetComponent<PlayerWeapons>();
-        playerAnimator = player.transform.Find("ybot").gameObject.GetComponent<Animator>();
-        playerCharacterController = player.GetComponent<CharacterController>();
+        if(myPlayer != null)
+        {
+            player = myPlayer;
+            mainCamera = player.transform.Find("Main Camera").gameObject;
+            eq = player.GetComponent<UsefulReferencesPlayer>().eq;
+            //eq = player.transform.Find("ybot/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/Equipment").gameObject;
+            playerMovement = player.GetComponent<PlayerMovement>();
+            playerWeapons = player.GetComponent<PlayerWeapons>();
+            playerAnimator = player.transform.Find("ybot").gameObject.GetComponent<Animator>();
+            playerCharacterController = player.GetComponent<CharacterController>();
+            initialized = true;
+        }
+        
         ui = GameObject.Find("UI");
+        activeWeaponImg = GameObject.Find("UI").transform.Find("Weapons/ActiveWeapon").gameObject.GetComponent<RawImage>();
+        healthUI = ui.transform.Find("Health").gameObject;
         environment = GameObject.Find("Environment");
         multiplayerGameControlObject = GameObject.Find("MultiplayerGameControlObject");
-        initialized = true;
     }
 }

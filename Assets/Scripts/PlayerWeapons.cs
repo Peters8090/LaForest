@@ -10,19 +10,16 @@ public class PlayerWeapons : MonoBehaviour
     GameObject eq;
     public bool disarmed = false;
     public bool canAttack = true;
-
-    Sprite axeImg;
+    
     Texture2D axeImgTexture;
-    Sprite flashlightImg;
     Texture2D flashlightImgTexture;
-    Sprite swordImg;
     Texture2D swordImgTexture;
 
     Weapon axeTemplate;
     Weapon flashlightTemplate;
     Weapon swordTemplate;
 
-    Image activeWeaponImg;
+    RawImage activeWeaponImg;
 
     void Start()
     {
@@ -32,7 +29,7 @@ public class PlayerWeapons : MonoBehaviour
 
         weapons = new List<Weapon>() { axeTemplate, flashlightTemplate, swordTemplate };
         eq = UsefulReferences.eq;
-        activeWeaponImg = UsefulReferences.ui.transform.Find("ActiveWeapon").gameObject.GetComponent<Image>();
+        activeWeaponImg = UsefulReferences.activeWeaponImg;
         activeWeaponImg.gameObject.SetActive(true);
     }
     
@@ -56,7 +53,7 @@ public class PlayerWeapons : MonoBehaviour
             go.transform.parent = UsefulReferences.eq.transform;
         }
 
-        activeWeaponImg.sprite = weapons[weaponIndex].image;
+        activeWeaponImg.texture = weapons[weaponIndex].image;
 
         if(Input.GetButtonDown("Fire1") && canAttack)
         {

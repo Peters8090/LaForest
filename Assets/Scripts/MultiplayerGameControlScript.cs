@@ -20,7 +20,12 @@ public class MultiplayerGameControlScript : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Main")
         {
-            GameObject player = PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(550, 170), 0, Random.Range(1480, 1500)), Quaternion.identity, 0);
+            GameObject player;
+            if (Tests.tests)
+                player = GameObject.Find("Player");
+            else
+                player = PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(550, 170), 0, Random.Range(1480, 1500)), Quaternion.identity, 0);
+
             Behaviour[] scripts = player.GetComponents<Behaviour>();
             Behaviour[] scriptsChildren = player.GetComponentsInChildren<Behaviour>();
             foreach (Behaviour script in scripts)

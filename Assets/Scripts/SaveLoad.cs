@@ -24,6 +24,7 @@ public class SaveLoad : MonoBehaviour
             sd.showFPS = GameSettings.showFPS;
             sd.fullscreen = GameSettings.fullscreen;
             sd.nick = GameSettings.nick;
+            sd.health = 100f;
         }
     }
 
@@ -65,6 +66,7 @@ public class SaveData : ISerializable
     public bool showFPS;
     public bool fullscreen;
     public string nick;
+    public float health;
 
     public SaveData() { }
 
@@ -77,6 +79,7 @@ public class SaveData : ISerializable
         showFPS = (bool)info.GetValue("showFPS", typeof(bool));
         fullscreen = (bool)info.GetValue("fullscreen", typeof(bool));
         nick = (string)info.GetValue("nick", typeof(string));
+        health = (float)info.GetValue("health", typeof(float));
     }
  
     public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
@@ -88,6 +91,7 @@ public class SaveData : ISerializable
 		info.AddValue("showFPS", showFPS);
 		info.AddValue("fullscreen", fullscreen);
 		info.AddValue("nick", nick);
+		info.AddValue("health", health);
     }
 }
 
