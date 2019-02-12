@@ -7,10 +7,11 @@ using Photon.Realtime;
 
 public class Tests : MonoBehaviour
 {
-    public static bool tests = false;
+    public static bool tests = true;
 
     void Awake()
     {
-        tests = !Application.isEditor;
+        if (tests)
+            tests = Application.isEditor;
     }
 }
