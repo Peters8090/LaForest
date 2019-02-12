@@ -11,6 +11,6 @@ public class Tests : MonoBehaviour
 
     void Awake()
     {
-        tests = Application.isEditor;
+        tests = !Application.isEditor;
     }
 }

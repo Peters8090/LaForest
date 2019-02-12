@@ -27,12 +27,12 @@ public class PauseMenu : MonoBehaviour
             panels.Add((pauseMenuUIObj.transform.Find("Panels").GetChild(i).name), (pauseMenuUIObj.transform.Find("Panels").GetChild(i).gameObject));
         }
 
-        panels["Settings"].SetActive(true);
+        //panels["Settings"].SetActive(true);
     }
 
     void Update()
     {
-        if(UsefulReferences.initialized)
+        if (UsefulReferences.initialized)
         {
             if (Input.GetButtonDown("Cancel"))
             {
@@ -140,6 +140,7 @@ public class PauseMenu : MonoBehaviour
                 panels[panelName].SetActive(true);
             else
                 panels[item.Value.name].SetActive(false);
+
         }
     }
 }

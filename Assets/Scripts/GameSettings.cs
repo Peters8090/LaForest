@@ -55,10 +55,11 @@ public class GameSettings : MonoBehaviour
         graphicsDropdown.value = graphicsIndex;
         volumeSlider.value = volume;
         nickInputField.text = nick;
+        
+        if(!loaded)
+            gameObject.SetActive(false);
 
         loaded = true;
-
-        gameObject.SetActive(false);
     }
 
     void Update()
