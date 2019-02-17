@@ -15,50 +15,47 @@ public class PlayerWeapons : MonoBehaviour
     Texture2D flashlightImgTexture;
     Texture2D swordImgTexture;
 
-    Weapon axeTemplate;
-    Weapon flashlightTemplate;
-    Weapon swordTemplate;
-
-    RawImage activeWeaponImg;
-
     void Start()
     {
-        axeTemplate = new Weapon("Axe");
-        flashlightTemplate = new Weapon("Flashlight");
-        swordTemplate = new Weapon("Sword");
-
-        weapons = new List<Weapon>() { axeTemplate, flashlightTemplate, swordTemplate };
+        weapons = new List<Weapon>() { Weapon.axeTemplate, Weapon.flashlightTemplate, Weapon.swordTemplate, Weapon.rockTemplate };
         eq = UsefulReferences.eq;
-        activeWeaponImg = UsefulReferences.activeWeaponImg;
-        activeWeaponImg.gameObject.SetActive(true);
+        UsefulReferences.activeWeaponImg.gameObject.SetActive(true);
     }
     
     void Update()
     {
-        if(!disarmed)
-            GetNumberKeys();
-        if (eq.transform.GetChild(0).name != weapons[weaponIndex].name && !disarmed)
+        GetNumberKeys();
+        
+        //we check whether the change of weapon is required (returns true if we haven't changed)
+        if (eq.transform.GetChild(0).name != weapons[weaponIndex].name)
+        {
+            //player can shoot rocks even while he is disarmed
+            if (!disarmed || weapons[weaponIndex] == Weapon.rockTemplate)
+            {
+                Destroy(eq.transform.GetChild(0).gameObject);
+                GameObject go = Instantiate((GameObject)Resources.Load(weapons[weaponIndex].name));
+                go.transform.parent = eq.transform;
+                go.name = weapons[weaponIndex].name;
+                go.transform.localPosition = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.position;
+                go.transform.localRotation = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.rotation;
+                go.transform.localScale = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.localScale;
+            } else if (disarmed && eq.transform.childCount == 1)
+            {
+                Disarmed();
+            }
+        } else if (disarmed && eq.transform.childCount == 1 && weapons[weaponIndex] != Weapon.rockTemplate)
+        {
+            Disarmed();
+        }
+
+        void Disarmed()
         {
             Destroy(eq.transform.GetChild(0).gameObject);
-            GameObject go = Instantiate((GameObject) Resources.Load(weapons[weaponIndex].name));
-            go.transform.parent = eq.transform;
-            go.name = weapons[weaponIndex].name;
-            go.transform.localPosition = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.position;
-            go.transform.localRotation = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.rotation;
-            go.transform.localScale = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.localScale;
-        } else if(disarmed && eq.transform.childCount == 1)
-        {
-            Destroy(eq.transform.GetChild(0).gameObject);
-            GameObject go = Instantiate((GameObject) Resources.Load("EmptyGameObject"));
+            GameObject go = Instantiate((GameObject)Resources.Load("EmptyGameObject"));
             go.transform.parent = UsefulReferences.eq.transform;
         }
 
-        activeWeaponImg.texture = weapons[weaponIndex].image;
-
-        if(Input.GetButtonDown("Fire1") && canAttack)
-        {
-            UsefulReferences.playerAnimator.Play("Attack");
-        }
+        UsefulReferences.activeWeaponImg.texture = weapons[weaponIndex].image;
     }
 
     void GetNumberKeys()

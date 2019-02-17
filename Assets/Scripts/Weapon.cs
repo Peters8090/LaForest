@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Weapon
 {
+    public static Weapon axeTemplate = new Weapon("Axe");
+    public static Weapon flashlightTemplate = new Weapon("Flashlight");
+    public static Weapon swordTemplate = new Weapon("Sword");
+    public static Weapon rockTemplate = new Weapon("Rock");
+
     public string name;
     public Texture2D image;
 
