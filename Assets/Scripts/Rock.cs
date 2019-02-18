@@ -5,17 +5,16 @@ using Photon.Pun;
 
 public class Rock : MonoBehaviour
 {
-    public static int ammo = 100;
-    float delay = 0.1f;
+    public static int ammo = 10000;
+    float delay = 0.5f;
     float counting = 0f;
     float speed = 40f;
-    AudioSource audioSource;
-    AudioClip clip;
     public static bool rockWeapon = false;
+    AudioClip clip;
 
     void Start()
     {
-        audioSource = UsefulReferences.player.GetComponent<AudioSource>();
+        clip = (AudioClip)Resources.Load("RockSound");
     }
     
     void Update()
@@ -39,7 +38,7 @@ public class Rock : MonoBehaviour
             GameObject rock = PhotonNetwork.Instantiate("RockBullet", Camera.main.transform.position + Camera.main.transform.forward, Camera.main.transform.rotation);
             //instantiate the rock and let player throw it
             rock.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * speed, ForceMode.Impulse);
-            audioSource.PlayOneShot(clip);
+            UsefulReferences.playerAudioSource.PlayOneShot(clip);
             ammo--;
         }
     }

@@ -18,6 +18,7 @@ public class UsefulReferences
     public static GameObject multiplayerGameControlObject;
     public static RawImage activeWeaponImg;
     public static GameObject healthUI;
+    public static AudioSource playerAudioSource;
     public static bool initialized = false;
 
     public static void Initialize(GameObject myPlayer)
@@ -32,6 +33,7 @@ public class UsefulReferences
             playerWeapons = player.GetComponent<PlayerWeapons>();
             playerAnimator = player.transform.Find("ybot").gameObject.GetComponent<Animator>();
             playerCharacterController = player.GetComponent<CharacterController>();
+            playerAudioSource = player.GetComponent<AudioSource>();
             initialized = true;
         }
         
