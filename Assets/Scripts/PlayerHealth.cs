@@ -16,6 +16,7 @@ public class PlayerHealth : MonoBehaviour
     {
         health = SaveLoad.sd.health;
         healthUI = UsefulReferences.healthUI;
+        healthUI.SetActive(true);
     }
 
     void Update()
@@ -24,6 +25,8 @@ public class PlayerHealth : MonoBehaviour
             health = minHealth;
         if (health > maxHealth)
             health = maxHealth;
+        if(health == minHealth)
+
         healthRounded = Mathf.RoundToInt(health / 10);
         if(!(healthRounded == healthUI.transform.childCount))
         {
