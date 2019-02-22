@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class PlayerWeapons : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class PlayerWeapons : MonoBehaviour
     GameObject eq;
     public bool disarmed = false;
     public bool canAttack = true;
+    public bool canChangeWeapons = true;
+
+    //if weapon plays an animation, it can't be used while moving because it disturbs the moving animation
+    public bool nonAnimWeapon = false;
+
+    //array of weapons, which don't play any animation
+    string[] nonAnimWeaponNames = new string[1] { "Rock" };
     
     Texture2D axeImgTexture;
     Texture2D flashlightImgTexture;
@@ -17,20 +25,28 @@ public class PlayerWeapons : MonoBehaviour
 
     void Start()
     {
-        weapons = new List<Weapon>() { Weapon.axeTemplate, Weapon.flashlightTemplate, Weapon.swordTemplate, Weapon.rockTemplate };
+        weapons = new List<Weapon>() { Weapon.axe, Weapon.flashlight, Weapon.sword, Weapon.rock };
         eq = UsefulReferences.eq;
         UsefulReferences.activeWeaponImg.gameObject.SetActive(true);
     }
     
     void Update()
     {
-        GetNumberKeys();
-        
-        //we check whether the change of weapon is required (returns true if we haven't changed)
-        if (eq.transform.GetChild(0).name != weapons[weaponIndex].name)
+        if(canChangeWeapons)
+            GetNumberKeys();
+
+        //if current weapon doesn't play any animation, nonAnimWeapon is equal to true, otherwise false
+        nonAnimWeapon = nonAnimWeaponNames.Contains(weapons[weaponIndex].name);
+
+        if(disarmed)
         {
-            //player can shoot rocks even while he is disarmed
-            if (!disarmed || weapons[weaponIndex] == Weapon.rockTemplate)
+            //eq always has to have one child
+            if (eq.transform.childCount == 1)
+                Disarmed();
+        } else
+        {
+            //we check whether the change of weapon is required (returns true if we haven't changed)
+            if (eq.transform.GetChild(0).name != weapons[weaponIndex].name)
             {
                 Destroy(eq.transform.GetChild(0).gameObject);
                 GameObject go = Instantiate((GameObject)Resources.Load(weapons[weaponIndex].name));
@@ -39,13 +55,7 @@ public class PlayerWeapons : MonoBehaviour
                 go.transform.localPosition = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.position;
                 go.transform.localRotation = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.rotation;
                 go.transform.localScale = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.localScale;
-            } else if (disarmed && eq.transform.childCount == 1)
-            {
-                Disarmed();
             }
-        } else if (disarmed && eq.transform.childCount == 1 && weapons[weaponIndex] != Weapon.rockTemplate)
-        {
-            Disarmed();
         }
 
         void Disarmed()

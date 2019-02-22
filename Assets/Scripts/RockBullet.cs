@@ -21,6 +21,27 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        //only attacker can do things below
+        if (photonView.IsMine)
+        {
+            //attacker shots a player
+            if (collision.gameObject.tag == "Player")
+            {
+                GameObject shotPlayer;
+                //attacker can shot the player model, his weapon or something else, which is not the parent of parents; the player, so we get it using FindTopParent method
+                shotPlayer = UsefulMethods.FindTopParent(collision.gameObject);
+                //we subtract damage from shot player's health
+                shotPlayer.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(shotPlayer), Weapon.rock.damage);
+            }
+            else
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
+        }
+    }
     #region IPunObservable implementation
 
 

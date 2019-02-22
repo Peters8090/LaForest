@@ -6,7 +6,10 @@ public class Axe : MonoBehaviour
 {
     void Start()
     {
-        
+        if (UsefulMethods.FindTopParent(gameObject).name != PlayerInfo.myPlayerInfo.nick)
+        {
+            enabled = false;
+        }
     }
     
     void Update()

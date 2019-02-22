@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -25,7 +26,8 @@ public class PlayerHealth : MonoBehaviour
             health = minHealth;
         if (health > maxHealth)
             health = maxHealth;
-        if(health == minHealth)
+        if (health == minHealth)
+            UsefulReferences.playerDeath.Die();
 
         healthRounded = Mathf.RoundToInt(health / 10);
         if(!(healthRounded == healthUI.transform.childCount))
@@ -62,8 +64,14 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void TakeDamage(float damage)
     {
         health -= damage;
+    }
+
+    public void Regenerate()
+    {
+        health = maxHealth;
     }
 }

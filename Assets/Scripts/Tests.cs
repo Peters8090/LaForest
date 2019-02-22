@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 public class Tests : MonoBehaviour
 {
-    public static bool tests = true;
+    public static bool tests = false;
 
     void Awake()
     {

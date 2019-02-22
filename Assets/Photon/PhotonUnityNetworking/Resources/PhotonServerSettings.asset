@@ -32,5 +32,6 @@ MonoBehaviour:
   - PlayerConnected
   - PlayerDisconnected
   - SetSpawnedPlayer
+  - TakeDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 1

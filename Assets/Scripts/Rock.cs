@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Rock : MonoBehaviour
+public class Rock : MonoBehaviourPunCallbacks
 {
     public static int ammo = 10000;
     float delay = 0.5f;
     float counting = 0f;
     float speed = 40f;
-    public static bool rockWeapon = false;
     AudioClip clip;
+
+    Vector3 targetPos;
+    Quaternion targetRot;
 
     void Start()
     {
         clip = (AudioClip)Resources.Load("RockSound");
+        if (UsefulMethods.FindTopParent(gameObject).name != PlayerInfo.myPlayerInfo.nick)
+        {
+            enabled = false;
+        }
     }
     
     void Update()
@@ -25,8 +31,6 @@ public class Rock : MonoBehaviour
             ammo = 0;
             return;
         }
-
-        rockWeapon = true;
 
         //player can shoot 1/delay times per second
         if (counting > 0)
@@ -41,10 +45,5 @@ public class Rock : MonoBehaviour
             UsefulReferences.playerAudioSource.PlayOneShot(clip);
             ammo--;
         }
-    }
-
-    void OnDestroy()
-    {
-        rockWeapon = false;
     }
 }

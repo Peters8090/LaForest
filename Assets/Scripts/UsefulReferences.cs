@@ -12,12 +12,15 @@ public class UsefulReferences
     public static PlayerWeapons playerWeapons;
     public static Animator playerAnimator;
     public static CharacterController playerCharacterController;
+    public static PlayerDeath playerDeath;
+    public static PlayerHealth playerHealth;
     public static GameObject ui;
     public static GameObject environment;
     public static GameObject mainMenuCamera;
     public static GameObject multiplayerGameControlObject;
     public static RawImage activeWeaponImg;
     public static GameObject healthUI;
+    public static GameObject deathUI;
     public static AudioSource playerAudioSource;
     public static bool initialized = false;
 
@@ -33,6 +36,8 @@ public class UsefulReferences
             playerWeapons = player.GetComponent<PlayerWeapons>();
             playerAnimator = player.transform.Find("ybot").gameObject.GetComponent<Animator>();
             playerCharacterController = player.GetComponent<CharacterController>();
+            playerDeath = player.GetComponent<PlayerDeath>();
+            playerHealth = player.GetComponent<PlayerHealth>();
             playerAudioSource = player.GetComponent<AudioSource>();
             initialized = true;
         }
@@ -40,6 +45,7 @@ public class UsefulReferences
         ui = GameObject.Find("UI");
         activeWeaponImg = GameObject.Find("UI").transform.Find("Weapons/ActiveWeapon").gameObject.GetComponent<RawImage>();
         healthUI = ui.transform.Find("Health").gameObject;
+        deathUI = ui.transform.Find("Death").gameObject;
         environment = GameObject.Find("Environment");
         multiplayerGameControlObject = GameObject.Find("MultiplayerGameControlObject");
     }
