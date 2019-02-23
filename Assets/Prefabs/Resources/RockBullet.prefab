@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 269}
-  - component: {fileID: 335}
-  - component: {fileID: 291}
-  - component: {fileID: 283}
-  - component: {fileID: 336}
-  - component: {fileID: 299}
-  - component: {fileID: 305}
+  - component: {fileID: 505}
+  - component: {fileID: 434}
+  - component: {fileID: 426}
+  - component: {fileID: 506}
+  - component: {fileID: 442}
+  - component: {fileID: 462}
   m_Layer: 0
   m_Name: RockBullet
   m_TagString: Untagged
@@ -36,7 +36,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &335
+--- !u!114 &505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,11 +54,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 336}
+  - {fileID: 506}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!33 &291
+--- !u!33 &434
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,7 +66,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 180}
   m_Mesh: {fileID: 4300006, guid: c53316d162448da43b8b979524efaed7, type: 3}
---- !u!23 &283
+--- !u!23 &426
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,7 +103,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &336
+--- !u!114 &506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294ab1a6a23b811419c61f45ac05ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &299
+--- !u!54 &442
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,7 +131,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!135 &305
+--- !u!135 &462
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

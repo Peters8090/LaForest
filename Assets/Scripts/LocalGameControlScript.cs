@@ -15,7 +15,7 @@ public class LocalGameControlScript : MonoBehaviour
     void Update()
     {
         //the position is higher, the priority is lower
-        if(UsefulReferences.initialized && !global::MainMenu.menu)
+        if (UsefulReferences.initialized && !global::MainMenu.menu)
         {
             Normal();
             Moving();
@@ -46,13 +46,13 @@ public class LocalGameControlScript : MonoBehaviour
 
     void Moving()
     {
-        if(UsefulReferences.playerMovement.moving && !UsefulReferences.playerWeapons.nonAnimWeapon)
+        if (UsefulReferences.playerMovement.moving && !UsefulReferences.playerWeapons.nonAnimWeapon)
             UsefulReferences.playerWeapons.disarmed = true;
     }
 
     void Jumping()
     {
-        if(!UsefulReferences.playerCharacterController.isGrounded)
+        if (!UsefulReferences.playerCharacterController.isGrounded)
         {
             UsefulReferences.playerMovement.slowDown = true;
             UsefulReferences.playerWeapons.disarmed = true;
@@ -62,7 +62,7 @@ public class LocalGameControlScript : MonoBehaviour
 
     void Attacking()
     {
-        if(UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             UsefulReferences.playerWeapons.canAttack = false;
             UsefulReferences.playerWeapons.canChangeWeapons = false;
@@ -79,7 +79,7 @@ public class LocalGameControlScript : MonoBehaviour
 
     void PauseMenu()
     {
-        if(global::PauseMenu.menu)
+        if (global::PauseMenu.menu)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -92,24 +92,46 @@ public class LocalGameControlScript : MonoBehaviour
         }
     }
 
+    bool skipped = false;
     void Died()
     {
         //if died, show the death screen, otherwise hide it
-        
-        if(UsefulReferences.playerDeath.died)
+
+
+        if (UsefulReferences.playerDeath.died)
         {
             UsefulReferences.deathUI.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
             UsefulReferences.playerMovement.movementLocked = true;
             UsefulReferences.playerMovement.mouseLookLocked = true;
             UsefulReferences.playerWeapons.canAttack = false;
             UsefulReferences.playerWeapons.disarmed = true;
             UsefulReferences.playerWeapons.canChangeWeapons = false;
             UsefulReferences.healthUI.SetActive(false);
-        } else
+
+            //enable ragdoll
+            UsefulReferences.mainCamera.SetActive(false);
+            UsefulReferences.ybot.SetActive(false);
+            UsefulReferences.ybotRagdoll.GetComponent<Animator>().enabled = false;
+            UsefulReferences.ybotRagdoll.SetActive(true);
+            skipped = false;
+        }
+        else
         {
             UsefulReferences.deathUI.SetActive(false);
+            if (skipped)
+            {
+                UsefulReferences.ybotRagdoll.SetActive(false);
+            }
+            else
+            {
+                //disable ragdoll
+                UsefulReferences.mainCamera.SetActive(true);
+                UsefulReferences.ybot.SetActive(true);
+                UsefulReferences.ybotRagdoll.GetComponent<Animator>().enabled = true;
+                UsefulReferences.ybotRagdoll.GetComponent<Animator>().Play("Movement");
+                skipped = true;
+                return;
+            }
         }
     }
 }

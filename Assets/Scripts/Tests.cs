@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Photon.Realtime;
+using System.Linq;
 
 public class Tests : MonoBehaviour
 {
@@ -13,5 +14,7 @@ public class Tests : MonoBehaviour
     {
         if (tests)
             tests = Application.isEditor;
+        else
+            GameObject.Find("Player").SetActive(false);
     }
 }

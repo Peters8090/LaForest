@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerDeath : MonoBehaviour
 {
     float timer = 0;
-    float timerMax = 1.5f;
+    float timerMax = 5f;
     public bool died = false;
     Slider slider;
 
@@ -27,6 +27,7 @@ public class PlayerDeath : MonoBehaviour
             else
             {
                 UsefulReferences.playerHealth.Regenerate();
+                
                 timer = 0;
                 died = false;
             }
