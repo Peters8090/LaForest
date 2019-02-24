@@ -6,7 +6,7 @@ using Photon.Pun;
 public class Rock : MonoBehaviourPunCallbacks
 {
     public static int ammo = 10000;
-    float delay = 0.5f;
+    float delay = 0.05f; //0.5f
     float counting = 0f;
     float speed = 40f;
     AudioClip clip;

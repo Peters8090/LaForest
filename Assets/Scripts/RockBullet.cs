@@ -33,16 +33,16 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
 
     void OnCollisionEnter(Collision collision)
     {
+        //attacker can shot the player model, his weapon or something else, which is not the parent of parents; the player, so we get it using FindTopParent method
+        GameObject collisionGO;
+        collisionGO = UsefulMethods.FindTopParent(collision.gameObject);
         //only attacker can do things below
         if (photonView.IsMine)
         {
-            if (UsefulMethods.FindTopParent(collision.gameObject).tag == "Player")
+            if (collisionGO.tag == "Player" && collisionGO != UsefulReferences.player)
             {
-                GameObject shotPlayer;
-                //attacker can shot the player model, his weapon or something else, which is not the parent of parents; the player, so we get it using FindTopParent method
-                shotPlayer = UsefulMethods.FindTopParent(collision.gameObject);
                 //we subtract damage from shot player's health
-                shotPlayer.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(shotPlayer), Weapon.rock.damage);
+                collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), Weapon.rock.damage);
             }
         }
     }

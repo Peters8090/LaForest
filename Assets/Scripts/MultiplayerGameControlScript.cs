@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -48,8 +49,8 @@ public class MultiplayerGameControlScript : MonoBehaviour
             GameObject newPlayer = PhotonView.Find(pvID).gameObject;
             newPlayer.name = nick;
             newPlayer.transform.position = new Vector3(917, 175, 325);
+            newPlayer.transform.Find("ybot").Find("TextMeshPro Nick").gameObject.GetComponent<TextMeshPro>().text = nick;
             PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject = newPlayer;
-            //here set the text mesh text to player's nick
             if (pmi.Sender == PhotonNetwork.LocalPlayer)
             {
                 UsefulReferences.Initialize(newPlayer);

@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 /// <summary>
 /// This script controls game settings like locking mouse, player movement
 /// </summary>
-public class LocalGameControlScript : MonoBehaviour
+public class LocalGameControlScript : MonoBehaviourPunCallbacks
 {
     void Awake()
     {
@@ -91,13 +92,9 @@ public class LocalGameControlScript : MonoBehaviour
             UsefulReferences.healthUI.SetActive(false);
         }
     }
-
-    bool skipped = false;
+    
     void Died()
     {
-        //if died, show the death screen, otherwise hide it
-
-
         if (UsefulReferences.playerDeath.died)
         {
             UsefulReferences.deathUI.SetActive(true);
@@ -107,31 +104,10 @@ public class LocalGameControlScript : MonoBehaviour
             UsefulReferences.playerWeapons.disarmed = true;
             UsefulReferences.playerWeapons.canChangeWeapons = false;
             UsefulReferences.healthUI.SetActive(false);
-
-            //enable ragdoll
-            UsefulReferences.mainCamera.SetActive(false);
-            UsefulReferences.ybot.SetActive(false);
-            UsefulReferences.ybotRagdoll.GetComponent<Animator>().enabled = false;
-            UsefulReferences.ybotRagdoll.SetActive(true);
-            skipped = false;
         }
         else
         {
             UsefulReferences.deathUI.SetActive(false);
-            if (skipped)
-            {
-                UsefulReferences.ybotRagdoll.SetActive(false);
-            }
-            else
-            {
-                //disable ragdoll
-                UsefulReferences.mainCamera.SetActive(true);
-                UsefulReferences.ybot.SetActive(true);
-                UsefulReferences.ybotRagdoll.GetComponent<Animator>().enabled = true;
-                UsefulReferences.ybotRagdoll.GetComponent<Animator>().Play("Movement");
-                skipped = true;
-                return;
-            }
         }
     }
 }

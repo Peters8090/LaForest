@@ -8,7 +8,6 @@ public class UsefulReferences
     public static GameObject player;
     public static GameObject mainCamera;
     public static GameObject ybot;
-    public static GameObject ybotRagdoll;
     public static GameObject eq;
     public static PlayerMovement playerMovement;
     public static PlayerWeapons playerWeapons;
@@ -33,9 +32,7 @@ public class UsefulReferences
             player = myPlayer;
             mainCamera = player.transform.Find("Main Camera").gameObject;
             ybot = player.transform.Find("ybot").gameObject;
-            ybotRagdoll = player.transform.Find("ybot ragdoll").gameObject;
             eq = player.GetComponent<UsefulReferencesPlayer>().eq;
-            //eq = player.transform.Find("ybot/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/Equipment").gameObject;
             playerMovement = player.GetComponent<PlayerMovement>();
             playerWeapons = player.GetComponent<PlayerWeapons>();
             playerAnimator = player.transform.Find("ybot").gameObject.GetComponent<Animator>();
