@@ -36,5 +36,6 @@ MonoBehaviour:
   - SetRagdoll
   - DisableRagdollRPC
   - EnableRagdollRPC
+  - SetWeapon
   DisableAutoOpenWizard: 1
   ShowSettings: 1

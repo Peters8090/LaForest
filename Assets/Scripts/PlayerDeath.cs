@@ -73,20 +73,24 @@ public class PlayerDeath : MonoBehaviourPunCallbacks
     [PunRPC]
     void EnableRagdollRPC(int pvID, PhotonMessageInfo pmi)
     {
-        GameObject ybotRagdoll = PhotonView.Find(pvID).gameObject;
-        GameObject ragdollModel = (GameObject)Resources.Load("ybot ragdoll");
-
-        PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.transform.Find("ybot").gameObject.SetActive(false);
-        ybotRagdoll.name = "ybot ragdoll";
-        ybotRagdoll.transform.parent = PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.transform;
-        ybotRagdoll.transform.localPosition = ragdollModel.transform.localPosition;
-        ybotRagdoll.transform.localRotation = ragdollModel.transform.localRotation;
-
-        if (pmi.Sender == PhotonNetwork.LocalPlayer)
+        //because PhotonView.Find(pvID) != null caused NullReferenceException
+        if(PhotonNetwork.GetPhotonView(pvID) != null)
         {
-            foreach (Behaviour script in ybotRagdoll.GetComponentsInChildren<Camera>())
+            GameObject ybotRagdoll = PhotonView.Find(pvID).gameObject;
+            GameObject ragdollModel = (GameObject)Resources.Load("ybot ragdoll");
+
+            PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.transform.Find("ybot").gameObject.SetActive(false);
+            ybotRagdoll.name = "ybot ragdoll";
+            ybotRagdoll.transform.parent = PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.transform;
+            ybotRagdoll.transform.localPosition = ragdollModel.transform.localPosition;
+            ybotRagdoll.transform.localRotation = ragdollModel.transform.localRotation;
+
+            if (pmi.Sender == PhotonNetwork.LocalPlayer)
             {
-                script.enabled = true;
+                foreach (Behaviour script in ybotRagdoll.GetComponentsInChildren<Camera>())
+                {
+                    script.enabled = true;
+                }
             }
         }
     }
@@ -94,7 +98,8 @@ public class PlayerDeath : MonoBehaviourPunCallbacks
     [PunRPC]
     void DisableRagdollRPC(PhotonMessageInfo pmi)
     {
-        PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.transform.Find("ybot").gameObject.SetActive(true);
+        if(pmi.Sender != null)
+            PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.transform.Find("ybot").gameObject.SetActive(true);
     }
 
     public void Die()

@@ -17,7 +17,7 @@ public class Rock : MonoBehaviourPunCallbacks
     void Start()
     {
         clip = (AudioClip)Resources.Load("RockSound");
-        if (UsefulMethods.FindTopParent(gameObject).name != PlayerInfo.myPlayerInfo.nick)
+        if (!photonView.IsMine)
         {
             enabled = false;
         }

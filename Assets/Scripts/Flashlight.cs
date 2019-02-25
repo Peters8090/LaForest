@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Flashlight : MonoBehaviour
+public class Flashlight : MonoBehaviourPunCallbacks
 {
     void Start()
     {
-        if (UsefulMethods.FindTopParent(gameObject).name != PlayerInfo.myPlayerInfo.nick)
+        if (!photonView.IsMine)
         {
             enabled = false;
         }

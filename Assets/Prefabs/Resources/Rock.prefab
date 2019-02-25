@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6046464820145583270}
   - component: {fileID: 5187827187643591982}
-  - component: {fileID: 3870146891307911520}
+  - component: {fileID: 8721395866190304984}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c11d0c964b368841b14b7c35df98266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3870146891307911520
+--- !u!114 &8721395866190304984
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,10 +59,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 0
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 5187827187643591982}
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

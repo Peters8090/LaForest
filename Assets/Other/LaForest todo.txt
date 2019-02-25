@@ -1,0 +1,44 @@
+LaForest od nowa
+Todo:
+1) Model postaci + animacje +
+2) Movement, mouse look +
+3) Import terenu +
+4) Bronie +
+5) Zmiana broni +
+6) Przeciwnik paj¹k
+7) Zwierzê wilk
+8) Atak (zwierzêta, przeciwnicy)
+9) Menu pauzy +
+10) Menu g³ówne +
+11) Zapis gry +
+12) Prace
+13) Implementacja multiplayera +
+14) Budowanie domu (ka¿dy gracz ma swoj¹ dzia³kê na serwerze, s¹ one symetrycznie wydzielone)
+15) Generowanie terenu
+16) ¯ycie
+17) Jedzenie
+18) Wypadanie poza mapê
+19) Animacja spadania i l¹dowania +
+20) DŸwiêki chodzenia +
+21) Zmiana Image na RawImage przy broniach +
+22) Strza³ kamieniem +
+23) Efekt œmierci; respawn + tracenie rzeczy
+24) PvP (pokazuj liczbê œmierci obu stron w czasie sesji)
+25) Blokada tych samych nicków
+26) Œcinanie drzewa
+27) Broñ kamieniem - bardzo droga
+28) Anticheat
+29) Usun¹æ reset ragdolla +
+30) Nickname nad g³ow¹ +
+31) Zmieniæ instantiate broni na photon.
+32) Strzelanie podczas lotu
+33) Wchodzenie na górê zablokowaæ
+
+Zamys³ gry:
+Gracz ma ró¿ne bronie i jest mo¿liwe pvp miêdzy graczami, kiedy gracz umrze wyrzuca 10% swojego eq
+System budowania: https://www.youtube.com/watch?v=OnGHhFBSm_A (z Rusta)
+Gracz mo¿e budowaæ ró¿ne budowle, dom itp. w którym nie bêd¹ go atakowaæ potwory; paj¹ki itp. Zbudowane budowle mo¿e ka¿dy zniszczyæ.
+Gracz zarabia pieni¹dze sprzedaj¹c do sklepu œciête k³ody drewna, znalezione patyki, kamienie, diamenty itp.
+To gracze tworz¹ asortyment w sklepie tzn. w sklepie nie ma nieskoñczonych przedmiotów, najpierw ktoœ musi sprzedaæ swój przedmiot, ¿eby póŸniej inny gracz móg³ go kupiæ.
+Za pieni¹dze gracz bêdzie móg³ kupiæ sobie ulepszenia broni, pancerz, rzeczy w sklepie.
+By³yby ró¿ne dodatkowe tryby typu battle royale, deathmatche, wyzwania itp. na które mo¿na by by³o zaprosiæ innych graczy.
