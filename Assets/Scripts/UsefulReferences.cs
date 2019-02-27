@@ -19,6 +19,7 @@ public class UsefulReferences
     public static GameObject environment;
     public static GameObject mainMenuCamera;
     public static GameObject multiplayerGameControlObject;
+    public static GameObject localGameControlObject;
     public static RawImage activeWeaponImg;
     public static GameObject healthUI;
     public static GameObject deathUI;
@@ -49,5 +50,6 @@ public class UsefulReferences
         deathUI = ui.transform.Find("Death").gameObject;
         environment = GameObject.Find("Environment");
         multiplayerGameControlObject = GameObject.Find("MultiplayerGameControlObject");
+        localGameControlObject = GameObject.Find("LocalGameControlObject");
     }
 }

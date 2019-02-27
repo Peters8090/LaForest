@@ -33,7 +33,10 @@ Todo:
 31) Zmieniæ instantiate broni na photon.
 32) Strzelanie podczas lotu
 33) Wchodzenie na górê zablokowaæ
+34) Celownik
 
+https://doc.photonengine.com/en-us/realtime/current/connection-and-authentication/tcp-and-udp-port-numbers
+Cannot send op: 228 Not connected. PeerState: Disconnected
 Zamys³ gry:
 Gracz ma ró¿ne bronie i jest mo¿liwe pvp miêdzy graczami, kiedy gracz umrze wyrzuca 10% swojego eq
 System budowania: https://www.youtube.com/watch?v=OnGHhFBSm_A (z Rusta)

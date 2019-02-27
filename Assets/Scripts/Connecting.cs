@@ -40,12 +40,51 @@ public class Connecting : MonoBehaviourPunCallbacks
             PhotonNetwork.SerializationRate = 30;
             PhotonNetwork.GameVersion = "LaForest: Development";
             PhotonNetwork.ConnectUsingSettings();
+
+            //checks whether will we have any nick duplicates
+            bool CheckNickDuplicates()
+            {
+                bool correct = true;
+                foreach (var item in PhotonNetwork.PlayerList)
+                {
+                    if(item.NickName == GameSettings.nick)
+                    {
+                        correct = false;
+                    }
+                }
+                return correct;
+            }
+
+            foreach (var item in PhotonNetwork.PlayerList)
+            {
+                Debug.Log(item.NickName);
+            }
+
+            //todo: end it
+            if (!CheckNickDuplicates())
+            {
+                GameDisconnect();
+                playPanelText.text = "Error! Your nick is already in use";
+                return;
+            } else
+            {
+                Debug.Log("a");
+            }
+
             if(GameSettings.nick != null)
                 PhotonNetwork.LocalPlayer.NickName = GameSettings.nick;
-        } else if(!Tests.tests)
+        } else
         {
-            playPanelText.text = "Go to game settings and enter your nick";
+            playPanelText.text = "Error! Go to game settings and enter your nick";
         }
+    }
+
+    public void GameDisconnect()
+    {
+        PhotonNetwork.LeaveLobby();
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
+        UsefulReferences.localGameControlObject.GetComponent<MainMenu>().SetGame(true);
     }
 
     public override void OnConnectedToMaster()

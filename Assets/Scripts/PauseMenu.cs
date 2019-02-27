@@ -99,10 +99,7 @@ public class PauseMenu : MonoBehaviour
     {
         SetBtnColor("MainMenu");
         SetPanelsActive("MainMenu");
-        PhotonNetwork.LeaveLobby();
-        PhotonNetwork.LeaveRoom();
-        PhotonNetwork.Disconnect();
-        GetComponent<MainMenu>().SetGame(true);
+        UsefulReferences.multiplayerGameControlObject.GetComponent<Connecting>().GameDisconnect();
         UsefulReferences.initialized = false;
     }
 
