@@ -10,10 +10,12 @@ public class Connecting : MonoBehaviourPunCallbacks
 {
     Text playPanelText;
     GameObject playPanelImage;
+    public static bool loading = false;
 
     void Start()
     {
-
+        playPanelText = UsefulReferences.ui.transform.Find("Main Menu").Find("Panels").Find("Play").Find("NetworkClientStateText").gameObject.GetComponent<Text>();
+        playPanelImage = UsefulReferences.ui.transform.Find("Main Menu").Find("Panels").Find("Play").Find("SpiderImage").gameObject;
     }
 
     void Update()
@@ -23,54 +25,27 @@ public class Connecting : MonoBehaviourPunCallbacks
             PlayerInfo.DebugPlayersList();
         }
 
-        if(playPanelText)
+        if(loading)
+        {
             playPanelText.text = PhotonNetwork.NetworkClientState.ToString();
-        if (playPanelImage)
             playPanelImage.transform.Rotate(Vector3.back * 10);
+        } else
+        {
+            playPanelImage.transform.localEulerAngles = Vector3.zero;
+        }
     }
 
-    public void Play(Text playPanelText)
+    public void Play()
     {
         if (GameSettings.nick.Length > 0)
         {
-            this.playPanelText = playPanelText;
-            playPanelImage = playPanelText.transform.parent.Find("SpiderImage").gameObject;
+            loading = true;
 
             PhotonNetwork.SendRate = 30;
             PhotonNetwork.SerializationRate = 30;
             PhotonNetwork.GameVersion = "LaForest: Development";
             PhotonNetwork.ConnectUsingSettings();
-
-            //checks whether will we have any nick duplicates
-            bool CheckNickDuplicates()
-            {
-                bool correct = true;
-                foreach (var item in PhotonNetwork.PlayerList)
-                {
-                    if(item.NickName == GameSettings.nick)
-                    {
-                        correct = false;
-                    }
-                }
-                return correct;
-            }
-
-            foreach (var item in PhotonNetwork.PlayerList)
-            {
-                Debug.Log(item.NickName);
-            }
-
-            //todo: end it
-            if (!CheckNickDuplicates())
-            {
-                GameDisconnect();
-                playPanelText.text = "Error! Your nick is already in use";
-                return;
-            } else
-            {
-                Debug.Log("a");
-            }
-
+            
             if(GameSettings.nick != null)
                 PhotonNetwork.LocalPlayer.NickName = GameSettings.nick;
         } else
@@ -79,12 +54,14 @@ public class Connecting : MonoBehaviourPunCallbacks
         }
     }
 
-    public void GameDisconnect()
+    public void GameDisconnect(bool onlyDisconnect = false)
     {
         PhotonNetwork.LeaveLobby();
         PhotonNetwork.LeaveRoom();
         PhotonNetwork.Disconnect();
-        UsefulReferences.localGameControlObject.GetComponent<MainMenu>().SetGame(true);
+        loading = false;
+        if(!onlyDisconnect)
+            UsefulReferences.localGameControlObject.GetComponent<MainMenu>().SetGame(true);
     }
 
     public override void OnConnectedToMaster()
@@ -135,6 +112,27 @@ public class Connecting : MonoBehaviourPunCallbacks
             if (pp == PhotonNetwork.LocalPlayer)
             {
                 PlayerInfo.myPlayerInfo = player;
+
+                //checks whether will we have any nick duplicates
+                bool CheckNickDuplicates()
+                {
+                    foreach (var item in PhotonNetwork.PlayerListOthers)
+                    {
+                        if (item.NickName == PhotonNetwork.NickName)
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                if (!CheckNickDuplicates())
+                {
+                    GameDisconnect(true);
+                    playPanelText.text = "Error! Your nick is already in use";
+                    return;
+                }
+
                 GetComponent<MultiplayerGameControlScript>().SpawnPlayer();
             }
         }
@@ -149,9 +147,4 @@ public class Connecting : MonoBehaviourPunCallbacks
             PlayerInfo.players.Remove(player);
         }
     }
-    /*
-    void OnGUI()
-    {
-        GUI.Label(new Rect(5, 5, 200, 20), PhotonNetwork.NetworkClientState.ToString());
-    }*/
 }

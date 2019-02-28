@@ -46,7 +46,7 @@ public class MainMenu : MonoBehaviour
     {
         SetBtnColor("Play");
         SetPanelsActive("Play");
-        GameObject.Find("MultiplayerGameControlObject").GetComponent<Connecting>().Play(panels["Play"].transform.Find("NetworkClientStateText").gameObject.GetComponent<Text>());
+        GameObject.Find("MultiplayerGameControlObject").GetComponent<Connecting>().Play();
     }
 
     public void Info()
