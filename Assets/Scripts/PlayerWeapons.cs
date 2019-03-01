@@ -97,6 +97,8 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
         }
     }
 
+    
+
     void GetNumberKeys()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))

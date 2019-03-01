@@ -23,6 +23,7 @@ public class UsefulReferences
     public static RawImage activeWeaponImg;
     public static GameObject healthUI;
     public static GameObject deathUI;
+    public static GameObject crosshairUI;
     public static AudioSource playerAudioSource;
     public static bool initialized = false;
 
@@ -51,5 +52,6 @@ public class UsefulReferences
         environment = GameObject.Find("Environment");
         multiplayerGameControlObject = GameObject.Find("MultiplayerGameControlObject");
         localGameControlObject = GameObject.Find("LocalGameControlObject");
+        crosshairUI = ui.transform.Find("Crosshair").gameObject;
     }
 }

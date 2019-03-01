@@ -19,6 +19,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         if (UsefulReferences.initialized && !global::MainMenu.menu)
         {
             Normal();
+            Aiming();
             Moving();
             Jumping();
             Attacking();
@@ -43,6 +44,13 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         UsefulReferences.playerWeapons.canAttack = true;
         UsefulReferences.playerMovement.slowDown = false;
         UsefulReferences.healthUI.SetActive(true);
+        UsefulReferences.crosshairUI.SetActive(false);
+    }
+
+    void Aiming()
+    {
+        if (!UsefulReferences.playerWeapons.disarmed)
+            UsefulReferences.crosshairUI.SetActive(true);
     }
 
     void Moving()
@@ -68,6 +76,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
             UsefulReferences.playerWeapons.canAttack = false;
             UsefulReferences.playerWeapons.canChangeWeapons = false;
             UsefulReferences.playerMovement.slowDown = true;
+            UsefulReferences.crosshairUI.SetActive(false);
         }
     }
 
@@ -76,6 +85,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         UsefulReferences.healthUI.SetActive(false);
+        UsefulReferences.crosshairUI.SetActive(false);
     }
 
     void PauseMenu()
