@@ -44,7 +44,7 @@ public class MultiplayerGameControlScript : MonoBehaviour
     [PunRPC]
     void SetSpawnedPlayer(string nick, int pvID, PhotonMessageInfo pmi)
     {
-        if(pmi.Sender != null)
+        if(pmi.Sender != null && PhotonNetwork.GetPhotonView(pvID) != null)
         {
             GameObject newPlayer = PhotonView.Find(pvID).gameObject;
             newPlayer.name = nick;

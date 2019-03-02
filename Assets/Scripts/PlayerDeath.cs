@@ -74,7 +74,7 @@ public class PlayerDeath : MonoBehaviourPunCallbacks
     void EnableRagdollRPC(int pvID, PhotonMessageInfo pmi)
     {
         //because PhotonView.Find(pvID) != null caused NullReferenceException
-        if(PhotonNetwork.GetPhotonView(pvID) != null)
+        if(PhotonNetwork.GetPhotonView(pvID) != null && pmi.Sender != null)
         {
             GameObject ybotRagdoll = PhotonView.Find(pvID).gameObject;
             GameObject ragdollModel = (GameObject)Resources.Load("ybot ragdoll");

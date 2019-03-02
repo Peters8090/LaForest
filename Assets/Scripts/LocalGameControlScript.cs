@@ -19,12 +19,12 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         if (UsefulReferences.initialized && !global::MainMenu.menu)
         {
             Normal();
-            Aiming();
             Moving();
             Jumping();
             Attacking();
             PauseMenu();
             Died();
+            Aiming();
         }
         else
             MainMenu();
@@ -50,7 +50,9 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
     void Aiming()
     {
         if (!UsefulReferences.playerWeapons.disarmed)
+        {
             UsefulReferences.crosshairUI.SetActive(true);
+        }
     }
 
     void Moving()

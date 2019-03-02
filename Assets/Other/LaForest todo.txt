@@ -15,7 +15,7 @@ Todo:
 13) Implementacja multiplayera +
 14) Budowanie domu (ka¿dy gracz ma swoj¹ dzia³kê na serwerze, s¹ one symetrycznie wydzielone)
 15) Generowanie terenu
-16) ¯ycie
+16) ¯ycie +
 17) Jedzenie
 18) Wypadanie poza mapê
 19) Animacja spadania i l¹dowania +
@@ -24,16 +24,16 @@ Todo:
 22) Strza³ kamieniem +
 23) Efekt œmierci; respawn + tracenie rzeczy
 24) PvP (pokazuj liczbê œmierci obu stron w czasie sesji)
-25) Blokada tych samych nicków
+25) Blokada tych samych nicków +
 26) Œcinanie drzewa
 27) Broñ kamieniem - bardzo droga
 28) Anticheat
 29) Usun¹æ reset ragdolla +
 30) Nickname nad g³ow¹ +
-31) Zmieniæ instantiate broni na photon.
+31) Zmieniæ instantiate broni na photon +
 32) Strzelanie podczas lotu
 33) Wchodzenie na górê zablokowaæ
-34) Celownik
+34) Celownik +
 
 https://doc.photonengine.com/en-us/realtime/current/connection-and-authentication/tcp-and-udp-port-numbers
 Cannot send op: 228 Not connected. PeerState: Disconnected
