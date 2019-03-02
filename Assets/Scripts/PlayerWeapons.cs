@@ -83,7 +83,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     [PunRPC]
     void SetWeapon(int pvID, string weaponName, PhotonMessageInfo pmi)
     {
-        if(pmi.Sender != null)
+        if(pmi.Sender != null && PlayerInfo.FindPlayerInfoByPP(pmi.Sender) != null)
         {
             if(PhotonNetwork.GetPhotonView(pvID) != null)
             {

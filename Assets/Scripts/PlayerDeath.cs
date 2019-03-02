@@ -7,7 +7,7 @@ using Photon.Pun;
 public class PlayerDeath : MonoBehaviourPunCallbacks
 {
     float timer = 0;
-    float timerMax = 10f;
+    float timerMax = 1f;
     public bool died = false;
     Slider slider;
 
@@ -74,7 +74,7 @@ public class PlayerDeath : MonoBehaviourPunCallbacks
     void EnableRagdollRPC(int pvID, PhotonMessageInfo pmi)
     {
         //because PhotonView.Find(pvID) != null caused NullReferenceException
-        if(PhotonNetwork.GetPhotonView(pvID) != null && pmi.Sender != null)
+        if(PhotonNetwork.GetPhotonView(pvID) != null && pmi.Sender != null && PlayerInfo.FindPlayerInfoByPP(pmi.Sender) != null)
         {
             GameObject ybotRagdoll = PhotonView.Find(pvID).gameObject;
             GameObject ragdollModel = (GameObject)Resources.Load("ybot ragdoll");
@@ -98,7 +98,7 @@ public class PlayerDeath : MonoBehaviourPunCallbacks
     [PunRPC]
     void DisableRagdollRPC(PhotonMessageInfo pmi)
     {
-        if(pmi.Sender != null)
+        if(pmi.Sender != null && PlayerInfo.FindPlayerInfoByPP(pmi.Sender) != null)
             PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.transform.Find("ybot").gameObject.SetActive(true);
     }
 
