@@ -34,6 +34,9 @@ Todo:
 32) Strzelanie podczas lotu
 33) Wchodzenie na górê zablokowaæ
 34) Celownik +
+35) Nowy teren
+36) Naprawiæ dziurawe collidery
+37) Broñ bia³a
 
 https://doc.photonengine.com/en-us/realtime/current/connection-and-authentication/tcp-and-udp-port-numbers
 Cannot send op: 228 Not connected. PeerState: Disconnected
