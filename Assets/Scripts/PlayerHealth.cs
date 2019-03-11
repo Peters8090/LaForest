@@ -26,8 +26,8 @@ public class PlayerHealth : MonoBehaviour
             health = minHealth;
         if (health > maxHealth)
             health = maxHealth;
-        if (health == minHealth)
-            UsefulReferences.playerDeath.Die();
+        if (health == minHealth && !UsefulReferences.playerDeath.died)
+            UsefulReferences.playerDeath.died = true;
 
         healthRounded = Mathf.RoundToInt(health / 10);
         if(!(healthRounded == healthUI.transform.childCount))
@@ -67,6 +67,7 @@ public class PlayerHealth : MonoBehaviour
     [PunRPC]
     public void TakeDamage(float damage)
     {
+        //Debug.LogError("Damage: " + damage);
         health -= damage;
     }
 

@@ -15,6 +15,7 @@ public class UsefulReferences
     public static CharacterController playerCharacterController;
     public static PlayerDeath playerDeath;
     public static PlayerHealth playerHealth;
+    public static PlayerRagdoll playerRagdoll;
     public static GameObject ui;
     public static GameObject environment;
     public static GameObject mainMenuCamera;
@@ -32,7 +33,8 @@ public class UsefulReferences
         if(myPlayer != null)
         {
             player = myPlayer;
-            mainCamera = player.transform.Find("Main Camera").gameObject;
+            //mainCamera = player.transform.Find("Main Camera").gameObject;
+            mainCamera = player.GetComponent<UsefulReferencesPlayer>().mainCamera;
             ybot = player.transform.Find("ybot").gameObject;
             eq = player.GetComponent<UsefulReferencesPlayer>().eq;
             playerMovement = player.GetComponent<PlayerMovement>();
@@ -40,6 +42,7 @@ public class UsefulReferences
             playerAnimator = player.transform.Find("ybot").gameObject.GetComponent<Animator>();
             playerCharacterController = player.GetComponent<CharacterController>();
             playerDeath = player.GetComponent<PlayerDeath>();
+            playerRagdoll = player.GetComponent<PlayerRagdoll>();
             playerHealth = player.GetComponent<PlayerHealth>();
             playerAudioSource = player.GetComponent<AudioSource>();
             initialized = true;

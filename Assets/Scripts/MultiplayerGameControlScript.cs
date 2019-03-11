@@ -7,16 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class MultiplayerGameControlScript : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-    
-    void Update()
-    {
-        
-    }
-
     public void SpawnPlayer()
     {
         if (SceneManager.GetActiveScene().name == "Main")

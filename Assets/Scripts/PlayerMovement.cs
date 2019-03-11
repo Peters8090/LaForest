@@ -25,7 +25,8 @@ public class PlayerMovement : MonoBehaviour
     CharacterController cc;
     Animator animator;
     GameObject mainCamera;
-    GameObject obj;
+    [HideInInspector]
+    public GameObject mainCameraPosRot;
     AudioSource audioSource;
     [SerializeField]
     AudioClip jumpingSound;
@@ -39,27 +40,26 @@ public class PlayerMovement : MonoBehaviour
     float m_NextStep = 0;
     float m_RunstepLenghten = 1;
     float m_StepInterval = 6;
-
+    
     void Start()
     {
         cc = UsefulReferences.playerCharacterController;
         animator = UsefulReferences.playerAnimator;
         mainCamera = UsefulReferences.mainCamera;
         audioSource = GetComponent<AudioSource>();
-        obj = transform.Find("ybot/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head/MainCameraPosRot").gameObject;
+        mainCameraPosRot = GetComponent<UsefulReferencesPlayer>().mainCameraPosRot;
         mouseSensitivityDefaultValue = mouseSensitivity;
     }
     
+
     void Update()
     {
         if (mouseLookLocked)
             mouseSensitivity = 0f;
         else
             mouseSensitivity = mouseSensitivityDefaultValue;
-
-        //set the main camera's pos and rot equal to obj's (without setting its parent to head in hips)
-        mainCamera.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z);
-        mainCamera.transform.rotation = obj.transform.rotation;
+        
+        SetMainCameraPosRot();
         
         mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         mouseY -= Input.GetAxis("Mouse Y") * mouseSensitivity;
@@ -87,6 +87,18 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0, mouseX, 0);
         mainCamera.transform.localRotation = Quaternion.Euler(mouseY, 0, 0);
 
+        if(mouseLookLocked && UsefulReferences.playerDeath.died)
+        {
+            SetMainCameraPosRot();
+        }
+
+        //set the main camera's pos and rot equal to obj's (without setting its parent to head in hips)
+        void SetMainCameraPosRot()
+        {
+            mainCamera.transform.position = new Vector3(mainCameraPosRot.transform.position.x, mainCameraPosRot.transform.position.y, mainCameraPosRot.transform.position.z);
+            mainCamera.transform.rotation = mainCameraPosRot.transform.rotation;
+        }
+
         running = Input.GetButton("Run");
 
         if (cc.isGrounded)
@@ -111,7 +123,6 @@ public class PlayerMovement : MonoBehaviour
             //animator.SetFloat("VelX", 0);
             //animator.SetFloat("VelY", 0);
         }
-        
 
         if (running)
         {
@@ -138,9 +149,7 @@ public class PlayerMovement : MonoBehaviour
             movementX = 0f;
             movementY = 0f;
         }
-
         
-
         if (cc.isGrounded && Input.GetButton("Jump") && !movementLocked)
         {
             playerY = jumpHeight;

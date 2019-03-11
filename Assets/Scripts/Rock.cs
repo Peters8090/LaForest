@@ -6,9 +6,9 @@ using Photon.Pun;
 public class Rock : MonoBehaviourPunCallbacks
 {
     public static int ammo = 10000;
-    float delay = 0.2f;
+    float delay = 0.1f;
     float counting = 0f;
-    float speed = 80f;
+    float speed = 0.8f;
     AudioClip clip;
 
     Vector3 targetPos;
@@ -36,7 +36,7 @@ public class Rock : MonoBehaviourPunCallbacks
         if (counting > 0)
             counting -= Time.deltaTime;
 
-        if(Input.GetButton("Fire1") && ammo > 0 && counting <= 0)
+        if(Input.GetButtonDown("Fire1") && ammo > 0 && counting <= 0)
         {
             counting = delay;
             GameObject rock = PhotonNetwork.Instantiate("RockBullet", Camera.main.transform.position + Camera.main.transform.forward, Camera.main.transform.rotation);

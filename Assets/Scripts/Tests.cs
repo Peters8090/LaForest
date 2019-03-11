@@ -14,7 +14,24 @@ public class Tests : MonoBehaviour
     {
         if (tests)
             tests = Application.isEditor;
+        if (tests)
+        {
+            GameObject player;
+            player = GameObject.Find("Player");
+
+            Behaviour[] scripts = player.GetComponents<Behaviour>();
+            Behaviour[] scriptsChildren = player.GetComponentsInChildren<Behaviour>();
+            foreach (Behaviour script in scripts)
+            {
+                script.enabled = false;
+            }
+            foreach (Behaviour script in scriptsChildren)
+            {
+                script.enabled = false;
+            }
+        }
         else
-            GameObject.Find("Player").SetActive(false);
+            Destroy(GameObject.Find("Player"));
+
     }
 }

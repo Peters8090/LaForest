@@ -9,6 +9,7 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
     Quaternion targetRot;
     float timer = 0;
     float maxTimer = 20;
+    bool isDangerous = true;
 
     void Start()
     {
@@ -33,32 +34,42 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
 
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.gameObject);
         OnCollision(collision.gameObject);
     }
 
     void OnTriggerEnter(Collider collision)
     {
+        Debug.Log(collision.gameObject);
         OnCollision(collision.gameObject);
     }
 
     void OnCollision(GameObject collision)
     {
-        //attacker can shot the player model, his weapon or something else, which is not the parent of parents; the player, so we get it using FindTopParent method
-        GameObject collisionGO;
-        collisionGO = UsefulMethods.FindTopParent(collision);
-        //only attacker can do things below
-        if(GetComponent<PhotonView>() && collisionGO.GetComponent<PhotonView>())
+        //we cannot recognise CharacterController collisions
+        //if(collision.tag != "Player")
         {
-            if (photonView.IsMine)
+            //attacker can shot the player model, his weapon or something else, which is not the parent of parents; the player, so we get it using FindTopParent method
+            GameObject collisionGO;
+            collisionGO = UsefulMethods.FindTopParent(collision);
+            //only attacker can do things below
+            if (GetComponent<PhotonView>() && collisionGO.GetComponent<PhotonView>())
             {
-                if (collisionGO.tag == "Player" && collisionGO != UsefulReferences.player)
+                if (photonView.IsMine)
                 {
-                    //we subtract damage from shot player's health
-                    collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), Weapon.rock.damage);
+                    if (collisionGO.tag == "Player" && collisionGO != UsefulReferences.player)
+                    {
+                        //we subtract damage from shot player's health
+                        collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), Weapon.rock.damage);
+                    }
                 }
             }
         }
-        
+
+        //make our bullet not attack anyone anymore
+        isDangerous = false;
+        //destroy gameObject after it falls down (after 1 second)
+        timer = maxTimer - 1;
     }
     #region IPunObservable implementation
 

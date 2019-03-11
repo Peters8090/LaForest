@@ -35,25 +35,23 @@ public class NetSync : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(UsefulReferences.playerAnimator.GetFloat("VelY"));
             stream.SendNext(UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"));
             stream.SendNext(UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"));
-            //stream.SendNext(UsefulReferences.playerWeapons.weapons[UsefulReferences.playerWeapons.weaponIndex].name);
+            stream.SendNext(UsefulReferences.playerDeath.died);
         }
         else
         {
             Animator myAnimator;
             GameObject ybot;
             GameObject player = gameObject;
-            GameObject ragdollModel = (GameObject)Resources.Load("ybot ragdoll");
 
             myAnimator = transform.Find("ybot").GetComponent<Animator>();
             ybot = transform.Find("ybot").gameObject;
-
             targetPos = (Vector3)stream.ReceiveNext();
             targetRot = (Quaternion)stream.ReceiveNext();
             myAnimator.SetFloat("VelX", (float)stream.ReceiveNext());
             myAnimator.SetFloat("VelY", (float)stream.ReceiveNext());
             if ((bool)stream.ReceiveNext() && !myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) myAnimator.Play("Jump");
             if ((bool)stream.ReceiveNext() && !myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) myAnimator.Play("Attack");
-            //GetComponent<WeaponsSync>().activeWeapon = new Weapon((string)stream.ReceiveNext());
+            GetComponent<PlayerRagdoll>().died = (bool)stream.ReceiveNext();
         }
     }
 

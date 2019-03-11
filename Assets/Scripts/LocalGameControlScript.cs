@@ -45,6 +45,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         UsefulReferences.playerMovement.slowDown = false;
         UsefulReferences.healthUI.SetActive(true);
         UsefulReferences.crosshairUI.SetActive(false);
+        UsefulReferences.deathUI.SetActive(false);
     }
 
     void Aiming()
@@ -116,10 +117,6 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
             UsefulReferences.playerWeapons.disarmed = true;
             UsefulReferences.playerWeapons.canChangeWeapons = false;
             UsefulReferences.healthUI.SetActive(false);
-        }
-        else
-        {
-            UsefulReferences.deathUI.SetActive(false);
         }
     }
 }
