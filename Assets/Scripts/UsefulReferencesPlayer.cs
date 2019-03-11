@@ -10,7 +10,6 @@ public class UsefulReferencesPlayer : MonoBehaviour
     public GameObject eq;
     public GameObject mainCamera;
     public GameObject mainCameraPosRot;
-    public Rigidbody[] ybotRagdollRigidbodies;
 
     void Start()
     {

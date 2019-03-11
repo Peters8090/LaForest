@@ -53,7 +53,7 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
             GameObject collisionGO;
             collisionGO = UsefulMethods.FindTopParent(collision);
             //only attacker can do things below
-            if (GetComponent<PhotonView>() && collisionGO.GetComponent<PhotonView>())
+            if (GetComponent<PhotonView>() && collisionGO.GetComponent<PhotonView>() && isDangerous)
             {
                 if (photonView.IsMine)
                 {

@@ -39,7 +39,7 @@ public class MultiplayerGameControlScript : MonoBehaviour
             GameObject newPlayer = PhotonView.Find(pvID).gameObject;
             newPlayer.name = nick;
             newPlayer.transform.position = new Vector3(917, 175, 325);
-            newPlayer.transform.Find("ybot").Find("TextMeshPro Nick").gameObject.GetComponent<TextMeshPro>().text = nick;
+            newPlayer.transform.Find("TextMeshPro Nick").gameObject.GetComponent<TextMeshPro>().text = nick;
             PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject = newPlayer;
             if (pmi.Sender == PhotonNetwork.LocalPlayer)
             {
