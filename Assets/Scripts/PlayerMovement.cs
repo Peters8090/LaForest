@@ -28,12 +28,8 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public GameObject mainCameraPosRot;
     AudioSource audioSource;
-    [SerializeField]
     AudioClip jumpingSound;
-    [SerializeField]
     AudioClip landingSound;
-    [SerializeField]
-
     //variables for playing footstep sounds
     AudioClip[] footstepSounds;
     float m_StepCycle = 0;
@@ -43,6 +39,9 @@ public class PlayerMovement : MonoBehaviour
     
     void Start()
     {
+        jumpingSound = (AudioClip)Resources.Load("Jump");
+        landingSound = (AudioClip)Resources.Load("Land");
+        footstepSounds = new AudioClip[2] { (AudioClip)Resources.Load("Footstep01"), (AudioClip)Resources.Load("Footstep02") };
         cc = UsefulReferences.playerCharacterController;
         animator = UsefulReferences.playerAnimator;
         mainCamera = UsefulReferences.mainCamera;
@@ -105,7 +104,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (jumped)
             {
-                audioSource.PlayOneShot(landingSound);
+                //audioSource.PlayOneShot(landingSound);
+                UsefulReferences.playerSounds.PlaySound(landingSound);
                 jumped = false;
             }
             if (!movementLocked)
@@ -155,7 +155,8 @@ public class PlayerMovement : MonoBehaviour
             playerY = jumpHeight;
             animator.Play("Jump");
             audioSource.Stop();
-            audioSource.PlayOneShot(jumpingSound);
+            //audioSource.PlayOneShot(jumpingSound);
+            UsefulReferences.playerSounds.PlaySound(jumpingSound);
             jumped = true;
 
         }
@@ -210,7 +211,8 @@ public class PlayerMovement : MonoBehaviour
         {
             ShuffleFootStepSounds();
         }
-        audioSource.PlayOneShot(footstepSounds[0]);
+        //audioSource.PlayOneShot(footstepSounds[0]);
+        UsefulReferences.playerSounds.PlaySound(footstepSounds[0]);
 
         //To make one sound never play two times in row
         void ShuffleFootStepSounds()

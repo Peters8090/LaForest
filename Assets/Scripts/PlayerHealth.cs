@@ -65,10 +65,14 @@ public class PlayerHealth : MonoBehaviour
     }
 
     [PunRPC]
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 ?dir2Fall)
     {
-        //Debug.LogError("Damage: " + damage);
-        health -= damage;
+        if(health > minHealth)
+            health -= damage;
+        if (health <= minHealth && !UsefulReferences.playerDeath.died)
+        {
+            UsefulReferences.playerRagdoll.dir2Fall = dir2Fall;
+        }
     }
 
     public void Regenerate()

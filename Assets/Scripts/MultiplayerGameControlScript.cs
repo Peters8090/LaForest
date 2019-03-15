@@ -45,6 +45,9 @@ public class MultiplayerGameControlScript : MonoBehaviour
             {
                 UsefulReferences.Initialize(newPlayer);
                 UsefulReferences.mainMenuCamera.GetComponent<MainMenu>().SetGame(false);
+            } else
+            {
+                newPlayer.GetComponent<AudioSource>().volume = 0.5f;
             }
         }
     }

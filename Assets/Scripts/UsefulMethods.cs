@@ -2,20 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UsefulMethods : MonoBehaviour
+public class UsefulMethods
 {
-    /// <summary>
-    /// Finds the parent of parents
-    /// </summary>
-    /// <param name="go"></param>
-    /// <returns></returns>
-    public static GameObject FindTopParent(GameObject go)
+    public static Vector3 Vector3Abs(Vector3 v3)
     {
-        GameObject parent = go;
-        while (parent.transform.parent != null)
-        {
-            parent = parent.transform.parent.gameObject;
-        }
-        return parent;
+        return new Vector3(Mathf.Abs(v3.x), Mathf.Abs(v3.y), Mathf.Abs(v3.z));
     }
 }

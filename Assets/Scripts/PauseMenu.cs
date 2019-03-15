@@ -7,6 +7,7 @@ using Photon.Pun;
 public class PauseMenu : MonoBehaviour
 {
     public static bool menu = false;
+    public static bool canOpenPauseMenu = true;
     GameObject pauseMenuUIObj;
     Dictionary<string, GameObject> buttons = new Dictionary<string, GameObject>();
     Dictionary<string, GameObject> panels = new Dictionary<string, GameObject>();
@@ -47,6 +48,9 @@ public class PauseMenu : MonoBehaviour
             SetPanelsActive("");
             menu = false;
         }
+
+        if (!canOpenPauseMenu)
+            menu = false;
 
         bool CheckPanelsActive()
         {

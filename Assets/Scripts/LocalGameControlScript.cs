@@ -46,6 +46,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         UsefulReferences.healthUI.SetActive(true);
         UsefulReferences.crosshairUI.SetActive(false);
         UsefulReferences.deathUI.SetActive(false);
+        global::PauseMenu.canOpenPauseMenu = true;
     }
 
     void Aiming()
@@ -89,6 +90,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         Cursor.visible = true;
         UsefulReferences.healthUI.SetActive(false);
         UsefulReferences.crosshairUI.SetActive(false);
+        global::PauseMenu.canOpenPauseMenu = false;
     }
 
     void PauseMenu()
@@ -117,6 +119,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
             UsefulReferences.playerWeapons.disarmed = true;
             UsefulReferences.playerWeapons.canChangeWeapons = false;
             UsefulReferences.healthUI.SetActive(false);
+            global::PauseMenu.canOpenPauseMenu = false;
         }
     }
 }

@@ -13,13 +13,32 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
     Transform mainCameraPosRotParent;
     GameObject my3dNick;
 
+    Dictionary<string, Vector3> playerModeldefaultPos = new Dictionary<string, Vector3>();
+    Dictionary<string, Quaternion> playerModelDefaultRot = new Dictionary<string, Quaternion>();
+
+    UsefulReferencesPlayer urp;
+
+    //the attacker transform.forward * power of hit (for example the direction from which we got shot)
+    //I set it nullable because it is an easy way to detect whether we have an attacker or not, f.e. player dies of hunger
+    public Vector3 ?dir2Fall = null;
+
     void Start()
     {
-        myAnimator = transform.Find("ybot").gameObject.GetComponent<Animator>();
-        mainCameraPosRot = GetComponent<UsefulReferencesPlayer>().mainCameraPosRot;
+        urp = GetComponent<UsefulReferencesPlayer>();
+        myAnimator = urp.ybot.gameObject.GetComponent<Animator>();
+        mainCameraPosRot = urp.mainCameraPosRot;
         mainCameraPosRotParent = mainCameraPosRot.transform.parent;
         my3dNick = transform.Find("TextMeshPro Nick").gameObject;
+
+        //first we save all player model's bones pos and rot
+        foreach(var bone in urp.ybot.transform.GetComponentsInChildren<Transform>())
+        {
+            playerModeldefaultPos.Add(bone.name, bone.localPosition);
+            playerModelDefaultRot.Add(bone.name, bone.localRotation);
+        }
         PlayerRegenerates();
+        RestorePlayerModelPosAndRot();
+        StartCoroutine("restorePosAndRot");
     }
     
     void Update()
@@ -41,6 +60,37 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
         prevDied = died;
     }
 
+    IEnumerator restorePosAndRot()
+    {
+        RestorePlayerModelPosAndRot();
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine("restorePosAndRot");
+    }
+
+    /// <summary>
+    /// Use to restore start pos and rot of bones to them unless the bone doesn't exist for example it wasn't a bone, but a weapon
+    /// </summary>
+    [PunRPC]
+    public void RestorePlayerModelPosAndRot()
+    {
+        if (died)
+            return;
+        foreach (var bone in urp.ybot.transform.GetComponentsInChildren<Transform>())
+        {
+            //because: 1) the bone always is on position 2) it always has Rigidbody component, if it hadn't that component, we wouldn't have to restore its position
+            if (!playerModeldefaultPos.ContainsKey(bone.name) || !playerModelDefaultRot.ContainsKey(bone.name) || !bone.GetComponent<Rigidbody>())
+            {
+                continue;
+            }
+            if (playerModeldefaultPos.ContainsKey(bone.name) && playerModelDefaultRot.ContainsKey(bone.name))
+            {
+                bone.localPosition = playerModeldefaultPos[bone.name];
+                bone.localRotation = playerModelDefaultRot[bone.name];
+            }
+        }
+    }
+
+    //health: 100
     void PlayerRegenerates()
     {
         foreach (var rigidbody in ybotRagdollRigidbodies)
@@ -48,10 +98,14 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
             rigidbody.isKinematic = true;
             rigidbody.useGravity = false;
         }
+
         myAnimator.enabled = true;
+
+        RestorePlayerModelPosAndRot();
 
         if (photonView.IsMine)
         {
+            //to make MainCamera not to see what's under the terrain (its position and rotation mustn't depend on ybot's
             mainCameraPosRot.transform.parent = mainCameraPosRotParent;
             mainCameraPosRot.transform.localPosition = new Vector3(0, 0.31f, 0.32f);
             mainCameraPosRot.transform.localEulerAngles = new Vector3(90, 0, 0);
@@ -61,6 +115,7 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
         my3dNick.SetActive(true);
     }
 
+    //health: 0
     void PlayerDies()
     {
         foreach (var rigidbody in ybotRagdollRigidbodies)
@@ -69,8 +124,28 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
             rigidbody.isKinematic = false;
             rigidbody.useGravity = true;
         }
+
         //enable ragdoll by disabling the animator (and setting rigidbody not to kinematic and setting useGravity to true)
         myAnimator.enabled = false;
+
+        foreach (var bone in urp.ybot.transform.GetComponentsInChildren<Transform>())
+        {
+            //because: 1) the bone always is on position 2) it always has Rigidbody component, if it hadn't that component, we wouldn't have to restore its position
+            if (!playerModeldefaultPos.ContainsKey(bone.name) || !playerModelDefaultRot.ContainsKey(bone.name) || !bone.GetComponent<Rigidbody>())
+            {
+                continue;
+            }
+
+            //we check whether do we have any attacker
+            if(dir2Fall != null)
+            {
+                //we push player to dir2Fall
+                bone.GetComponent<Rigidbody>().AddForce((Vector3)dir2Fall, ForceMode.Impulse);
+            }
+        }
+
+        //reset the direction to fall
+        dir2Fall = null;
 
         if (photonView.IsMine)
         {
@@ -78,10 +153,10 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
             mainCameraPosRot.transform.parent = transform;
             mainCameraPosRot.transform.localPosition = new Vector3(0, 5, 0);
             mainCameraPosRot.transform.localEulerAngles = new Vector3(90, 0, 0);
-            //to make MainCamera not to see what's under the terrain (its position and rotation mustn't depend on ybot's
         }
         //make other players not to collide with the CharacterController while its position is not correct (ragdoll is enabled)
         GetComponent<CharacterController>().enabled = false;
         my3dNick.SetActive(false);
+        StartCoroutine("restorePosAndRot");
     }
 }

@@ -40,8 +40,18 @@ Todo:
 38) Fix hiding the crosshair while moving
 39) Dodaæ ragdoll do ybota
 40) Eventy w anim granie dŸwiêków chodzenia
-41) Transform.root
+41) Transform.root +
 42) Event kroki
+43) Krew i inne particle
+44) Gracz upada od strony przeciwnika
+45) Teleportacja po d³u¿szej ni¿ ileœ zmianie pozycji
+46) Ustawienia; volume, show gui, fps
+47) change Weapon.rock.damage to specific weapon
+48) Pause menu w czasie died +
+49) Naprawiæ collidery
+50) Buffered wyeliminowaæ
+51) 3d player sounds +
+52) Naprawiæ podnoszenie r¹k
 
 https://doc.photonengine.com/en-us/realtime/current/connection-and-authentication/tcp-and-udp-port-numbers
 Cannot send op: 228 Not connected. PeerState: Disconnected

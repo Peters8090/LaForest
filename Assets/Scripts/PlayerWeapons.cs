@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using Photon.Pun;
+using Photon.Chat;
+using ExitGames.Client.Photon;
 
 public class PlayerWeapons : MonoBehaviourPunCallbacks
 {
@@ -18,7 +20,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     public bool nonAnimWeapon = false;
 
     //array of weapons, which don't play any animation
-    string[] nonAnimWeaponNames = new string[1] { "Rock" };
+    Weapon.WeaponType[] nonAnimWeapons = new Weapon.WeaponType[1] { Weapon.WeaponType.Rock };
     
     Texture2D axeImgTexture;
     Texture2D flashlightImgTexture;
@@ -30,14 +32,14 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
         eq = UsefulReferences.eq;
         UsefulReferences.activeWeaponImg.gameObject.SetActive(true);
     }
-    
+
     void Update()
     {
         if(canChangeWeapons)
             GetNumberKeys();
 
         //if current weapon doesn't play any animation, nonAnimWeapon is equal to true, otherwise false
-        nonAnimWeapon = nonAnimWeaponNames.Contains(weapons[weaponIndex].name);
+        nonAnimWeapon = nonAnimWeapons.Contains(weapons[weaponIndex].weaponType);
 
         if(disarmed)
         {
@@ -54,14 +56,8 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
                 else
                     Destroy(eq.transform.GetChild(0).gameObject);
                 GameObject go = PhotonNetwork.Instantiate(weapons[weaponIndex].name, Vector3.zero, Quaternion.identity);
-                photonView.RPC("SetWeapon", RpcTarget.AllBuffered, go.GetPhotonView().ViewID, weapons[weaponIndex].name);
-                //Destroy(eq.transform.GetChild(0).gameObject);
-                //GameObject go = Instantiate((GameObject)Resources.Load(weapons[weaponIndex].name));
-                //go.transform.parent = eq.transform;
-                //go.name = weapons[weaponIndex].name;
-                //go.transform.localPosition = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.position;
-                //go.transform.localRotation = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.rotation;
-                //go.transform.localScale = ((GameObject)Resources.Load(weapons[weaponIndex].name)).transform.localScale;
+                //photonView.RPC("SetWeapon", RpcTarget.AllBuffered, go.GetPhotonView().ViewID, weapons[weaponIndex].name);
+                photonView.RPC("SetWeapon", RpcTarget.AllBuffered, go.GetPhotonView().ViewID, weapons[weaponIndex].weaponType, weapons[weaponIndex].damage);
             }
         }
 
@@ -81,7 +77,21 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void SetWeapon(int pvID, string weaponName, PhotonMessageInfo pmi)
+    void SetWeapon(int viewID, Weapon.WeaponType typeOfWeapon, float damage, PhotonMessageInfo pmi)
+    {
+        if (pmi.Sender != null && PhotonNetwork.GetPhotonView(viewID) != null)
+        {
+            if (PhotonNetwork.GetPhotonView(viewID).Owner == pmi.Sender)
+            {
+                PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().weapon = new Weapon(typeOfWeapon, damage);
+                PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().SetMyWeapon();
+            }
+        }
+    }
+
+    /*
+    [PunRPC]
+    void SetWeapon2(int pvID, string weaponName, PhotonMessageInfo pmi)
     {
         if(pmi.Sender != null && PlayerInfo.FindPlayerInfoByPP(pmi.Sender) != null)
         {
@@ -95,9 +105,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
                 go.transform.localScale = ((GameObject)Resources.Load(weaponName)).transform.localScale;
             }
         }
-    }
-
-    
+    }*/
 
     void GetNumberKeys()
     {

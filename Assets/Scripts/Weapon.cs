@@ -1,39 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Weapon
 {
-    public static Weapon axe = new Weapon("Axe");
-    public static Weapon flashlight = new Weapon("Flashlight");
-    public static Weapon sword = new Weapon("Sword");
-    public static Weapon rock = new Weapon("Rock");
+
+    public static Weapon axe = new Weapon(WeaponType.Axe);
+    public static Weapon flashlight = new Weapon(WeaponType.Flashlight);
+    public static Weapon sword = new Weapon(WeaponType.Sword);
+    public static Weapon rock = new Weapon(WeaponType.Rock);
 
     public string name;
     public float damage;
     public Texture2D image;
+    public WeaponType weaponType;
 
-    public Weapon(string name)
+    public enum WeaponType
     {
-        this.name = name;
-        switch(name)
+        Axe, Flashlight, Sword, Rock
+    }
+
+    public Weapon(WeaponType weaponType, float ?damage = null)
+    {
+        this.weaponType = weaponType;
+        switch (weaponType)
         {
             default:
+                name = "";
                 damage = 0;
                 break;
-            case "Axe":
+            case WeaponType.Axe:
+                name = "Axe";
                 damage = 10f;
                 break;
-            case "Flashlight":
+            case WeaponType.Flashlight:
+                name = "Flashlight";
                 damage = 5f;
                 break;
-            case "Sword":
+            case WeaponType.Sword:
+                name = "Sword";
                 damage = 20f;
                 break;
-            case "Rock":
+            case WeaponType.Rock:
+                name = "Rock";
                 damage = 10f;
                 break;
         }
+
+        //if damage is not default
+        if (damage != null)
+            this.damage = (float) damage;
         image = (Texture2D)Resources.Load(name + "Img");
     }
 }

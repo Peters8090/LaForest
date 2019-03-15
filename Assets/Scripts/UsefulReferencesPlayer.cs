@@ -10,10 +10,12 @@ public class UsefulReferencesPlayer : MonoBehaviour
     public GameObject eq;
     public GameObject mainCamera;
     public GameObject mainCameraPosRot;
+    [HideInInspector]
+    public GameObject ybot;
 
     void Start()
     {
-        
+        ybot = transform.Find("ybot").gameObject;
     }
     
     void Update()

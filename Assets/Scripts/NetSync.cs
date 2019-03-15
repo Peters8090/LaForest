@@ -18,10 +18,16 @@ public class NetSync : MonoBehaviourPunCallbacks, IPunObservable
         //the Player, who created the gameObject is its owner
         if (!photonView.IsMine)
         {
-            transform.position = Vector3.Lerp(transform.position, targetPos, 10f * Time.deltaTime);
+            if (Vector3.Distance(transform.position, targetPos) > 3)
+                transform.position = targetPos;
+            else
+                transform.position = Vector3.Lerp(transform.position, targetPos, 10f * Time.deltaTime);
+
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
     }
+
+
     #region IPunObservable implementation
 
 

@@ -34,13 +34,11 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject);
         OnCollision(collision.gameObject);
     }
 
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log(collision.gameObject);
         OnCollision(collision.gameObject);
     }
 
@@ -49,9 +47,9 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
         //we cannot recognise CharacterController collisions
         //if(collision.tag != "Player")
         {
-            //attacker can shot the player model, his weapon or something else, which is not the parent of parents; the player, so we get it using FindTopParent method
+            //attacker can shot the player model, his weapon or something else, so we need transform.root
             GameObject collisionGO;
-            collisionGO = UsefulMethods.FindTopParent(collision);
+            collisionGO = collision.transform.root.gameObject;
             //only attacker can do things below
             if (GetComponent<PhotonView>() && collisionGO.GetComponent<PhotonView>() && isDangerous)
             {
@@ -60,7 +58,9 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
                     if (collisionGO.tag == "Player" && collisionGO != UsefulReferences.player)
                     {
                         //we subtract damage from shot player's health
-                        collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), Weapon.rock.damage);
+                        //todo: change Weapon.rock.damage to specific weapon
+                        collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), Weapon.rock.damage, UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f);
+                        collisionGO.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
                     }
                 }
             }

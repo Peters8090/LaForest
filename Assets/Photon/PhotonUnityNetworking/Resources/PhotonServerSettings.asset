@@ -32,10 +32,10 @@ MonoBehaviour:
   - PlayerConnected
   - PlayerDisconnected
   - SetSpawnedPlayer
-  - TakeDamage
-  - SetRagdoll
-  - DisableRagdollRPC
-  - EnableRagdollRPC
   - SetWeapon
+  - TakeDamage
+  - SetWeapon2
+  - RestorePlayerModelPosAndRot
+  - PlaySoundRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1

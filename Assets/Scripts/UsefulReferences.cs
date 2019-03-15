@@ -16,6 +16,7 @@ public class UsefulReferences
     public static PlayerDeath playerDeath;
     public static PlayerHealth playerHealth;
     public static PlayerRagdoll playerRagdoll;
+    public static PlayerSounds playerSounds;
     public static GameObject ui;
     public static GameObject environment;
     public static GameObject mainMenuCamera;
@@ -45,6 +46,7 @@ public class UsefulReferences
             playerRagdoll = player.GetComponent<PlayerRagdoll>();
             playerHealth = player.GetComponent<PlayerHealth>();
             playerAudioSource = player.GetComponent<AudioSource>();
+            playerSounds = player.GetComponent<PlayerSounds>();
             initialized = true;
         }
         
