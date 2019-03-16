@@ -13,8 +13,6 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        UsefulReferences.mainMenuCamera = gameObject;
-        mainMenuCameraObj = GameObject.Find("Main Menu Camera");
         mainMenuUIObj = GameObject.Find("UI").transform.Find("Main Menu").gameObject;
         SetGame(true);
 
@@ -86,7 +84,6 @@ public class MainMenu : MonoBehaviour
         SetBtnColor("");
         SetPanelsActive("");
         menu = how;
-        mainMenuCameraObj.SetActive(how);
     }
 
     /// <summary>

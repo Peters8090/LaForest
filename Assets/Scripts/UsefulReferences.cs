@@ -19,7 +19,6 @@ public class UsefulReferences
     public static PlayerSounds playerSounds;
     public static GameObject ui;
     public static GameObject environment;
-    public static GameObject mainMenuCamera;
     public static GameObject multiplayerGameControlObject;
     public static GameObject localGameControlObject;
     public static RawImage activeWeaponImg;

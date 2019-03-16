@@ -15,7 +15,9 @@ public class MultiplayerGameControlScript : MonoBehaviour
             if (Tests.tests)
                 player = GameObject.Find("Player");
             else
-                player = PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(550, 170), 0, Random.Range(1480, 1500)), Quaternion.identity, 0);
+            {
+                player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0);
+            }
 
             Behaviour[] scripts = player.GetComponents<Behaviour>();
             Behaviour[] scriptsChildren = player.GetComponentsInChildren<Behaviour>();
@@ -38,13 +40,13 @@ public class MultiplayerGameControlScript : MonoBehaviour
         {
             GameObject newPlayer = PhotonView.Find(pvID).gameObject;
             newPlayer.name = nick;
-            newPlayer.transform.position = new Vector3(917, 175, 325);
+            newPlayer.transform.position = ((GameObject)Resources.Load("Player")).gameObject.transform.position;
             newPlayer.transform.Find("TextMeshPro Nick").gameObject.GetComponent<TextMeshPro>().text = nick;
             PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject = newPlayer;
             if (pmi.Sender == PhotonNetwork.LocalPlayer)
             {
                 UsefulReferences.Initialize(newPlayer);
-                UsefulReferences.mainMenuCamera.GetComponent<MainMenu>().SetGame(false);
+                UsefulReferences.localGameControlObject.GetComponent<MainMenu>().SetGame(false);
             } else
             {
                 newPlayer.GetComponent<AudioSource>().volume = 0.5f;

@@ -52,6 +52,7 @@ Todo:
 50) Buffered wyeliminowaæ
 51) 3d player sounds +
 52) Naprawiæ podnoszenie r¹k
+53) Spawn miejsca
 
 https://doc.photonengine.com/en-us/realtime/current/connection-and-authentication/tcp-and-udp-port-numbers
 Cannot send op: 228 Not connected. PeerState: Disconnected

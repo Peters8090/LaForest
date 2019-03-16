@@ -35,7 +35,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 916.7847, y: 174.57596, z: 324.816}
+  m_LocalPosition: {x: 1590.88, y: 323.07, z: 1546}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 495}
@@ -65,7 +65,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 735}
   viewIdField: 0
-  InstantiationId: 9
+  InstantiationId: 7
   isRuntimeInstantiated: 0
 --- !u!143 &666
 CharacterController:
@@ -608,7 +608,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 718}
   viewIdField: 0
-  InstantiationId: 3
+  InstantiationId: 6
   isRuntimeInstantiated: 0
 --- !u!114 &718
 MonoBehaviour:
@@ -862,7 +862,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 748}
   viewIdField: 0
-  InstantiationId: 4
+  InstantiationId: 11
   isRuntimeInstantiated: 0
 --- !u!114 &748
 MonoBehaviour:
@@ -1309,7 +1309,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 742}
   viewIdField: 0
-  InstantiationId: 12
+  InstantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!114 &742
 MonoBehaviour:
@@ -1552,7 +1552,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 721}
   viewIdField: 0
-  InstantiationId: 5
+  InstantiationId: 8
   isRuntimeInstantiated: 0
 --- !u!114 &721
 MonoBehaviour:
@@ -2421,7 +2421,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 744}
   viewIdField: 0
-  InstantiationId: 11
+  InstantiationId: 12
   isRuntimeInstantiated: 0
 --- !u!114 &744
 MonoBehaviour:
@@ -2695,7 +2695,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 725}
   viewIdField: 0
-  InstantiationId: 7
+  InstantiationId: 4
   isRuntimeInstantiated: 0
 --- !u!114 &725
 MonoBehaviour:
@@ -2844,7 +2844,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 723}
   viewIdField: 0
-  InstantiationId: 6
+  InstantiationId: 9
   isRuntimeInstantiated: 0
 --- !u!114 &723
 MonoBehaviour:
@@ -3328,7 +3328,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 727}
   viewIdField: 0
-  InstantiationId: 13
+  InstantiationId: 3
   isRuntimeInstantiated: 0
 --- !u!114 &727
 MonoBehaviour:
@@ -6438,7 +6438,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 730}
   viewIdField: 0
-  InstantiationId: 8
+  InstantiationId: 13
   isRuntimeInstantiated: 0
 --- !u!114 &730
 MonoBehaviour:
@@ -7019,6 +7019,10 @@ PrefabInstance:
     - target: {fileID: 11400000, guid: a6e39ced0ea046bcb636c3f0b2e2a745, type: 3}
       propertyPath: m_isInputParsingRequired
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300000, guid: a6e39ced0ea046bcb636c3f0b2e2a745, type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6e39ced0ea046bcb636c3f0b2e2a745, type: 3}
