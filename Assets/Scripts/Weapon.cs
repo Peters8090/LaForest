@@ -18,6 +18,17 @@ public class Weapon
         Axe, Flashlight, Sword, Rock
     }
 
+    public string Serialize()
+    {
+        return ((int)weaponType).ToString() + "." + damage.ToString();
+    }
+
+    public static Weapon Deserialize(string serializedWeapon)
+    {
+        string[] weaponParams = serializedWeapon.Split(new char[] { '.' }, System.StringSplitOptions.RemoveEmptyEntries);
+        return new Weapon((WeaponType) int.Parse(weaponParams[0]), float.Parse(weaponParams[1]));
+    }
+
     public Weapon(WeaponType weaponType, float ?damage = null)
     {
         this.weaponType = weaponType;
