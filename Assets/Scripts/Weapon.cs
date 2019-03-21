@@ -2,11 +2,18 @@
 
 public class Weapon
 {
-
     public static Weapon axe = new Weapon(WeaponType.Axe);
     public static Weapon flashlight = new Weapon(WeaponType.Flashlight);
     public static Weapon sword = new Weapon(WeaponType.Sword);
     public static Weapon rock = new Weapon(WeaponType.Rock);
+
+    public static Weapon Axe()
+    {
+        if (UsefulReferences.playerWeapons.accWeaponMB != null)
+            return UsefulReferences.playerWeapons.accWeaponMB.weapon;
+        else
+            return null;
+    }
 
     public string name;
     public float damage;

@@ -15,6 +15,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     public bool disarmed = false;
     public bool canAttack = true;
     public bool canChangeWeapons = true;
+    public WeaponMB accWeaponMB;
 
     //if weapon plays an animation, it can't be used while moving because it disturbs the moving animation
     public bool nonAnimWeapon = false;
@@ -72,6 +73,11 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
             GameObject go = Instantiate((GameObject)Resources.Load("EmptyGameObject"));
             go.transform.parent = UsefulReferences.eq.transform;
         }
+
+        if (eq.transform.GetChild(0).name == "EmptyGameObject")
+            accWeaponMB = null;
+        else
+            accWeaponMB = eq.transform.GetChild(0).GetComponent<WeaponMB>();
 
         UsefulReferences.activeWeaponImg.texture = weapons[weaponIndex].image;
     }

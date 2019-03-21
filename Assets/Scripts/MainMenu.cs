@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(Weapon.rock);
         mainMenuUIObj = GameObject.Find("UI").transform.Find("Main Menu").gameObject;
         SetGame(true);
 

@@ -44,24 +44,20 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
 
     void OnCollision(GameObject collision)
     {
-        //we cannot recognise CharacterController collisions
-        //if(collision.tag != "Player")
+        //attacker can shot the player model, his weapon or something else, so we need transform.root
+        GameObject collisionGO;
+        collisionGO = collision.transform.root.gameObject;
+        //only attacker can do things below
+        if (GetComponent<PhotonView>() && collisionGO.GetComponent<PhotonView>() && isDangerous)
         {
-            //attacker can shot the player model, his weapon or something else, so we need transform.root
-            GameObject collisionGO;
-            collisionGO = collision.transform.root.gameObject;
-            //only attacker can do things below
-            if (GetComponent<PhotonView>() && collisionGO.GetComponent<PhotonView>() && isDangerous)
+            if (photonView.IsMine)
             {
-                if (photonView.IsMine)
+                if (collisionGO.tag == "Player" && collisionGO != UsefulReferences.player)
                 {
-                    if (collisionGO.tag == "Player" && collisionGO != UsefulReferences.player)
-                    {
-                        //we subtract damage from shot player's health
-                        //todo: change Weapon.rock.damage to specific weapon
-                        collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), Weapon.rock.damage, UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f);
-                        collisionGO.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
-                    }
+                    //we subtract damage from shot player's health
+                    //todo: change Weapon.rock.damage to specific weapon
+                    collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), Weapon.rock.damage, UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f);
+                    collisionGO.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
                 }
             }
         }
