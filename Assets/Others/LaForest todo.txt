@@ -55,6 +55,7 @@ Todo:
 53) Spawn miejsca
 54) Headshoty itp
 55) Fix braku mo¿liwoœci popychania ragdolla i jego rozszczepienia podczas popychania
+56) Kompatybilnoœæ zapisów
 
 https://doc.photonengine.com/en-us/realtime/current/connection-and-authentication/tcp-and-udp-port-numbers
 Cannot send op: 228 Not connected. PeerState: Disconnected

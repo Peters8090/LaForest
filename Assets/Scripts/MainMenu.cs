@@ -13,7 +13,6 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(Weapon.rock);
         mainMenuUIObj = GameObject.Find("UI").transform.Find("Main Menu").gameObject;
         SetGame(true);
 
@@ -45,7 +44,7 @@ public class MainMenu : MonoBehaviour
     {
         SetBtnColor("Play");
         SetPanelsActive("Play");
-        GameObject.Find("MultiplayerGameControlObject").GetComponent<Connecting>().Play();
+        GameObject.Find("MultiplayerGameControlObject").GetComponent<MultiplayerGameControlScript>().Play();
     }
 
     public void Info()

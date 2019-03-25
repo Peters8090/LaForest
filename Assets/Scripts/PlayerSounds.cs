@@ -5,11 +5,6 @@ using Photon.Pun;
 
 public class PlayerSounds : MonoBehaviourPunCallbacks
 {
-    void Start()
-    {
-
-    }
-    
     void Update()
     {
         if (photonView.IsMine)

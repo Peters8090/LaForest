@@ -6,16 +6,18 @@ using System.Linq;
 using Photon.Pun;
 using Photon.Chat;
 using ExitGames.Client.Photon;
+using Photon.Realtime;
 
 public class PlayerWeapons : MonoBehaviourPunCallbacks
 {
     public int weaponIndex;
-    public List<Weapon> weapons;
-    GameObject eq;
+    public List<Weapon.WeaponType> weapons;
     public bool disarmed = false;
     public bool canAttack = true;
     public bool canChangeWeapons = true;
-    public WeaponMB accWeaponMB;
+
+    //returns the local player's WeaponMB script, which is attached to actual weapon
+    public static WeaponMB accWeaponMB;
 
     //if weapon plays an animation, it can't be used while moving because it disturbs the moving animation
     public bool nonAnimWeapon = false;
@@ -29,8 +31,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        weapons = new List<Weapon>() { Weapon.axe, Weapon.flashlight, Weapon.sword, Weapon.rock };
-        eq = UsefulReferences.eq;
+        weapons = new List<Weapon.WeaponType>() { Weapon.WeaponType.Axe, Weapon.WeaponType.Flashlight, Weapon.WeaponType.Rock, Weapon.WeaponType.Sword };
         UsefulReferences.activeWeaponImg.gameObject.SetActive(true);
     }
 
@@ -40,78 +41,58 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
             GetNumberKeys();
 
         //if current weapon doesn't play any animation, nonAnimWeapon is equal to true, otherwise false
-        nonAnimWeapon = nonAnimWeapons.Contains(weapons[weaponIndex].weaponType);
+        nonAnimWeapon = nonAnimWeapons.Contains(weapons[weaponIndex]);
 
         if(disarmed)
         {
             //eq always has to have one child, unless the PlayerWeapons script isn't running
-            if (eq.transform.childCount == 1)
+            if (UsefulReferences.eq.transform.childCount == 1)
                 Disarmed();
         } else
         {
             //we check whether the change of weapon is required (returns true if we haven't changed)
-            if (eq.transform.GetChild(0).name != weapons[weaponIndex].name)
+            if (UsefulReferences.eq.transform.GetChild(0).name != weapons[weaponIndex].ToString())
             {
-                if (eq.transform.GetChild(0).gameObject.GetComponent<PhotonView>())
-                    PhotonNetwork.Destroy(eq.transform.GetChild(0).gameObject);
-                else
-                    Destroy(eq.transform.GetChild(0).gameObject);
-                GameObject go = PhotonNetwork.Instantiate(weapons[weaponIndex].name, Vector3.zero, Quaternion.identity);
-                //photonView.RPC("SetWeapon", RpcTarget.AllBuffered, go.GetPhotonView().ViewID, weapons[weaponIndex].name);
-                photonView.RPC("SetWeapon", RpcTarget.AllBuffered, go.GetPhotonView().ViewID, weapons[weaponIndex].Serialize());
+                if (UsefulReferences.eq.transform.GetChild(0).gameObject.GetComponent<PhotonView>())
+                    PhotonNetwork.Destroy(UsefulReferences.eq.transform.GetChild(0).gameObject);
+
+                GameObject go = PhotonNetwork.Instantiate(weapons[weaponIndex].ToString(), Vector3.zero, Quaternion.identity);
+
+                photonView.RPC("SetWeapon", RpcTarget.All, go.GetPhotonView().ViewID, new Weapon(weapons[weaponIndex], Weapon.weaponDamages[weapons[weaponIndex]], go.GetComponent<PhotonView>().ViewID).Serialize(), PhotonNetwork.LocalPlayer);
             }
         }
-
+        
         void Disarmed()
         {
-            //Destroy(eq.transform.GetChild(0).gameObject);
-            if(eq.transform.GetChild(0).gameObject.GetComponent<PhotonView>())
-                PhotonNetwork.Destroy(eq.transform.GetChild(0).gameObject);
+            if(UsefulReferences.eq.transform.GetChild(0).gameObject.GetComponent<PhotonView>())
+                PhotonNetwork.Destroy(UsefulReferences.eq.transform.GetChild(0).gameObject);
             else
-                Destroy(eq.transform.GetChild(0).gameObject);
+                PhotonNetwork.Destroy(UsefulReferences.eq.transform.GetChild(0).gameObject);
+
             //we can do it locally because the PlayerWeapons script isn't running on other players in our local game
             GameObject go = Instantiate((GameObject)Resources.Load("EmptyGameObject"));
             go.transform.parent = UsefulReferences.eq.transform;
         }
 
-        if (eq.transform.GetChild(0).name == "EmptyGameObject")
+        //if there is EmptyGameObject, we aren't holding any weapon
+        if (UsefulReferences.eq.transform.GetChild(0).name == "EmptyGameObject")
             accWeaponMB = null;
         else
-            accWeaponMB = eq.transform.GetChild(0).GetComponent<WeaponMB>();
+            accWeaponMB = UsefulReferences.eq.transform.GetChild(0).GetComponent<WeaponMB>();
 
-        UsefulReferences.activeWeaponImg.texture = weapons[weaponIndex].image;
+        //TODO: make accWeaponMB non-nullable
+        UsefulReferences.activeWeaponImg.texture = (Texture2D) Resources.Load( weapons[weaponIndex].ToString() + "Img");
     }
-
+    
     [PunRPC]
-    void SetWeapon(int viewID, string serializedWeapon, PhotonMessageInfo pmi)
+    public void SetWeapon(int weaponViewID, string serializedWeapon, Player weaponOwner)
     {
-        if (pmi.Sender != null && PhotonNetwork.GetPhotonView(viewID) != null)
+        if (PhotonNetwork.GetPhotonView(weaponViewID).Owner == weaponOwner)
         {
-            if (PhotonNetwork.GetPhotonView(viewID).Owner == pmi.Sender)
-            {
-                PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().weapon = Weapon.Deserialize(serializedWeapon);
-                PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().SetMyWeapon();
-            }
+            PhotonNetwork.GetPhotonView(weaponViewID).GetComponent<WeaponMB>().weapon = Weapon.Deserialize(serializedWeapon);
+            PhotonNetwork.GetPhotonView(weaponViewID).GetComponent<WeaponMB>().SetMyWeapon();
         }
     }
-
-    /*
-    [PunRPC]
-    void SetWeapon2(int pvID, string weaponName, PhotonMessageInfo pmi)
-    {
-        if(pmi.Sender != null && PlayerInfo.FindPlayerInfoByPP(pmi.Sender) != null)
-        {
-            if(PhotonNetwork.GetPhotonView(pvID) != null)
-            {
-                GameObject go = PhotonView.Find(pvID).gameObject;
-                go.transform.parent = PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.GetComponent<UsefulReferencesPlayer>().eq.transform;
-                go.name = weaponName;
-                go.transform.localPosition = ((GameObject)Resources.Load(weaponName)).transform.position;
-                go.transform.localRotation = ((GameObject)Resources.Load(weaponName)).transform.rotation;
-                go.transform.localScale = ((GameObject)Resources.Load(weaponName)).transform.localScale;
-            }
-        }
-    }*/
 
     void GetNumberKeys()
     {
