@@ -33,7 +33,7 @@ public class WeaponMB : MonoBehaviourPunCallbacks
             }
         }
 
-        if (photonView.Owner != null && PlayerInfo.FindPlayerInfoByPP(photonView.Owner).gameObject != null)
+        if (photonView.Owner != null && PlayerInfo.FindPlayerInfoByPP(photonView.Owner) != null)
         {
             transform.parent = PlayerInfo.FindPlayerInfoByPP(photonView.Owner).gameObject.GetComponent<UsefulReferencesPlayer>().eq.transform;
             gameObject.name = weapon.name;

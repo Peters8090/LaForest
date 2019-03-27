@@ -3,7 +3,19 @@ using System.Collections.Generic;
 
 public class Weapon
 {
-    public static Dictionary<WeaponType, float> weaponDamages = new Dictionary<WeaponType, float>() { { WeaponType.Axe, 20f } , { WeaponType.Flashlight, 5f } , { WeaponType.Rock, 10f } , { WeaponType.Sword, 30f } };
+    /// <summary>
+    /// Returns actual damage (including weapon upgrades) of any game weapon
+    /// </summary>
+    /// <returns></returns>
+    public static Dictionary<WeaponType, float> weaponDamages()
+    {
+        Dictionary<WeaponType, float> returnDictionary = new Dictionary<WeaponType, float>() { { WeaponType.Axe, 20f }, { WeaponType.Flashlight, 5f }, { WeaponType.Rock, 10f }, { WeaponType.Sword, 30f } };
+        
+        //here changes like weapon upgrades
+
+        return returnDictionary;
+    }
+    
 
     /*
     #region weapon templates
@@ -46,6 +58,7 @@ public class Weapon
 
     #endregion
     */
+
     public string name;
     public float damage;
     public Texture2D image;
@@ -71,7 +84,6 @@ public class Weapon
     public Weapon(WeaponType weaponType, float damage, int weaponObjPvID)
     {
         this.weaponType = weaponType;
-        Debug.Log(weaponType.ToString());
         this.name = weaponType.ToString();
         this.damage = (float)damage;
         this.weaponObjPvID = weaponObjPvID;

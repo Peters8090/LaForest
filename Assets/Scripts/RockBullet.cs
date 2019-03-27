@@ -56,7 +56,7 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     //we subtract damage from shot player's health
                     //todo: change Weapon.rock.damage to specific weapon
-                    collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), PlayerWeapons.accWeaponMB.weapon.damage, UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f);
+                    collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), Weapon.weaponDamages()[Weapon.WeaponType.Rock], UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f);
                     collisionGO.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
                 }
             }

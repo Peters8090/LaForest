@@ -6,18 +6,17 @@ using System.Linq;
 using Photon.Pun;
 using Photon.Chat;
 using ExitGames.Client.Photon;
-using Photon.Realtime;
 
 public class PlayerWeapons : MonoBehaviourPunCallbacks
 {
     public int weaponIndex;
     public List<Weapon.WeaponType> weapons;
+    GameObject eq;
     public bool disarmed = false;
     public bool canAttack = true;
     public bool canChangeWeapons = true;
 
-    //returns the local player's WeaponMB script, which is attached to actual weapon
-    public static WeaponMB accWeaponMB;
+    public WeaponMB accWeaponMB;
 
     //if weapon plays an animation, it can't be used while moving because it disturbs the moving animation
     public bool nonAnimWeapon = false;
@@ -32,12 +31,14 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     void Start()
     {
         weapons = new List<Weapon.WeaponType>() { Weapon.WeaponType.Axe, Weapon.WeaponType.Flashlight, Weapon.WeaponType.Rock, Weapon.WeaponType.Sword };
+        eq = UsefulReferences.eq;
         UsefulReferences.activeWeaponImg.gameObject.SetActive(true);
     }
 
     void Update()
     {
-        if(canChangeWeapons)
+
+        if (canChangeWeapons)
             GetNumberKeys();
 
         //if current weapon doesn't play any animation, nonAnimWeapon is equal to true, otherwise false
@@ -45,54 +46,84 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
 
         if(disarmed)
         {
-            //eq always has to have one child, unless the PlayerWeapons script isn't running
-            if (UsefulReferences.eq.transform.childCount == 1)
-                Disarmed();
+            //we check if we have destroyed the actual weapon
+            if (eq.transform.childCount > 0)
+                ChangeWeapon();
         } else
         {
-            //we check whether the change of weapon is required (returns true if we haven't changed)
-            if (UsefulReferences.eq.transform.GetChild(0).name != weapons[weaponIndex].ToString())
+            //to prevent NullReferenceException (transform.GetChild() causes it when there is no child and we try to get it)
+            if(eq.transform.childCount > 0)
             {
-                if (UsefulReferences.eq.transform.GetChild(0).gameObject.GetComponent<PhotonView>())
-                    PhotonNetwork.Destroy(UsefulReferences.eq.transform.GetChild(0).gameObject);
-
-                GameObject go = PhotonNetwork.Instantiate(weapons[weaponIndex].ToString(), Vector3.zero, Quaternion.identity);
-
-                photonView.RPC("SetWeapon", RpcTarget.All, go.GetPhotonView().ViewID, new Weapon(weapons[weaponIndex], Weapon.weaponDamages[weapons[weaponIndex]], go.GetComponent<PhotonView>().ViewID).Serialize(), PhotonNetwork.LocalPlayer);
+                //we check whether the change of weapon is required (returns true if we haven't changed)
+                if (eq.transform.GetChild(0).name != weapons[weaponIndex].ToString())
+                {
+                    ChangeWeapon();
+                }
+            } else
+            {
+                //if there is no weapon, we have to spawn one in ChangeWeapon() method
+                ChangeWeapon();
             }
         }
-        
-        void Disarmed()
+
+        //this method can be used both for spawning new weapon and destroying actual weapon (making player disarmed)
+        void ChangeWeapon()
         {
-            if(UsefulReferences.eq.transform.GetChild(0).gameObject.GetComponent<PhotonView>())
-                PhotonNetwork.Destroy(UsefulReferences.eq.transform.GetChild(0).gameObject);
-            else
-                PhotonNetwork.Destroy(UsefulReferences.eq.transform.GetChild(0).gameObject);
-
-            //we can do it locally because the PlayerWeapons script isn't running on other players in our local game
-            GameObject go = Instantiate((GameObject)Resources.Load("EmptyGameObject"));
-            go.transform.parent = UsefulReferences.eq.transform;
-        }
-
-        //if there is EmptyGameObject, we aren't holding any weapon
-        if (UsefulReferences.eq.transform.GetChild(0).name == "EmptyGameObject")
+            //we set actual WeaponMB script reference to null, if there is one, we set accWeaponMB to its WeaponMB
             accWeaponMB = null;
-        else
-            accWeaponMB = UsefulReferences.eq.transform.GetChild(0).GetComponent<WeaponMB>();
+            
+            //to prevent NullReferenceException
+            if (eq.transform.childCount > 0)
+            {
+                PhotonNetwork.Destroy(eq.transform.GetChild(0).gameObject.GetPhotonView());
+            }
 
-        //TODO: make accWeaponMB non-nullable
-        UsefulReferences.activeWeaponImg.texture = (Texture2D) Resources.Load( weapons[weaponIndex].ToString() + "Img");
+            //if player is disarmed, we can spawn new weapon
+            if (!disarmed)
+            {
+                GameObject go = PhotonNetwork.Instantiate(weapons[weaponIndex].ToString(), Vector3.zero, Quaternion.identity);
+                accWeaponMB = go.GetComponent<WeaponMB>();
+                accWeaponMB.weapon = new Weapon(weapons[weaponIndex], Weapon.weaponDamages()[weapons[weaponIndex]], go.GetPhotonView().ViewID);
+                photonView.RPC("SetWeapon", RpcTarget.AllBuffered, go.GetPhotonView().ViewID, accWeaponMB.weapon.Serialize());
+            }
+        }
+
+        UsefulReferences.activeWeaponImg.texture = (Texture2D)Resources.Load(weapons[weaponIndex].ToString() + "Img");
     }
+
     
+
+
     [PunRPC]
-    public void SetWeapon(int weaponViewID, string serializedWeapon, Player weaponOwner)
+    void SetWeapon(int viewID, string serializedWeapon, PhotonMessageInfo pmi)
     {
-        if (PhotonNetwork.GetPhotonView(weaponViewID).Owner == weaponOwner)
+        if (pmi.Sender != null && PhotonNetwork.GetPhotonView(viewID) != null)
         {
-            PhotonNetwork.GetPhotonView(weaponViewID).GetComponent<WeaponMB>().weapon = Weapon.Deserialize(serializedWeapon);
-            PhotonNetwork.GetPhotonView(weaponViewID).GetComponent<WeaponMB>().SetMyWeapon();
+            if (PhotonNetwork.GetPhotonView(viewID).Owner == pmi.Sender)
+            {
+                PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().weapon = Weapon.Deserialize(serializedWeapon);
+                PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().SetMyWeapon();
+            }
         }
     }
+
+    /*
+    [PunRPC]
+    void SetWeapon2(int pvID, string weaponName, PhotonMessageInfo pmi)
+    {
+        if(pmi.Sender != null && PlayerInfo.FindPlayerInfoByPP(pmi.Sender) != null)
+        {
+            if(PhotonNetwork.GetPhotonView(pvID) != null)
+            {
+                GameObject go = PhotonView.Find(pvID).gameObject;
+                go.transform.parent = PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.GetComponent<UsefulReferencesPlayer>().eq.transform;
+                go.name = weaponName;
+                go.transform.localPosition = ((GameObject)Resources.Load(weaponName)).transform.position;
+                go.transform.localRotation = ((GameObject)Resources.Load(weaponName)).transform.rotation;
+                go.transform.localScale = ((GameObject)Resources.Load(weaponName)).transform.localScale;
+            }
+        }
+    }*/
 
     void GetNumberKeys()
     {

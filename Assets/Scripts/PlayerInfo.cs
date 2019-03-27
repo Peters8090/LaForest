@@ -13,15 +13,6 @@ public class PlayerInfo
     public string nick = "";
     public static PlayerInfo myPlayerInfo;
 
-    /// <summary>
-    /// Serializes all data of current player (including data outside of this script)
-    /// </summary>
-    public string SerializePlayer()
-    {
-        return (PlayerWeapons.accWeaponMB.weapon.Serialize() + "." + 
-            gameObject.GetComponent<PhotonView>().ViewID);
-    }
-
     public static void DebugPlayersList()
     {
         string text2Debug = "Total players count: " + players.Count + "\nPlayers: \n";

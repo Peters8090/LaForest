@@ -31,14 +31,11 @@ MonoBehaviour:
   RpcList:
   - PlayerConnected
   - PlayerDisconnected
-  - PlaySoundRPC
-  - RestorePlayerModelPosAndRot
   - SetSpawnedPlayer
   - SetWeapon
   - TakeDamage
-  - PlayerConnected2
-  - SetAnotherPlayers
-  - PlayerConnected3
-  - SetAnotherPlayer
+  - SetWeapon2
+  - RestorePlayerModelPosAndRot
+  - PlaySoundRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
