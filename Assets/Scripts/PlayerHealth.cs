@@ -39,7 +39,7 @@ public class PlayerHealth : MonoBehaviour
                     if (healthUI.transform.childCount != healthRounded)
                     {
                         GameObject heart = Instantiate((GameObject)Resources.Load("Heart"));
-                        heart.transform.parent = healthUI.transform;
+                        heart.transform.SetParent(healthUI.transform);
                     } else
                     {
                         break;

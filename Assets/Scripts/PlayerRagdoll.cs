@@ -20,7 +20,7 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
 
     //the attacker transform.forward * power of hit (for example the direction from which we got shot)
     //I set it nullable because it is an easy way to detect whether we have an attacker or not, f.e. player dies of hunger
-    public Vector3 ?dir2Fall = null;
+    public Vector3? dir2Fall = null;
 
     void Start()
     {
@@ -31,23 +31,23 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
         my3dNick = transform.Find("TextMeshPro Nick").gameObject;
 
         //first we save all player model's bones pos and rot
-        foreach(var bone in urp.ybot.transform.GetComponentsInChildren<Transform>())
+        foreach (var bone in ((GameObject)Resources.Load("Player")).transform.Find("ybot").transform.GetComponentsInChildren<Transform>())
         {
             playerModeldefaultPos.Add(bone.name, bone.localPosition);
             playerModelDefaultRot.Add(bone.name, bone.localRotation);
         }
         PlayerRegenerates();
         RestorePlayerModelPosAndRot();
-        StartCoroutine("restorePosAndRot");
+        InvokeRepeating("RestorePlayerModelPosAndRot", 0, 0.1f);
     }
-    
+
     void Update()
     {
         if (photonView.IsMine)
             died = UsefulReferences.playerDeath.died;
-        
+
         //to detect the moment, in which the player dies
-        if(died && !prevDied)
+        if (died && !prevDied)
         {
             PlayerDies();
         }
@@ -59,14 +59,7 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
         }
         prevDied = died;
     }
-
-    IEnumerator restorePosAndRot()
-    {
-        RestorePlayerModelPosAndRot();
-        yield return new WaitForSeconds(0.1f);
-        StartCoroutine("restorePosAndRot");
-    }
-
+    
     /// <summary>
     /// Use to restore start pos and rot of bones to them unless the bone doesn't exist for example it wasn't a bone, but a weapon
     /// </summary>
@@ -113,11 +106,13 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
         //disable ragdoll by enable the animator
         GetComponent<CharacterController>().enabled = true;
         my3dNick.SetActive(true);
+        InvokeRepeating("RestorePlayerModelPosAndRot", 0, 0.1f);
     }
 
     //health: 0
     void PlayerDies()
     {
+        CancelInvoke();
         foreach (var rigidbody in ybotRagdollRigidbodies)
         {
             //make ybot not to shake
@@ -137,7 +132,7 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
             }
 
             //we check whether do we have any attacker
-            if(dir2Fall != null)
+            if (dir2Fall != null)
             {
                 //we push player to dir2Fall
                 bone.GetComponent<Rigidbody>().AddForce((Vector3)dir2Fall, ForceMode.Impulse);
@@ -157,6 +152,5 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
         //make other players not to collide with the CharacterController while its position is not correct (ragdoll is enabled)
         GetComponent<CharacterController>().enabled = false;
         my3dNick.SetActive(false);
-        StartCoroutine("restorePosAndRot");
     }
 }

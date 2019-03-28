@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     float m_RunstepLenghten = 1;
     float m_StepInterval = 6;
     public bool isGrounded;
+    public bool prevIsGrounded;
     
     void Start()
     {
@@ -55,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isGrounded = GroundCheck();
+        
         if (mouseLookLocked)
             mouseSensitivity = 0f;
         else
@@ -102,13 +104,16 @@ public class PlayerMovement : MonoBehaviour
 
         running = Input.GetButton("Run");
 
-        if (cc.isGrounded)
+        if (isGrounded)
         {
-            if (jumped)
+            //player landed
+            if (!prevIsGrounded)
             {
                 UsefulReferences.playerSounds.PlaySound(landingSound);
                 jumped = false;
             }
+
+            //if the movement is locked, for example the pause menu is active, we set the player animation to idle (by resetting VelX and VelY)
             if (!movementLocked)
             {
                 animator.SetFloat("VelX", Input.GetAxis("Horizontal"));
@@ -147,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
             movementY = 0f;
         }
         
-        if (cc.isGrounded && Input.GetButton("Jump") && !movementLocked)
+        if (isGrounded && Input.GetButton("Jump") && !movementLocked && !jumped)
         {
             playerY = jumpHeight;
             animator.Play("Jump");
@@ -159,6 +164,8 @@ public class PlayerMovement : MonoBehaviour
         else if (!isGrounded)
         {
             playerY += Physics.gravity.y * Time.deltaTime;
+            animator.SetFloat("VelX", 0);
+            animator.SetFloat("VelY", 0);
         }
 
         //moving = animator.GetCurrentAnimatorStateInfo(0).IsName("Movement") && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Idle";
@@ -169,6 +176,9 @@ public class PlayerMovement : MonoBehaviour
         move = transform.rotation * move;
 
         cc.Move(move * Time.deltaTime);
+
+        //to detect if we landed in the next frame
+        prevIsGrounded = isGrounded;
     }
 
     void FixedUpdate()

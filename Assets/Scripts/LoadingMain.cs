@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class LoadingMain : MonoBehaviour
 {
-
     public GameObject slider;
     public GameObject text;
 
@@ -35,10 +34,8 @@ public class LoadingMain : MonoBehaviour
             
             if (ao.progress == 0.9f)
             {
-                //text.GetComponent<Text>().text = "Press a key to start";
                 text.GetComponent<Text>().text = "Game loaded";
-                //if (Input.anyKeyDown)
-                    ao.allowSceneActivation = true;
+                ao.allowSceneActivation = true;
             }
 
             yield return null;

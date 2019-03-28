@@ -57,6 +57,8 @@ Todo:
 55) Fix braku mo¿liwoœci popychania ragdolla i jego rozszczepienia podczas popychania
 56) Kompatybilnoœæ zapisów
 
+
+Mno¿enie przez x*Time.deltatime przy += oznacza, ¿e dany parametr bêdzie wzrasta³ x na sekundê
 https://doc.photonengine.com/en-us/realtime/current/connection-and-authentication/tcp-and-udp-port-numbers
 Cannot send op: 228 Not connected. PeerState: Disconnected
 Zamys³ gry:

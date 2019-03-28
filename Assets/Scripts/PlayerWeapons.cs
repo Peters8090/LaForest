@@ -83,7 +83,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
                 GameObject go = PhotonNetwork.Instantiate(weapons[weaponIndex].ToString(), Vector3.zero, Quaternion.identity);
                 accWeaponMB = go.GetComponent<WeaponMB>();
                 accWeaponMB.weapon = new Weapon(weapons[weaponIndex], Weapon.weaponDamages()[weapons[weaponIndex]], go.GetPhotonView().ViewID);
-                photonView.RPC("SetWeapon", RpcTarget.AllBuffered, accWeaponMB.weapon.Serialize());
+                photonView.RPC("SetWeapon", RpcTarget.All, accWeaponMB.weapon.Serialize());
             }
         }
 
@@ -91,15 +91,12 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void SetWeapon(string serializedWeapon, PhotonMessageInfo pmi)
+    public void SetWeapon(string serializedWeapon)
     {
         //get the viewID from the serializedWeapon (to get the spawned weapon)
         int viewID = int.Parse(serializedWeapon.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries)[2]);
-        if (pmi.Sender != null && PhotonNetwork.GetPhotonView(viewID) != null)
-        {
-            PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().weapon = Weapon.Deserialize(serializedWeapon);
-            PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().SetMyWeapon();
-        }
+        PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().weapon = Weapon.Deserialize(serializedWeapon);
+        PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().SetMyWeapon();
     }
     
     void GetNumberKeys()
