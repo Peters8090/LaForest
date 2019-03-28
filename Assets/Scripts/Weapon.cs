@@ -15,7 +15,10 @@ public class Weapon
 
         return returnDictionary;
     }
+
+    public static Dictionary<string, float> hitboxDamageMultiplier = new Dictionary<string, float>() { { "mixamorig:Head", 5f } };
     
+
 
     /*
     #region weapon templates

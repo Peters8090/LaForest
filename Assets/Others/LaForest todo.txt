@@ -22,7 +22,7 @@ Todo:
 20) DŸwiêki chodzenia +
 21) Zmiana Image na RawImage przy broniach +
 22) Strza³ kamieniem +
-23) Efekt œmierci; respawn + tracenie rzeczy
+23) Efekt œmierci; respawn + tracenie rzeczy +
 24) PvP (pokazuj liczbê œmierci obu stron w czasie sesji)
 25) Blokada tych samych nicków +
 26) Œcinanie drzewa
@@ -34,24 +34,24 @@ Todo:
 32) Strzelanie podczas lotu
 33) Wchodzenie na górê zablokowaæ
 34) Celownik +
-35) Nowy teren
-36) Naprawiæ dziurawe collidery
+35) Nowy teren +
+36) Naprawiæ dziurawe collidery +
 37) Broñ bia³a
-38) Fix hiding the crosshair while moving
-39) Dodaæ ragdoll do ybota
+38) Fix hiding the crosshair while moving +
+39) Dodaæ ragdoll do ybota +
 40) Eventy w anim granie dŸwiêków chodzenia
 41) Transform.root +
 42) Event kroki
 43) Krew i inne particle
-44) Gracz upada od strony przeciwnika
-45) Teleportacja po d³u¿szej ni¿ ileœ zmianie pozycji
+44) Gracz upada od strony przeciwnika +
+45) Teleportacja po d³u¿szej ni¿ ileœ zmianie pozycji +
 46) Ustawienia; volume, show gui, fps
-47) change Weapon.rock.damage to specific weapon
+47) change Weapon.rock.damage to specific weapon +
 48) Pause menu w czasie died +
-49) Naprawiæ collidery
+49) Naprawiæ collidery +
 50) Buffered wyeliminowaæ
 51) 3d player sounds +
-52) Naprawiæ podnoszenie r¹k
+52) Naprawiæ podnoszenie r¹k +
 53) Spawn miejsca
 54) Headshoty itp
 55) Fix braku mo¿liwoœci popychania ragdolla i jego rozszczepienia podczas popychania

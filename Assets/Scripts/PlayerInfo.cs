@@ -46,4 +46,27 @@ public class PlayerInfo
         }
         return null;
     }
+
+    public string SerializePlayer()
+    {
+        string weaponSerialized;
+        if(gameObject.GetComponent<UsefulReferencesPlayer>().eq.transform.childCount > 0)
+        {
+            weaponSerialized = gameObject.GetComponent<UsefulReferencesPlayer>().eq.transform.GetChild(0).GetComponent<WeaponMB>().weapon.Serialize();
+        } else
+        {
+            weaponSerialized = "disarmed";
+        }
+
+        return weaponSerialized + "." + gameObject.GetPhotonView().ViewID;
+    }
+
+    public static Dictionary<string, string> DeserializePlayer(string serializedPlayer)
+    {
+        string[] serializedPlayerArray = serializedPlayer.Split(new char[] { '.' }, System.StringSplitOptions.RemoveEmptyEntries);
+        Dictionary<string, string> deserializedPlayer = new Dictionary<string, string>();
+        deserializedPlayer.Add("weapon", serializedPlayerArray[0]);
+        deserializedPlayer.Add("playerPvID", serializedPlayerArray[1]);
+        return deserializedPlayer;
+    }
 }

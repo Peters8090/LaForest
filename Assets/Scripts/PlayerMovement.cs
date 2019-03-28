@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     float m_NextStep = 0;
     float m_RunstepLenghten = 1;
     float m_StepInterval = 6;
+    public bool isGrounded;
     
     void Start()
     {
@@ -50,9 +51,10 @@ public class PlayerMovement : MonoBehaviour
         mouseSensitivityDefaultValue = mouseSensitivity;
     }
     
-
+    
     void Update()
     {
+        isGrounded = GroundCheck();
         if (mouseLookLocked)
             mouseSensitivity = 0f;
         else
@@ -104,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (jumped)
             {
-                //audioSource.PlayOneShot(landingSound);
                 UsefulReferences.playerSounds.PlaySound(landingSound);
                 jumped = false;
             }
@@ -118,10 +119,6 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetFloat("VelX", 0);
                 animator.SetFloat("VelY", 0);
             }
-        } else
-        {
-            //animator.SetFloat("VelX", 0);
-            //animator.SetFloat("VelY", 0);
         }
 
         if (running)
@@ -155,17 +152,17 @@ public class PlayerMovement : MonoBehaviour
             playerY = jumpHeight;
             animator.Play("Jump");
             audioSource.Stop();
-            //audioSource.PlayOneShot(jumpingSound);
             UsefulReferences.playerSounds.PlaySound(jumpingSound);
             jumped = true;
 
         }
-        else if (!cc.isGrounded)
+        else if (!isGrounded)
         {
             playerY += Physics.gravity.y * Time.deltaTime;
         }
-        
-        moving = animator.GetCurrentAnimatorStateInfo(0).IsName("Movement") && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Idle";
+
+        //moving = animator.GetCurrentAnimatorStateInfo(0).IsName("Movement") && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Idle";
+        moving = cc.velocity.magnitude > 0.5f;
 
         //move the player
         Vector3 move = new Vector3(movementX, playerY, movementY);
@@ -179,6 +176,20 @@ public class PlayerMovement : MonoBehaviour
         if(!movementLocked)
             ProgressStepCycle();
     }
+    
+    bool GroundCheck()
+    {
+        float distance = 1f;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distance))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     /// <summary>
     /// Method from FirstPersonController script from Unity Standard Assets
@@ -190,7 +201,7 @@ public class PlayerMovement : MonoBehaviour
             m_StepCycle += (cc.velocity.magnitude + (accMaxSpeed * (!running ? 1f : m_RunstepLenghten))) * Time.fixedDeltaTime;
         }
 
-        if (!(m_StepCycle > m_NextStep) || !cc.isGrounded)
+        if (!(m_StepCycle > m_NextStep) || !isGrounded)
         {
             return;
         }

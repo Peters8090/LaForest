@@ -103,7 +103,7 @@ public class PauseMenu : MonoBehaviour
     {
         SetBtnColor("MainMenu");
         SetPanelsActive("MainMenu");
-        UsefulReferences.multiplayerGameControlObject.GetComponent<Connecting>().GameDisconnect();
+        UsefulReferences.multiplayerGameControlObject.GetComponent<MultiplayerGameControlScript>().GameDisconnect();
         UsefulReferences.initialized = false;
     }
 

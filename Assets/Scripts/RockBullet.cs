@@ -54,9 +54,15 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (collisionGO.tag == "Player" && collisionGO != UsefulReferences.player)
                 {
+                    float weaponDamage = Weapon.weaponDamages()[Weapon.WeaponType.Rock];
+
+                    //if the rock hit more sensitive place, f.e. head, the damage will be increased
+                    if (Weapon.hitboxDamageMultiplier.ContainsKey(collision.name))
+                    {
+                        weaponDamage *= Weapon.hitboxDamageMultiplier[collision.name];
+                    }
                     //we subtract damage from shot player's health
-                    //todo: change Weapon.rock.damage to specific weapon
-                    collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), Weapon.weaponDamages()[Weapon.WeaponType.Rock], UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f);
+                    collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), weaponDamage, UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f);
                     collisionGO.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
                 }
             }

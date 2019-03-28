@@ -60,12 +60,14 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
     void Moving()
     {
         if (UsefulReferences.playerMovement.moving && !UsefulReferences.playerWeapons.nonAnimWeapon)
+        {
             UsefulReferences.playerWeapons.disarmed = true;
+        }
     }
 
     void Jumping()
     {
-        if (!UsefulReferences.playerCharacterController.isGrounded)
+        if (!UsefulReferences.playerMovement.isGrounded)
         {
             UsefulReferences.playerMovement.slowDown = true;
             UsefulReferences.playerWeapons.disarmed = true;
