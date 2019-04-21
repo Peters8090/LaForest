@@ -22,7 +22,7 @@ public class PlayerDeath : MonoBehaviourPunCallbacks
     {
         if (died)
         {
-            if (timer < timerMax)
+            if (timer < timerMax) //after timerMax player regenerates
             {
                 timer += Time.deltaTime;
                 slider.value = timer / timerMax;

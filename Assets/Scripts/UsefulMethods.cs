@@ -8,4 +8,22 @@ public class UsefulMethods
     {
         return new Vector3(Mathf.Abs(v3.x), Mathf.Abs(v3.y), Mathf.Abs(v3.z));
     }
+
+    /// <summary>
+    /// Finds child with specific name, while searching includes all childs, not like transform.Find
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public static GameObject FindChild(GameObject parent, string name)
+    {
+        foreach (var child in parent.GetComponentsInChildren<Transform>())
+        {
+            if(child.name == name)
+            {
+                return child.gameObject;
+            }
+        }
+        return null;
+    }
 }

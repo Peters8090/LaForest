@@ -45,25 +45,25 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
     void OnCollision(GameObject collision)
     {
         //attacker can shot the player model, his weapon or something else, so we need transform.root
-        GameObject collisionGO;
-        collisionGO = collision.transform.root.gameObject;
+        GameObject hitPlayer;
+        hitPlayer = collision.transform.root.gameObject;
         //only attacker can do things below
-        if (GetComponent<PhotonView>() && collisionGO.GetComponent<PhotonView>() && isDangerous)
+        if (GetComponent<PhotonView>() && hitPlayer.GetComponent<PhotonView>() && isDangerous)
         {
             if (photonView.IsMine)
             {
-                if (collisionGO.tag == "Player" && collisionGO != UsefulReferences.player)
+                if (hitPlayer.tag == "Player" && hitPlayer != UsefulReferences.player)
                 {
                     float weaponDamage = Weapon.weaponDamages()[Weapon.WeaponType.Rock];
 
-                    //if the rock hit more sensitive place, f.e. head, the damage will be increased
+                    //if the rock hit a sensitive place, f.e. head, the damage will be increased
                     if (Weapon.hitboxDamageMultiplier.ContainsKey(collision.name))
                     {
                         weaponDamage *= Weapon.hitboxDamageMultiplier[collision.name];
                     }
                     //we subtract damage from shot player's health
-                    collisionGO.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(collisionGO), weaponDamage, UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f);
-                    collisionGO.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
+                    hitPlayer.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(hitPlayer), weaponDamage, UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f);
+                    hitPlayer.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
                 }
             }
         }

@@ -55,7 +55,7 @@ public class PlayerInfo
             weaponSerialized = gameObject.GetComponent<UsefulReferencesPlayer>().eq.transform.GetChild(0).GetComponent<WeaponMB>().weapon.Serialize();
         } else
         {
-            weaponSerialized = "disarmed";
+            weaponSerialized = "unarmed";
         }
 
         return weaponSerialized + "." + gameObject.GetPhotonView().ViewID;

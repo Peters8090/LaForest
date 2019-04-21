@@ -130,7 +130,7 @@ public class MultiplayerGameControlScript : MonoBehaviourPunCallbacks
             playerPP.Add(PhotonView.Find(playerPvID[i]).Owner);
         }
 
-        //some of the below methods need full info about all another players', so we couldn't pack all methods in one for loop
+        //some of the below methods need full info about all another players', so we couldn't pack all methods in one "for" loop
 
         for(int i = 0; i < serializedPlayers.Length; i++)
         {

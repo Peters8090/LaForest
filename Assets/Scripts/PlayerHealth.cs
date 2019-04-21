@@ -40,6 +40,7 @@ public class PlayerHealth : MonoBehaviour
                     {
                         GameObject heart = Instantiate((GameObject)Resources.Load("Heart"));
                         heart.transform.SetParent(healthUI.transform);
+                        heart.transform.localScale = Vector3.one; //sometimes for no reason its scale sets to ~ 1.5 and hearts look a bit strange
                     } else
                     {
                         break;

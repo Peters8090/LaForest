@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.39346063, g: 0.43517017, b: 0.49593896, a: 1}
+  m_IndirectSpecularColor: {r: 0.39303762, g: 0.43488893, b: 0.49600667, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12064,6 +12064,66 @@ PrefabInstance:
     - target: {fileID: 536, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
       propertyPath: InstantiationId
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 558, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: viewIdField
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 558, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: InstantiationId
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 588, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: viewIdField
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 588, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: InstantiationId
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 585, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: viewIdField
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 581, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: viewIdField
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 581, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: InstantiationId
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 583, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: viewIdField
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 583, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: InstantiationId
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 566, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: viewIdField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 566, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: InstantiationId
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 564, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: viewIdField
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 564, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: InstantiationId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 589, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 589, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}
+      propertyPath: InstantiationId
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f1542818b18d6b4a82e004fd4c06ed4, type: 3}

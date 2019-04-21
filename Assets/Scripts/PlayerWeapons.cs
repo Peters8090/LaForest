@@ -12,7 +12,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     public int weaponIndex;
     public List<Weapon.WeaponType> weapons;
     GameObject eq;
-    public bool disarmed = false;
+    public bool unarmed = false;
     public bool canAttack = true;
     public bool canChangeWeapons = true;
 
@@ -43,7 +43,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
         //if current weapon doesn't play any animation, nonAnimWeapon is equal to true, otherwise false
         nonAnimWeapon = nonAnimWeapons.Contains(weapons[weaponIndex]);
 
-        if(disarmed)
+        if(unarmed)
         {
             //we check if we have destroyed the actual weapon
             if (eq.transform.childCount > 0)
@@ -65,7 +65,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
             }
         }
 
-        //this method can be used both for spawning new weapon and destroying actual weapon (making player disarmed)
+        //this method can be used both for spawning new weapon and destroying actual weapon (making player unarmed)
         void ChangeWeapon()
         {
             //we set actual WeaponMB script reference to null, if there is one, we set accWeaponMB to its WeaponMB
@@ -77,8 +77,8 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
                 PhotonNetwork.Destroy(eq.transform.GetChild(0).gameObject.GetPhotonView());
             }
 
-            //if player is disarmed, we can spawn new weapon
-            if (!disarmed)
+            //if player is unarmed, we can spawn new weapon
+            if (!unarmed)
             {
                 GameObject go = PhotonNetwork.Instantiate(weapons[weaponIndex].ToString(), Vector3.zero, Quaternion.identity);
                 accWeaponMB = go.GetComponent<WeaponMB>();
@@ -93,6 +93,10 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetWeapon(string serializedWeapon)
     {
+        if(serializedWeapon == "unarmed") //this player is unarmed (we set this in PlayerInfo, in SerializePlayer method)
+        {
+            return;
+        }
         //get the viewID from the serializedWeapon (to get the spawned weapon)
         int viewID = int.Parse(serializedWeapon.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries)[2]);
         PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().weapon = Weapon.Deserialize(serializedWeapon);

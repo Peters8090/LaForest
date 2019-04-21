@@ -39,7 +39,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         Cursor.visible = false;
         UsefulReferences.playerMovement.movementLocked = false;
         UsefulReferences.playerMovement.mouseLookLocked = false;
-        UsefulReferences.playerWeapons.disarmed = false;
+        UsefulReferences.playerWeapons.unarmed = false;
         UsefulReferences.playerWeapons.canChangeWeapons = true;
         UsefulReferences.playerWeapons.canAttack = true;
         UsefulReferences.playerMovement.slowDown = false;
@@ -51,7 +51,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
 
     void Aiming()
     {
-        if (!UsefulReferences.playerWeapons.disarmed)
+        if (!UsefulReferences.playerWeapons.unarmed)
         {
             UsefulReferences.crosshairUI.SetActive(true);
         }
@@ -61,7 +61,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
     {
         if (UsefulReferences.playerMovement.moving && !UsefulReferences.playerWeapons.nonAnimWeapon)
         {
-            UsefulReferences.playerWeapons.disarmed = true;
+            UsefulReferences.playerWeapons.unarmed = true;
         }
     }
 
@@ -70,7 +70,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         if (!UsefulReferences.playerMovement.isGrounded)
         {
             UsefulReferences.playerMovement.slowDown = true;
-            UsefulReferences.playerWeapons.disarmed = true;
+            UsefulReferences.playerWeapons.unarmed = true;
             UsefulReferences.playerWeapons.canAttack = false;
         }
     }
@@ -104,7 +104,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
             UsefulReferences.playerMovement.movementLocked = true;
             UsefulReferences.playerMovement.mouseLookLocked = true;
             UsefulReferences.playerWeapons.canAttack = false;
-            UsefulReferences.playerWeapons.disarmed = true;
+            UsefulReferences.playerWeapons.unarmed = true;
             UsefulReferences.playerWeapons.canChangeWeapons = false;
             UsefulReferences.healthUI.SetActive(false);
         }
@@ -118,7 +118,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
             UsefulReferences.playerMovement.movementLocked = true;
             UsefulReferences.playerMovement.mouseLookLocked = true;
             UsefulReferences.playerWeapons.canAttack = false;
-            UsefulReferences.playerWeapons.disarmed = true;
+            UsefulReferences.playerWeapons.unarmed = true;
             UsefulReferences.playerWeapons.canChangeWeapons = false;
             UsefulReferences.healthUI.SetActive(false);
             global::PauseMenu.canOpenPauseMenu = false;
