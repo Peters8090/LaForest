@@ -9,14 +9,14 @@ public class Weapon
     /// <returns></returns>
     public static Dictionary<WeaponType, float> weaponDamages()
     {
-        Dictionary<WeaponType, float> returnDictionary = new Dictionary<WeaponType, float>() { { WeaponType.Axe, 20f }, { WeaponType.Flashlight, 5f }, { WeaponType.Rock, 10f }, { WeaponType.Sword, 30f } };
+        Dictionary<WeaponType, float> returnDictionary = new Dictionary<WeaponType, float>() { { WeaponType.Axe, 20f }, { WeaponType.Flashlight, 5f }, { WeaponType.Rock, 12.5f }, { WeaponType.Sword, 30f } };
         
         //here changes like weapon upgrades
 
         return returnDictionary;
     }
 
-    public static Dictionary<string, float> hitboxDamageMultiplier = new Dictionary<string, float>() { { "mixamorig:Head", 5f } };
+    public static Dictionary<string, float> hitboxDamageMultiplier = new Dictionary<string, float>() { { "mixamorig:Head", 4f } };
     
 
 

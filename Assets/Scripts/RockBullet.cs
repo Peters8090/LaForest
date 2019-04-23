@@ -9,6 +9,10 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
     Quaternion targetRot;
     float timer = 0;
     float maxTimer = 20;
+
+    /// <summary>
+    /// If rock has hit anything, let's make it safe for everyone
+    /// </summary>
     bool isDangerous = true;
 
     void Start()
@@ -70,6 +74,7 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
 
         //make our bullet not attack anyone anymore
         isDangerous = false;
+
         //destroy gameObject after it falls down (after 1 second)
         timer = maxTimer - 1;
     }

@@ -59,7 +59,8 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
 
     void Moving()
     {
-        if (UsefulReferences.playerMovement.moving && !UsefulReferences.playerWeapons.nonAnimWeapon)
+        // If weapon plays an animation, it can't be used while moving because it disturbs the animation
+        if (UsefulReferences.playerMovement.moving && !UsefulReferences.playerWeapons.nonAnimWeapon) 
         {
             UsefulReferences.playerWeapons.unarmed = true;
         }
@@ -70,14 +71,19 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         if (!UsefulReferences.playerMovement.isGrounded)
         {
             UsefulReferences.playerMovement.slowDown = true;
-            UsefulReferences.playerWeapons.unarmed = true;
-            UsefulReferences.playerWeapons.canAttack = false;
+
+            // If weapon plays an animation, it can't be used while jumping because it disturbs the animation
+            if (!UsefulReferences.playerWeapons.nonAnimWeapon)
+            {
+                UsefulReferences.playerWeapons.unarmed = true;
+                UsefulReferences.playerWeapons.canAttack = false;
+            }
         }
     }
 
     void Attacking()
     {
-        if (UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (UsefulReferences.playerWeapons.isAttacking)
         {
             UsefulReferences.playerWeapons.canAttack = false;
             UsefulReferences.playerWeapons.canChangeWeapons = false;

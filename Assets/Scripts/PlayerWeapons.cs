@@ -16,9 +16,16 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     public bool canAttack = true;
     public bool canChangeWeapons = true;
 
+    /// <summary>
+    /// Can detect only non-anim weapons
+    /// </summary>
+    public bool isAttacking = false;
+
     public WeaponMB accWeaponMB;
 
-    //if weapon plays an animation, it can't be used while moving because it disturbs the moving animation
+    /// <summary>
+    /// This variable is true when player holds a weapon which doesn't play any animation, otherwise it is equal to false; we can use it to detect whether current weapon can disturb the animation we want to play or is playing
+    /// </summary>
     public bool nonAnimWeapon = false;
 
     //array of weapons, which don't play any animation
@@ -39,6 +46,8 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     {
         if (canChangeWeapons)
             GetNumberKeys();
+
+        isAttacking = UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
 
         //if current weapon doesn't play any animation, nonAnimWeapon is equal to true, otherwise false
         nonAnimWeapon = nonAnimWeapons.Contains(weapons[weaponIndex]);

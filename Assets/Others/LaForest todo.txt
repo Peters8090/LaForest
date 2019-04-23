@@ -1,63 +1,68 @@
 ﻿LaForest od nowa
+
 Todo:
-1) Model postaci + animacje +
-2) Movement, mouse look +
-3) Import terenu +
-4) Bronie +
-5) Zmiana broni +
-6) Przeciwnik pająk
-7) Zwierzę wilk
-8) Atak (zwierzęta, przeciwnicy)
-9) Menu pauzy +
-10) Menu główne +
-11) Zapis gry +
-12) Prace
-13) Implementacja multiplayera +
-14) Budowanie domu (każdy gracz ma swoją działkę na serwerze, są one symetrycznie wydzielone)
-15) Generowanie terenu
-16) Życie +
-17) Jedzenie
-18) Wypadanie poza mapę
-19) Animacja spadania i lądowania +
-20) Dźwięki chodzenia +
-21) Zmiana Image na RawImage przy broniach +
-22) Strzał kamieniem +
-23) Efekt śmierci; respawn + tracenie rzeczy +
-24) PvP (pokazuj liczbę śmierci obu stron w czasie sesji)
-25) Blokada tych samych nicków +
-26) Ścinanie drzewa
-27) Broń kamieniem - bardzo droga
-28) Anticheat
-29) Usunąć reset ragdolla +
-30) Nickname nad głową +
-31) Zmienić instantiate broni na photon +
-32) Strzelanie podczas lotu
-33) Wchodzenie na górę zablokować
-34) Celownik +
-35) Nowy teren +
-36) Naprawić dziurawe collidery +
-37) Broń biała
-38) Fix hiding the crosshair while moving +
-39) Dodać ragdoll do ybota +
-40) Eventy w anim granie dźwięków chodzenia
-41) Transform.root +
-42) Event kroki
-43) Krew i inne particle
-44) Gracz upada od strony przeciwnika +
-45) Teleportacja po dłuższej niż ileś zmianie pozycji +
-46) Ustawienia; volume, show gui, fps
-47) change Weapon.rock.damage to specific weapon +
-48) Pause menu w czasie died +
-49) Naprawić collidery +
-50) Buffered wyeliminować
-51) 3d player sounds +
-52) Naprawić podnoszenie rąk +
-53) Spawn miejsca
-54) Headshoty itp
-55) Fix braku możliwości popychania ragdolla i jego rozszczepienia podczas popychania
-56) Kompatybilność zapisów
+Przeciwnik pająk
+Zwierzę wilk
+Atak (zwierzęta, przeciwnicy)
+Prace
+Budowanie domu (każdy gracz ma swoją działkę na serwerze, są one symetrycznie wydzielone)
+Generowanie terenu
+Jedzenie
+Wypadanie poza mapę
+PvP (pokazuj liczbę śmierci obu stron w czasie sesji)
+Ścinanie drzewa
+Anticheat
+Strzelanie podczas lotu
+Wchodzenie na górę zablokować
+Broń biała
+Eventy w anim granie dźwięków chodzenia
+Krew i inne particle
+Ustawienia; volume, show gui, fps
+Spawn miejsca
+Kompatybilność zapisów
 
 
+
+Done:
+Fix braku możliwości popychania ragdolla i jego rozszczepienia podczas popychania +
+Headshoty itp +
+Naprawić podnoszenie rąk +
+Buffered wyeliminować +
+change Weapon.rock.damage to specific weapon +
+Pause menu w czasie died +
+Naprawić collidery +
+Broń kamieniem - bardzo droga +
+3d player sounds +
+Gracz upada od strony przeciwnika +
+Teleportacja po dłuższej niż ileś zmianie pozycji +
+Transform.root +
+Dodać ragdoll do ybota +
+Fix hiding the crosshair while moving +
+Celownik +
+Nowy teren +
+Naprawić dziurawe collidery +
+Usunąć reset ragdolla +
+Nickname nad głową +
+Zmienić instantiate broni na photon +
+Blokada tych samych nicków +
+Efekt śmierci; respawn + tracenie rzeczy +
+Animacja spadania i lądowania +
+Dźwięki chodzenia +
+Zmiana Image na RawImage przy broniach +
+Strzał kamieniem +
+Implementacja multiplayera +
+Życie +
+Menu pauzy +
+Menu główne +
+Zapis gry +
+Model postaci + animacje +
+Movement, mouse look +
+Import terenu +
+Bronie +
+Zmiana broni +
+
+
+Notes:
 Mnożenie przez x*Time.deltatime przy += oznacza, że dany parametr będzie wzrastał x na sekundę
 https://doc.photonengine.com/en-us/realtime/current/connection-and-authentication/tcp-and-udp-port-numbers
 Cannot send op: 228 Not connected. PeerState: Disconnected
