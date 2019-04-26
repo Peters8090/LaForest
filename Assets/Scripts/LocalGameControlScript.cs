@@ -63,6 +63,8 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         if (UsefulReferences.playerMovement.moving && !UsefulReferences.playerWeapons.nonAnimWeapon) 
         {
             UsefulReferences.playerWeapons.unarmed = true;
+            if(!UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Movement") && !UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                UsefulReferences.playerAnimator.Play("Movement");
         }
     }
 

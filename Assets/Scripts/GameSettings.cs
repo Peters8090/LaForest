@@ -55,7 +55,9 @@ public class GameSettings : MonoBehaviour
         graphicsDropdown.value = graphicsIndex;
         volumeSlider.value = volume;
         nickInputField.text = nick;
-        
+
+        Refresh();
+
         if(!loaded)
             gameObject.SetActive(false);
 
@@ -150,27 +152,27 @@ public class GameSettings : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns list of resolutions, which have the highest possible refresh rate due to Unity 2018.3.0f2 bug (Screen.resolutions returns resolutions with different refresh rates, but same width and height, so we get duplicates of resolutions differenting from others just refresh rate)
+    /// Returns a list of resolutions, which have the highest possible refresh rate due to Unity 2018.3.0f2 bug (Screen.resolutions returns resolutions with different refresh rates, but same width and height, so we get duplicates of resolutions differenting from others just refresh rate)
     /// </summary>
     /// <returns></returns>
     Resolution[] GetAvailableResolutions()
     {
         //first list of resolutions, that includes all refresh rates
-        List<Resolution> resList = new List<Resolution>();
+        List<Resolution> resList1 = new List<Resolution>();
         //list of resolutions, that includes highest refresh rates
         List<Resolution> resList2 = new List<Resolution>();
         //list without any duplicates (to eliminate any resolution duplicates, which appeared for no reason)
         List<Resolution> resList3 = new List<Resolution>();
 
         //set the resList equal to screen resolutions which includes all refresh rates
-        resList = Screen.resolutions.ToList();
+        resList1 = Screen.resolutions.ToList();
         
-        foreach (var item in resList)
+        foreach (var item in resList1)
         {
             //we create new list of resolutions, that will include same resolutions with different refresh rates
             List<Resolution> resolutions = new List<Resolution>();
             //set resolutions equal to all resolutions that have same width and height but different refresh rate
-            resolutions = resList.Where(r => r.width == item.width && r.height == item.height).ToList();
+            resolutions = resList1.Where(r => r.width == item.width && r.height == item.height).ToList();
             //sort resolutions by refresh rates
             resolutions.OrderBy(a => a.refreshRate);
             //add the resolution with the highest refresh rate in the resolutions list

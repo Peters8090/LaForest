@@ -189,7 +189,7 @@ public class PlayerMovement : MonoBehaviour
     
     bool GroundCheck()
     {
-        float distance = 1f;
+        float distance = 1.5f;
 
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distance))
         {

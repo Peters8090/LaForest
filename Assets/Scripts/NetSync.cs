@@ -39,6 +39,7 @@ public class NetSync : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(transform.rotation);
             stream.SendNext(UsefulReferences.playerAnimator.GetFloat("VelX"));
             stream.SendNext(UsefulReferences.playerAnimator.GetFloat("VelY"));
+            stream.SendNext(UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Movement"));
             stream.SendNext(UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"));
             stream.SendNext(UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"));
             stream.SendNext(UsefulReferences.playerDeath.died);
@@ -55,6 +56,7 @@ public class NetSync : MonoBehaviourPunCallbacks, IPunObservable
             targetRot = (Quaternion)stream.ReceiveNext();
             myAnimator.SetFloat("VelX", (float)stream.ReceiveNext());
             myAnimator.SetFloat("VelY", (float)stream.ReceiveNext());
+            if ((bool)stream.ReceiveNext() && !myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Movement")) myAnimator.Play("Movement");
             if ((bool)stream.ReceiveNext() && !myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump")) myAnimator.Play("Jump");
             if ((bool)stream.ReceiveNext() && !myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) myAnimator.Play("Attack");
             GetComponent<PlayerRagdoll>().died = (bool)stream.ReceiveNext();

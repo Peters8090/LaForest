@@ -19,8 +19,9 @@ public class Axe : MonoBehaviourPunCallbacks
     {
         if (Input.GetButtonDown("Fire1") && UsefulReferences.playerWeapons.canAttack && !UsefulReferences.playerWeapons.isAttacking)
         {
-            scanning = true;
             UsefulReferences.playerAnimator.Play("Attack");
+            Invoke("StartScanning", 0.83f);
+            //invoke the method in 0.83 seconds, which is time after which the axe becomes dangerous (swing is before 0.83 seconds)
         }
 
         //If player is attacking axe and (it hasn't hit anything, what could be damaged by axe (variable scanning is true)), then we use raycast to detect the objects hitting the axe
@@ -57,5 +58,13 @@ public class Axe : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    void StartScanning()
+    {
+        if (UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            scanning = true;
+        else
+            return;
     }
 }
