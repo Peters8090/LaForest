@@ -57,7 +57,7 @@ public class Sword : MonoBehaviourPunCallbacks
                                     weaponDamage *= Weapon.hitboxDamageMultiplier[hitGO.name];
                                 }
                                 //we subtract damage from shot player's health
-                                hitGORoot.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(hitGORoot), weaponDamage, UsefulReferences.player.transform.forward);
+                                hitGORoot.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(hitGORoot), weaponDamage, UsefulReferences.player.transform.forward, other.name);
                                 hitGORoot.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
                             }
                             scanning = false;

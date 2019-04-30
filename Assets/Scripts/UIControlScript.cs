@@ -6,6 +6,7 @@ public class UIControlScript : MonoBehaviour
 {
     GameObject framerateUI;
     public GameObject[] gui;
+    
 
     void Start()
     {
@@ -28,16 +29,7 @@ public class UIControlScript : MonoBehaviour
         
         foreach(var element in gui)
         {
-            if (GameSettings.showGUI)
-            {
-                //to enable the canvas
-                element.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-            }
-            else
-            {
-                //to disable the canvas
-                element.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
-            }
+            element.GetComponent<Canvas>().enabled = GameSettings.showGUI;
         }
     }
 }

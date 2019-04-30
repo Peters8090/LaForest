@@ -15,13 +15,13 @@ public class UsefulMethods
     /// <param name="parent"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    public static GameObject FindChild(GameObject parent, string name)
+    public static Transform FindChild(Transform parent, string name)
     {
         foreach (var child in parent.GetComponentsInChildren<Transform>())
         {
             if(child.name == name)
             {
-                return child.gameObject;
+                return child;
             }
         }
         return null;

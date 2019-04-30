@@ -63,11 +63,6 @@ public class GameSettings : MonoBehaviour
 
         loaded = true;
     }
-
-    void Update()
-    {
-        
-    }
     
     public void Volume(float volume)
     {

@@ -95,7 +95,7 @@ public class Axe : MonoBehaviourPunCallbacks
                                     axeDamage *= Weapon.hitboxDamageMultiplier[hitGO.name];
                                 }
                                 //we subtract damage from shot player's health
-                                hitGORoot.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(hitGORoot), axeDamage, UsefulReferences.player.transform.forward);
+                                hitGORoot.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(hitGORoot), axeDamage, UsefulReferences.player.transform.forward, other.name);
                                 hitGORoot.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
                             }
                             scanning = false;

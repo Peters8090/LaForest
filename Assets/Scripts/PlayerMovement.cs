@@ -6,7 +6,6 @@ using System.Linq;
 public class PlayerMovement : MonoBehaviour
 {
     bool running = false;
-    bool justJumped = false;
     bool jumped = false;
     public bool movementLocked = false;
     public bool mouseLookLocked = false;
@@ -17,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     float playerY = 0f;
     float movingSpeed = 10f;
     float runningSpeed = 15f;
-    float accMaxSpeed = 0f;
+    float curMaxSpeed = 0f;
     float jumpHeight = 5f;
     float mouseSensitivity = 3f;
     float mouseSensitivityDefaultValue;
@@ -56,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        isGrounded = GroundCheck();
+        isGrounded = cc.isGrounded;
         
         if (mouseLookLocked)
             mouseSensitivity = 0f;
@@ -130,22 +129,22 @@ public class PlayerMovement : MonoBehaviour
         if (running)
         {
             if(slowDown)
-                accMaxSpeed = runningSpeed / 2;
+                curMaxSpeed = runningSpeed / 2;
             else
-                accMaxSpeed = runningSpeed;
+                curMaxSpeed = runningSpeed;
         }
         else
         {
             if (slowDown)
-                accMaxSpeed = movingSpeed / 2;
+                curMaxSpeed = movingSpeed / 2;
             else
-                accMaxSpeed = movingSpeed;
+                curMaxSpeed = movingSpeed;
         }
 
         if (!movementLocked)
         {
-            movementY = Input.GetAxis("Vertical") * accMaxSpeed;
-            movementX = Input.GetAxis("Horizontal") * accMaxSpeed;
+            movementY = Input.GetAxis("Vertical") * curMaxSpeed;
+            movementX = Input.GetAxis("Horizontal") * curMaxSpeed;
         }
         else
         {
@@ -159,7 +158,6 @@ public class PlayerMovement : MonoBehaviour
             animator.Play("Jump");
             audioSource.Stop();
             UsefulReferences.playerSounds.PlaySound(jumpingSound);
-            justJumped = true;
             jumped = true;
         }
 
@@ -171,23 +169,23 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //moving = animator.GetCurrentAnimatorStateInfo(0).IsName("Movement") && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Idle";
-        moving = cc.velocity.magnitude > 0.5f;
+        moving = cc.velocity.magnitude > 1f;
 
+
+        if(!moving)
+        {
+            animator.SetFloat("VelX", 0);
+            animator.SetFloat("VelY", 0);
+        }
+        
         //move the player
         Vector3 move = new Vector3(movementX, playerY, movementY);
         move = transform.rotation * move;
-
+        
         cc.Move(move * Time.deltaTime);
 
         //to detect if we landed in the next frame
         prevIsGrounded = isGrounded;
-
-        //to prevent situation in which the jump didn't increase the above ground height and the game will think that the player hasn't landed although is on the ground (prevGrounded wasn't false). So let's make the game in the next frame think that we have just landed
-        if (justJumped)
-        {
-            prevIsGrounded = false;
-            justJumped = false;
-        }
     }
 
     void FixedUpdate()
@@ -217,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (cc.velocity.sqrMagnitude > 0 && (movementX != 0 || movementY != 0))
         {
-            m_StepCycle += (cc.velocity.magnitude + (accMaxSpeed * (!running ? 1f : m_RunstepLenghten))) * Time.fixedDeltaTime;
+            m_StepCycle += (cc.velocity.magnitude + (curMaxSpeed * (!running ? 1f : m_RunstepLenghten))) * Time.fixedDeltaTime;
         }
 
         if (!(m_StepCycle > m_NextStep) || !isGrounded)
@@ -227,7 +225,8 @@ public class PlayerMovement : MonoBehaviour
 
         m_NextStep = m_StepCycle + m_StepInterval;
 
-        PlayFootStepSounds();
+        if(moving)
+            PlayFootStepSounds();
     }
 
     //for PlayFootstepSounds method to check which once it is executed

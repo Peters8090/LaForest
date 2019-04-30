@@ -65,8 +65,10 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    List<GameObject> bloodParticlesList = new List<GameObject>();
+
     [PunRPC]
-    public void TakeDamage(float damage, Vector3 ?dir2Fall)
+    public void TakeDamage(float damage, Vector3 ?dir2Fall, string hitBoneName)
     {
         if(health > minHealth)
             health -= damage;
@@ -74,10 +76,20 @@ public class PlayerHealth : MonoBehaviour
         {
             UsefulReferences.playerRagdoll.dir2Fall = dir2Fall;
         }
+        GameObject bloodParticlesGO = PhotonNetwork.Instantiate("Blood", Vector3.zero, Quaternion.identity);
+        bloodParticlesList.Add(bloodParticlesGO);
+        bloodParticlesGO.GetPhotonView().RPC("SetupMyself", RpcTarget.All, hitBoneName);
     }
 
     public void Regenerate()
     {
         health = maxHealth;
+        foreach (var element in bloodParticlesList)
+        {
+            if(element != null)
+            {
+                element.GetComponent<BloodParticles>().timer = element.GetComponent<BloodParticles>().maxTimer;
+            }
+        }
     }
 }
