@@ -21,11 +21,12 @@ public class Axe : MonoBehaviourPunCallbacks
         {
             UsefulReferences.playerAnimator.Play("Attack");
             Invoke("StartScanning", 0.83f);
-            //invoke the method in 0.83 seconds, which is time after which the axe becomes dangerous (swing is before 0.83 seconds)
+            //invoke the method in 0.83 seconds, which is the time after which axe becomes dangerous (swing is before 0.83 seconds)
         }
 
+        #region TODO:Delete
         //If player is attacking axe and (it hasn't hit anything, what could be damaged by axe (variable scanning is true)), then we use raycast to detect the objects hitting the axe
-        if(scanning)
+        /*if(scanning)
         {
             if (UsefulReferences.playerWeapons.isAttacking)
             {
@@ -57,14 +58,51 @@ public class Axe : MonoBehaviourPunCallbacks
                     }
                 }
             }
-        }
+        }*/
+
+        #endregion
     }
 
     void StartScanning()
     {
         if (UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             scanning = true;
-        else
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.transform.root == UsefulReferences.player) //if the weapon accidentally touched its owner's body, return
             return;
+
+        if(scanning)
+        {
+            if(UsefulReferences.playerWeapons.isAttacking)
+            {
+                GameObject hitGO = other.gameObject;
+                GameObject hitGORoot = other.transform.root.gameObject;
+
+                switch (hitGORoot.tag)
+                {
+                    case "Player":
+                        {
+                            if (hitGORoot != UsefulReferences.player)
+                            {
+                                float axeDamage = Weapon.weaponDamages()[Weapon.WeaponType.Axe];
+
+                                //if the rock hit a sensitive place, f.e. head, the damage will be increased
+                                if (Weapon.hitboxDamageMultiplier.ContainsKey(hitGO.name))
+                                {
+                                    axeDamage *= Weapon.hitboxDamageMultiplier[hitGO.name];
+                                }
+                                //we subtract damage from shot player's health
+                                hitGORoot.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(hitGORoot), axeDamage, UsefulReferences.player.transform.forward);
+                                hitGORoot.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
+                            }
+                            scanning = false;
+                            break;
+                        }
+                }
+            }
+        }
     }
 }

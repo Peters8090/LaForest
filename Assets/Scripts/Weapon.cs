@@ -4,92 +4,76 @@ using System.Collections.Generic;
 public class Weapon
 {
     /// <summary>
-    /// Returns actual damage (including weapon upgrades) of any game weapon
+    /// Enum with weapon types
     /// </summary>
-    /// <returns></returns>
-    public static Dictionary<WeaponType, float> weaponDamages()
-    {
-        Dictionary<WeaponType, float> returnDictionary = new Dictionary<WeaponType, float>() { { WeaponType.Axe, 20f }, { WeaponType.Flashlight, 5f }, { WeaponType.Rock, 12.5f }, { WeaponType.Sword, 30f } };
-        
-        //here changes like weapon upgrades
-
-        return returnDictionary;
-    }
-
-    public static Dictionary<string, float> hitboxDamageMultiplier = new Dictionary<string, float>() { { "mixamorig:Head", 4f } };
-    
-
-
-    /*
-    #region weapon templates
-
-    /// <summary>
-    /// Returns an axe template
-    /// </summary>
-    /// <returns></returns>
-    public static Weapon axeTemplate()
-    {
-        return new Weapon(WeaponType.Axe, 10f);
-    }
-
-    /// <summary>
-    /// Returns an flashlight template
-    /// </summary>
-    /// <returns></returns>
-    public static Weapon flashlightTemplate()
-    {
-        return new Weapon(WeaponType.Flashlight, 5f);
-    }
-
-    /// <summary>
-    /// Returns an sword template
-    /// </summary>
-    /// <returns></returns>
-    public static Weapon swordTemplate()
-    {
-        return new Weapon(WeaponType.Sword, 20f);
-    }
-
-    /// <summary>
-    /// Returns an rock template
-    /// </summary>
-    /// <returns></returns>
-    public static Weapon rockTemplate()
-    {
-        return new Weapon(WeaponType.Rock, 10f);
-    }
-
-    #endregion
-    */
-
-    public string name;
-    public float damage;
-    public Texture2D image;
-    public WeaponType weaponType;
-    public int weaponObjPvID;
-
     public enum WeaponType
     {
         Axe, Flashlight, Sword, Rock
     }
 
+    #region WeaponTools
+    
+
+    /// <summary>
+    /// Key is the hit bone name, value is the multiplier of the damage (this Dictionary can be used to recognize sensitive places of player's body f.e. head
+    /// </summary>
+    public static Dictionary<string, float> hitboxDamageMultiplier = new Dictionary<string, float>() { { "mixamorig:Head", 4f } };
+    
+    /// <summary>
+    /// Array of weapons, which don't play any animation
+    /// </summary>
+    public static WeaponType[] nonAnimWeapons = new WeaponType[1] { WeaponType.Rock };
+
+
+    #endregion
+
+    #region WeaponParameters
+
+
+    /// <summary>
+    /// Returns actual damage (including weapon upgrades) of any game weapon
+    /// </summary>
+    /// <returns></returns>
+    public static Dictionary<WeaponType, float> weaponDamages()
+    {
+        Dictionary<WeaponType, float> damages = new Dictionary<WeaponType, float>() { { WeaponType.Axe, 20f }, { WeaponType.Flashlight, 5f }, { WeaponType.Rock, 12.5f }, { WeaponType.Sword, 40f } };
+        //here changes like weapon upgrades
+        return damages;
+    }
+    
+
+    #endregion
+    
+    /// <summary>
+    /// Name of the weapon
+    /// </summary>
+    public string name;
+
+    /// <summary>
+    /// Type of the weapon
+    /// </summary>
+    public WeaponType weaponType;
+
+    /// <summary>
+    /// PhotonView ID of component attached to the gameObject of weapon
+    /// </summary>
+    public int weaponObjPvID;
+    
     public string Serialize()
     {
-        return ((int)weaponType).ToString() + "," + damage.ToString() + "," + weaponObjPvID.ToString();
+        return ((int)weaponType).ToString() + "," + weaponObjPvID.ToString();
     }
 
     public static Weapon Deserialize(string serializedWeapon)
     {
         string[] weaponParams = serializedWeapon.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
-        return new Weapon((WeaponType)int.Parse(weaponParams[0]), float.Parse(weaponParams[1]), int.Parse(weaponParams[2]));
+        return new Weapon((WeaponType)int.Parse(weaponParams[0]), int.Parse(weaponParams[1]));
     }
 
-    public Weapon(WeaponType weaponType, float damage, int weaponObjPvID)
+    public Weapon(WeaponType weaponType, int weaponObjPvID)
     {
-        this.weaponType = weaponType;
         this.name = weaponType.ToString();
-        this.damage = (float)damage;
+        this.weaponType = weaponType;
         this.weaponObjPvID = weaponObjPvID;
-        image = (Texture2D)Resources.Load(name + "Img");
     }
 }

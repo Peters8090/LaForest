@@ -6,6 +6,7 @@ using System.Linq;
 public class PlayerMovement : MonoBehaviour
 {
     bool running = false;
+    bool justJumped = false;
     bool jumped = false;
     public bool movementLocked = false;
     public bool mouseLookLocked = false;
@@ -152,16 +153,17 @@ public class PlayerMovement : MonoBehaviour
             movementY = 0f;
         }
         
-        if (isGrounded && Input.GetButton("Jump") && !movementLocked && !jumped)
+        if (isGrounded && cc.isGrounded && Input.GetButton("Jump") && !movementLocked && !jumped)
         {
             playerY = jumpHeight;
             animator.Play("Jump");
             audioSource.Stop();
             UsefulReferences.playerSounds.PlaySound(jumpingSound);
+            justJumped = true;
             jumped = true;
-
         }
-        else if (!isGrounded)
+
+        if (!isGrounded)
         {
             playerY += Physics.gravity.y * Time.deltaTime;
             animator.SetFloat("VelX", 0);
@@ -179,6 +181,13 @@ public class PlayerMovement : MonoBehaviour
 
         //to detect if we landed in the next frame
         prevIsGrounded = isGrounded;
+
+        //to prevent situation in which the jump didn't increase the above ground height and the game will think that the player hasn't landed although is on the ground (prevGrounded wasn't false). So let's make the game in the next frame think that we have just landed
+        if (justJumped)
+        {
+            prevIsGrounded = false;
+            justJumped = false;
+        }
     }
 
     void FixedUpdate()

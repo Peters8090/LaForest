@@ -51,9 +51,12 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
 
     void Aiming()
     {
-        if (!UsefulReferences.playerWeapons.unarmed)
+        if(Input.GetButton("Fire2")) //aiming hotkey
         {
-            UsefulReferences.crosshairUI.SetActive(true);
+            if (!UsefulReferences.playerWeapons.unarmed)
+            {
+                UsefulReferences.crosshairUI.SetActive(true);
+            }
         }
     }
 

@@ -27,9 +27,6 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     /// This variable is true when player holds a weapon which doesn't play any animation, otherwise it is equal to false; we can use it to detect whether current weapon can disturb the animation we want to play or is playing
     /// </summary>
     public bool nonAnimWeapon = false;
-
-    //array of weapons, which don't play any animation
-    Weapon.WeaponType[] nonAnimWeapons = new Weapon.WeaponType[1] { Weapon.WeaponType.Rock };
     
     Texture2D axeImgTexture;
     Texture2D flashlightImgTexture;
@@ -50,7 +47,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
         isAttacking = UsefulReferences.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
 
         //if current weapon doesn't play any animation, nonAnimWeapon is equal to true, otherwise false
-        nonAnimWeapon = nonAnimWeapons.Contains(weapons[weaponIndex]);
+        nonAnimWeapon = Weapon.nonAnimWeapons.Contains(weapons[weaponIndex]);
 
         if(unarmed)
         {
@@ -91,7 +88,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
             {
                 GameObject go = PhotonNetwork.Instantiate(weapons[weaponIndex].ToString(), Vector3.zero, Quaternion.identity);
                 accWeaponMB = go.GetComponent<WeaponMB>();
-                accWeaponMB.weapon = new Weapon(weapons[weaponIndex], Weapon.weaponDamages()[weapons[weaponIndex]], go.GetPhotonView().ViewID);
+                accWeaponMB.weapon = new Weapon(weapons[weaponIndex], go.GetPhotonView().ViewID);
                 photonView.RPC("SetWeapon", RpcTarget.All, accWeaponMB.weapon.Serialize());
             }
         }
@@ -107,7 +104,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
             return;
         }
         //get the viewID from the serializedWeapon (to get the spawned weapon)
-        int viewID = int.Parse(serializedWeapon.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries)[2]);
+        int viewID = Weapon.Deserialize(serializedWeapon).weaponObjPvID;
         PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().weapon = Weapon.Deserialize(serializedWeapon);
         PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().SetMyWeapon();
     }
