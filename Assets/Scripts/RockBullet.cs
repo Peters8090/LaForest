@@ -46,28 +46,32 @@ public class RockBullet : MonoBehaviourPunCallbacks, IPunObservable
         OnCollision(collision.gameObject);
     }
 
-    void OnCollision(GameObject collision)
+    void OnCollision(GameObject hitGO)
     {
         //attacker can shot the player model, his weapon or something else, so we need transform.root
-        GameObject hitPlayer;
-        hitPlayer = collision.transform.root.gameObject;
+        GameObject hitGORoot;
+        hitGORoot = hitGO.transform.root.gameObject;
         //only attacker can do things below
-        if (GetComponent<PhotonView>() && hitPlayer.GetComponent<PhotonView>() && isDangerous)
+        if (GetComponent<PhotonView>() && hitGORoot.GetComponent<PhotonView>() && isDangerous)
         {
             if (photonView.IsMine)
             {
-                if (hitPlayer.tag == "Player" && hitPlayer != UsefulReferences.player)
+                switch(hitGORoot.tag)
                 {
-                    float weaponDamage = Weapon.weaponDamages()[Weapon.WeaponType.Rock];
+                    case "Player":
+                        if (hitGORoot != UsefulReferences.player && hitGO.GetComponent<WeaponMB>() == null)
+                        {
+                            float weaponDamage = Weapon.weaponDamages()[Weapon.WeaponType.Rock];
 
-                    //if the rock hit a sensitive place, f.e. head, the damage will be increased
-                    if (Weapon.hitboxDamageMultiplier.ContainsKey(collision.name))
-                    {
-                        weaponDamage *= Weapon.hitboxDamageMultiplier[collision.name];
-                    }
-                    //we subtract damage from shot player's health
-                    hitPlayer.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(hitPlayer), weaponDamage, UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f, collision.name);
-                    hitPlayer.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
+                            //if the rock hit a sensitive place, f.e. head, the damage will be increased
+                            if (Weapon.hitboxDamageMultiplier.ContainsKey(hitGO.name))
+                            {
+                                weaponDamage *= Weapon.hitboxDamageMultiplier[hitGO.name];
+                            }
+                            //we subtract damage from shot player's health
+                            hitGORoot.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(hitGORoot), weaponDamage, UsefulReferences.player.transform.forward * Rock.speed * ((GameObject)Resources.Load("RockBullet")).GetComponent<Rigidbody>().mass * 1000f, hitGO.name);
+                        }
+                        break;
                 }
             }
         }

@@ -5,7 +5,9 @@ using Photon.Pun;
 
 public class BloodParticles : MonoBehaviour
 {
+    [HideInInspector]
     public float timer = 0;
+    [HideInInspector]
     public float maxTimer = 3f;
     
     void Update()
@@ -16,7 +18,7 @@ public class BloodParticles : MonoBehaviour
     }
 
     [PunRPC]
-    void SetupMyself(string hitBoneName, PhotonMessageInfo pmi)
+    void SetUpMyself(string hitBoneName, PhotonMessageInfo pmi)
     {
         if (hitBoneName == "ybot" || hitBoneName == PlayerInfo.FindPlayerInfoByPP(pmi.Sender).gameObject.name)
             hitBoneName = "mixamorig:Spine";

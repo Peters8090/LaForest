@@ -70,7 +70,7 @@ public class MultiplayerGameControlScript : MonoBehaviourPunCallbacks
         PlayerInfo.players = new List<PlayerInfo>();
         loading = false;
         if (!onlyDisconnect)
-            UsefulReferences.localGameControlObject.GetComponent<MainMenu>().SetGame(true);
+            UsefulReferences.localGameControlObject.GetComponent<MainMenu>().SetUpGame(true);
     }
 
     public override void OnConnectedToMaster()
@@ -146,7 +146,7 @@ public class MultiplayerGameControlScript : MonoBehaviourPunCallbacks
         for (int i = 0; i < serializedPlayers.Length; i++)
         {
             //set last held weapon by another player
-            PhotonView.Find(playerPvID[i]).gameObject.GetComponent<PlayerWeapons>().SetWeapon(curWeaponSerialized[i]);
+            PhotonView.Find(playerPvID[i]).gameObject.GetComponent<PlayerWeapons>().SetUpWeapon(curWeaponSerialized[i]);
         }
     }
 
@@ -166,7 +166,7 @@ public class MultiplayerGameControlScript : MonoBehaviourPunCallbacks
         if (newPP == PhotonNetwork.LocalPlayer) //if we are new on this server
         {
             UsefulReferences.Initialize(newPlayer); //initialize the game
-            UsefulReferences.localGameControlObject.GetComponent<MainMenu>().SetGame(false); //and disable everything, what could disturb the player while playing
+            UsefulReferences.localGameControlObject.GetComponent<MainMenu>().SetUpGame(false); //and disable everything, what could disturb the player while playing
         }
         else
         {

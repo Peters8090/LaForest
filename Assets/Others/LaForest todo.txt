@@ -21,8 +21,6 @@ Ustawienia; volume, show gui, fps
 Spawn miejsca
 Kompatybilność zapisów
 
-
-
 Done:
 Fix braku możliwości popychania ragdolla i jego rozszczepienia podczas popychania +
 Headshoty itp +
@@ -60,6 +58,9 @@ Movement, mouse look +
 Import terenu +
 Bronie +
 Zmiana broni +
+Trzęsienie się graczy +
+Grounded, not grounded bug +
+Uznawanie broni za część ciała +
 
 
 Notes:

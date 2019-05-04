@@ -21,7 +21,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     /// </summary>
     public bool isAttacking = false;
 
-    public WeaponMB accWeaponMB;
+    public WeaponMB curWeaponMB;
 
     /// <summary>
     /// This variable is true when player holds a weapon which doesn't play any animation, otherwise it is equal to false; we can use it to detect whether current weapon can disturb the animation we want to play or is playing
@@ -74,8 +74,8 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
         //this method can be used both for spawning new weapon and destroying actual weapon (making player unarmed)
         void ChangeWeapon()
         {
-            //we set actual WeaponMB script reference to null, if there is one, we set accWeaponMB to its WeaponMB
-            accWeaponMB = null;
+            //we set actual WeaponMB script reference to null, if there is one, we set curWeaponMB to its WeaponMB
+            curWeaponMB = null;
             
             //to prevent NullReferenceException
             if (eq.transform.childCount > 0)
@@ -87,9 +87,9 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
             if (!unarmed)
             {
                 GameObject go = PhotonNetwork.Instantiate(weapons[weaponIndex].ToString(), Vector3.zero, Quaternion.identity);
-                accWeaponMB = go.GetComponent<WeaponMB>();
-                accWeaponMB.weapon = new Weapon(weapons[weaponIndex], go.GetPhotonView().ViewID);
-                photonView.RPC("SetWeapon", RpcTarget.All, accWeaponMB.weapon.Serialize());
+                curWeaponMB = go.GetComponent<WeaponMB>();
+                curWeaponMB.weapon = new Weapon(weapons[weaponIndex], go.GetPhotonView().ViewID);
+                photonView.RPC("SetUpWeapon", RpcTarget.All, curWeaponMB.weapon.Serialize());
             }
         }
 
@@ -97,7 +97,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void SetWeapon(string serializedWeapon)
+    public void SetUpWeapon(string serializedWeapon)
     {
         if(serializedWeapon == "unarmed") //this player is unarmed (we set this in PlayerInfo, in SerializePlayer method)
         {
@@ -106,7 +106,7 @@ public class PlayerWeapons : MonoBehaviourPunCallbacks
         //get the viewID from the serializedWeapon (to get the spawned weapon)
         int viewID = Weapon.Deserialize(serializedWeapon).weaponObjPvID;
         PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().weapon = Weapon.Deserialize(serializedWeapon);
-        PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().SetMyWeapon();
+        PhotonNetwork.GetPhotonView(viewID).GetComponent<WeaponMB>().SetUpMyWeapon();
     }
     
     void GetNumberKeys()

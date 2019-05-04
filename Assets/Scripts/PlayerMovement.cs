@@ -37,8 +37,9 @@ public class PlayerMovement : MonoBehaviour
     float m_RunstepLenghten = 1;
     float m_StepInterval = 6;
     public bool isGrounded;
-    public bool prevIsGrounded;
-    
+    bool prevIsGrounded;
+    float delayBetweenGroundCheck = 0.2f;
+
     void Start()
     {
         jumpingSound = (AudioClip)Resources.Load("Jump");
@@ -50,25 +51,31 @@ public class PlayerMovement : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         mainCameraPosRot = GetComponent<UsefulReferencesPlayer>().mainCameraPosRot;
         mouseSensitivityDefaultValue = mouseSensitivity;
+        InvokeRepeating("GroundCheck", 0f, delayBetweenGroundCheck);
     }
-    
-    
-    void Update()
+
+    /// <summary>
+    /// isGrounded variable is updated 1/delayBetweenGroundCheck times per second to prevent problems while player would have been on an irregular surface
+    /// </summary>
+    void GroundCheck()
     {
         isGrounded = cc.isGrounded;
-        
+    }
+
+    void Update()
+    {
         if (mouseLookLocked)
             mouseSensitivity = 0f;
         else
             mouseSensitivity = mouseSensitivityDefaultValue;
         
-        SetMainCameraPosRot();
+        SetMainCamerasPosRot();
         
         mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         mouseY -= Input.GetAxis("Mouse Y") * mouseSensitivity;
         mouseY = Mathf.Clamp(mouseY, -90, 90);
 
-        //Joysticks compatibility
+        //joysticks compatibility
         if (Input.GetAxis("Joystick 4th axis") > 0.22f)
         {
             mouseX = Input.GetAxis("Joystick 4th axis") * mouseSensitivity;
@@ -89,46 +96,13 @@ public class PlayerMovement : MonoBehaviour
 
         transform.Rotate(0, mouseX, 0);
         mainCamera.transform.localRotation = Quaternion.Euler(mouseY, 0, 0);
-
-        if(mouseLookLocked && UsefulReferences.playerDeath.died)
-        {
-            SetMainCameraPosRot();
-        }
-
-        //set the main camera's pos and rot equal to obj's (without setting its parent to head in hips)
-        void SetMainCameraPosRot()
-        {
-            mainCamera.transform.position = new Vector3(mainCameraPosRot.transform.position.x, mainCameraPosRot.transform.position.y, mainCameraPosRot.transform.position.z);
-            mainCamera.transform.rotation = mainCameraPosRot.transform.rotation;
-        }
-
+        
         running = Input.GetButton("Run");
-
-        if (isGrounded)
-        {
-            //player landed
-            if (!prevIsGrounded)
-            {
-                UsefulReferences.playerSounds.PlaySound(landingSound);
-                jumped = false;
-            }
-
-            //if the movement is locked, for example the pause menu is active, we set the player animation to idle (by resetting VelX and VelY)
-            if (!movementLocked)
-            {
-                animator.SetFloat("VelX", Input.GetAxis("Horizontal"));
-                animator.SetFloat("VelY", Input.GetAxis("Vertical"));
-            }
-            else
-            {
-                animator.SetFloat("VelX", 0);
-                animator.SetFloat("VelY", 0);
-            }
-        }
-
+        
+        //make the player move slower, or faster if needed
         if (running)
         {
-            if(slowDown)
+            if (slowDown)
                 curMaxSpeed = runningSpeed / 2;
             else
                 curMaxSpeed = runningSpeed;
@@ -140,28 +114,43 @@ public class PlayerMovement : MonoBehaviour
             else
                 curMaxSpeed = movingSpeed;
         }
-
+        
+        //if the movement is locked, for example the pause menu is active, we set the player animation to idle (by resetting VelX and VelY)
         if (!movementLocked)
         {
+            animator.SetFloat("VelX", Input.GetAxis("Horizontal"));
+            animator.SetFloat("VelY", Input.GetAxis("Vertical"));
             movementY = Input.GetAxis("Vertical") * curMaxSpeed;
             movementX = Input.GetAxis("Horizontal") * curMaxSpeed;
         }
         else
         {
+            animator.SetFloat("VelX", 0);
+            animator.SetFloat("VelY", 0);
             movementX = 0f;
             movementY = 0f;
         }
         
-        if (isGrounded && cc.isGrounded && Input.GetButton("Jump") && !movementLocked && !jumped)
+        if (isGrounded)
         {
-            playerY = jumpHeight;
-            animator.Play("Jump");
-            audioSource.Stop();
-            UsefulReferences.playerSounds.PlaySound(jumpingSound);
-            jumped = true;
-        }
+            //player landed
+            if (!prevIsGrounded)
+            {
+                UsefulReferences.playerSounds.PlaySound(landingSound);
+                jumped = false;
+            }
 
-        if (!isGrounded)
+            //player jumps
+            if (Input.GetButton("Jump") && !movementLocked && !jumped)
+            {
+                playerY = jumpHeight;
+                animator.Play("Jump");
+                audioSource.Stop();
+                UsefulReferences.playerSounds.PlaySound(jumpingSound);
+                jumped = true;
+            }
+        }
+        else
         {
             playerY += Physics.gravity.y * Time.deltaTime;
             animator.SetFloat("VelX", 0);
@@ -193,7 +182,8 @@ public class PlayerMovement : MonoBehaviour
         if(!movementLocked)
             ProgressStepCycle();
     }
-    
+
+    /*
     bool GroundCheck()
     {
         float distance = 1.5f;
@@ -206,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return false;
         }
-    }
+    }*/
 
     /// <summary>
     /// Method from FirstPersonController script from Unity Standard Assets
@@ -227,6 +217,15 @@ public class PlayerMovement : MonoBehaviour
 
         if(moving)
             PlayFootStepSounds();
+    }
+
+    /// <summary>
+    /// Set the main camera's pos and rot equal to mainCameraPosRot's (without setting its parent to head in hips)
+    /// </summary>
+    public void SetMainCamerasPosRot()
+    {
+        mainCamera.transform.position = new Vector3(mainCameraPosRot.transform.position.x, mainCameraPosRot.transform.position.y, mainCameraPosRot.transform.position.z);
+        mainCamera.transform.rotation = mainCameraPosRot.transform.rotation;
     }
 
     //for PlayFootstepSounds method to check which once it is executed

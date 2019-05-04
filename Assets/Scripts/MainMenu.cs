@@ -14,7 +14,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         mainMenuUIObj = GameObject.Find("UI").transform.Find("Main Menu").gameObject;
-        SetGame(true);
+        SetUpGame(true);
 
         //inserts to the dictionary all main menu buttons; play, info, settings, copyrights, exit
         for (int i = 0; i < mainMenuUIObj.transform.Find("Buttons").childCount; i++)
@@ -76,7 +76,7 @@ public class MainMenu : MonoBehaviour
     /// Set all game objects active, to make them not disturb us while main menu is active
     /// </summary>
     /// <param name="how"></param>
-    public void SetGame(bool how)
+    public void SetUpGame(bool how)
     {
         GameObject.Find("UI").transform.Find("Main Menu").gameObject.SetActive(how);
         UsefulReferences.activeWeaponImg.transform.parent.gameObject.SetActive(!how);

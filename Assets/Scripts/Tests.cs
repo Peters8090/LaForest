@@ -19,6 +19,7 @@ public class Tests : MonoBehaviour
             GameObject player;
             player = GameObject.Find("Player");
 
+            //to prevent exceptions from player's scripts
             Behaviour[] scripts = player.GetComponents<Behaviour>();
             Behaviour[] scriptsChildren = player.GetComponentsInChildren<Behaviour>();
             foreach (Behaviour script in scripts)

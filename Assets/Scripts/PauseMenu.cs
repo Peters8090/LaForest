@@ -130,7 +130,7 @@ public class PauseMenu : MonoBehaviour
     }
 
     /// <summary>
-    /// Set main menu panels active (lastly clicked is active)
+    /// Sets main menu panel's active (lastly clicked is active)
     /// </summary>
     /// <param name="panelName"></param>
     void SetPanelsActive(string panelName)

@@ -1,9 +1,7 @@
 using UnityEngine;
- 
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
- 
 using System;
 using System.Runtime.Serialization;
 using System.Reflection;
@@ -30,7 +28,7 @@ public class SaveLoad : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("Save", 1.0f, 0.25f);
+        InvokeRepeating("Save", 0.0f, 0.25f);
     }
 
     void Save()
@@ -51,8 +49,6 @@ public class SaveLoad : MonoBehaviour
             sd.fullscreen = GameSettings.fullscreen;
             sd.nick = GameSettings.nick;
         }
-        
-        //FileSaveLoad.Save();
     }
 }
 

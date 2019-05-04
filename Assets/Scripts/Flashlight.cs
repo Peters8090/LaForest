@@ -47,7 +47,7 @@ public class Flashlight : MonoBehaviourPunCallbacks
                 {
                     case "Player":
                         {
-                            if (hitGORoot != UsefulReferences.player)
+                            if (hitGORoot != UsefulReferences.player && hitGO.GetComponent<WeaponMB>() == null)
                             {
                                 float weaponDamage = Weapon.weaponDamages()[Weapon.WeaponType.Flashlight];
 
@@ -58,7 +58,6 @@ public class Flashlight : MonoBehaviourPunCallbacks
                                 }
                                 //we subtract damage from shot player's health
                                 hitGORoot.GetPhotonView().RPC("TakeDamage", PlayerInfo.FindPPByGO(hitGORoot), weaponDamage, UsefulReferences.player.transform.forward, other.name);
-                                hitGORoot.GetPhotonView().RPC("RestorePlayerModelPosAndRot", RpcTarget.All);
                             }
                             scanning = false;
                             break;

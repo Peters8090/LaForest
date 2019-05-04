@@ -78,7 +78,7 @@ public class PlayerHealth : MonoBehaviour
         }
         GameObject bloodParticlesGO = PhotonNetwork.Instantiate("Blood", Vector3.zero, Quaternion.identity);
         bloodParticlesList.Add(bloodParticlesGO);
-        bloodParticlesGO.GetPhotonView().RPC("SetupMyself", RpcTarget.All, hitBoneName);
+        bloodParticlesGO.GetPhotonView().RPC("SetUpMyself", RpcTarget.All, hitBoneName);
     }
 
     public void Regenerate()

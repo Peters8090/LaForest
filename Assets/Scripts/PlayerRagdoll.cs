@@ -21,6 +21,8 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
     //the attacker transform.forward * power of hit (for example the direction from which we got shot)
     //I set it nullable because it is an easy way to detect whether we have an attacker or not, f.e. player dies of hunger
     public Vector3? dir2Fall = null;
+    
+    float restoringPosRotsDelay = 0.1f;
 
     void Start()
     {
@@ -37,8 +39,7 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
             playerModelDefaultRot.Add(bone.name, bone.localRotation);
         }
         PlayerRegenerates();
-        RestorePlayerModelPosAndRot();
-        InvokeRepeating("RestorePlayerModelPosAndRot", 0, 0.1f);
+        InvokeRepeating("RestorePlayersBonesPosition", 0, restoringPosRotsDelay);
     }
 
     void Update()
@@ -61,10 +62,9 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
     }
     
     /// <summary>
-    /// Use to restore start pos and rot of bones to them unless the bone doesn't exist for example it wasn't a bone, but a weapon
+    /// Use to restore start position of bones to them unless the bone doesn't exist for example it wasn't a bone, but a weapon
     /// </summary>
-    [PunRPC]
-    public void RestorePlayerModelPosAndRot()
+    public void RestorePlayersBonesPosition()
     {
         if (died)
             return;
@@ -78,7 +78,6 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
             if (playerModeldefaultPos.ContainsKey(bone.name) && playerModelDefaultRot.ContainsKey(bone.name))
             {
                 bone.localPosition = playerModeldefaultPos[bone.name];
-                bone.localRotation = playerModelDefaultRot[bone.name];
             }
         }
     }
@@ -94,25 +93,22 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
 
         myAnimator.enabled = true;
 
-        RestorePlayerModelPosAndRot();
-
         if (photonView.IsMine)
         {
             //to make MainCamera not to see what's under the terrain (its position and rotation mustn't depend on ybot's
-            mainCameraPosRot.transform.parent = mainCameraPosRotParent;
+            mainCameraPosRot.transform.SetParent(mainCameraPosRotParent);
             mainCameraPosRot.transform.localPosition = new Vector3(0, 0.31f, 0.32f);
             mainCameraPosRot.transform.localEulerAngles = new Vector3(90, 0, 0);
         }
-        //disable ragdoll by enable the animator
+
+        //disable ragdoll by turning on the animator
         GetComponent<CharacterController>().enabled = true;
         my3dNick.SetActive(true);
-        InvokeRepeating("RestorePlayerModelPosAndRot", 0, 0.1f);
     }
 
     //health: 0
     void PlayerDies()
     {
-        CancelInvoke();
         foreach (var rigidbody in ybotRagdollRigidbodies)
         {
             //make ybot not to shake

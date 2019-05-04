@@ -10,11 +10,13 @@ public class ShowFramerate : MonoBehaviour
     /// </summary>
     float delay = 0.8f;
     int frames = 0;
-    float timer = 0f;
+    float timer = 0;
     Text fpsText;
+    public static int currentFPS = 60;
     
     void Start()
     {
+        timer = delay;
         fpsText = GetComponent<Text>();
     }
     
@@ -25,7 +27,7 @@ public class ShowFramerate : MonoBehaviour
         {
             timer = 0f;
             //convert frames per delay seconds to frames per second
-            fpsText.text = Mathf.RoundToInt(frames / delay).ToString();
+            currentFPS = Mathf.RoundToInt(frames / delay);
             //reset measured frames
             frames = 0;
         }
@@ -33,5 +35,7 @@ public class ShowFramerate : MonoBehaviour
         {
             frames++;
         }
+
+        fpsText.text = currentFPS.ToString();
     }
 }

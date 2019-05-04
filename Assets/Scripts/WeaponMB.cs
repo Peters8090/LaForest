@@ -7,7 +7,7 @@ public class WeaponMB : MonoBehaviourPunCallbacks
 {
     public Weapon weapon;
 
-    public void SetMyWeapon()
+    public void SetUpMyWeapon()
     {
         if (!photonView.IsMine)
         {

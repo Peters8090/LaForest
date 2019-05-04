@@ -39,5 +39,7 @@ MonoBehaviour:
   - PlaySoundRPC
   - ReceiveAnotherPlayers
   - SetupMyself
+  - SetUpMyself
+  - SetUpWeapon
   DisableAutoOpenWizard: 1
   ShowSettings: 1

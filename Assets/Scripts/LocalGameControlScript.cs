@@ -13,7 +13,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
         UsefulReferences.Initialize(null);
     }
 
-    void Update()
+    void LateUpdate()
     {
         //the position is higher, the priority is lower
         if (UsefulReferences.initialized && !global::MainMenu.menu)
@@ -132,6 +132,7 @@ public class LocalGameControlScript : MonoBehaviourPunCallbacks
             UsefulReferences.playerWeapons.unarmed = true;
             UsefulReferences.playerWeapons.canChangeWeapons = false;
             UsefulReferences.healthUI.SetActive(false);
+            UsefulReferences.playerMovement.SetMainCamerasPosRot(); //to make main camera look at the body ragdoll while the mouse look is locked
             global::PauseMenu.canOpenPauseMenu = false;
         }
     }

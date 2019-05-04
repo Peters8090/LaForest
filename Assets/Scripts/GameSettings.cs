@@ -37,7 +37,7 @@ public class GameSettings : MonoBehaviour
         volumeSlider = transform.Find("First column/Volume/Slider").gameObject.GetComponent<Slider>();
         nickInputField = transform.Find("Second column/Nick/NickInputField").gameObject.GetComponent<InputField>();
 
-        SetResolutionDropdown();
+        SetUpResolutionDropdown();
         
         volume = SaveLoad.sd.volume;
         graphicsIndex = SaveLoad.sd.graphicsIndex;
@@ -123,7 +123,7 @@ public class GameSettings : MonoBehaviour
     /// <summary>
     /// Add resolutions to the resolution dropdown
     /// </summary>
-    void SetResolutionDropdown()
+    void SetUpResolutionDropdown()
     {
         int currentResolutionIndex = 0;
         resolutions = GetAvailableResolutions();
