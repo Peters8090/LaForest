@@ -7,16 +7,14 @@ using System.Linq;
 
 public class GameSettings : MonoBehaviour
 {
-    public static float volume = 1f;
-    public static int graphicsIndex = 3;
-    public static int resolutionIndex = 0;
-    public static bool showGUI = true;
-    public static bool showFPS = false;
-    public static bool fullscreen = true;
-    public static string nick = "";
-
-    public static bool loaded = false;
-
+    public static float volume;
+    public static int graphicsIndex;
+    public static int resolutionIndex;
+    public static bool showGUI;
+    public static bool showFPS;
+    public static bool fullscreen;
+    public static string nick;
+    
     Toggle showGUIToggle;
     Toggle showFPSToggle;
     Toggle fullscreenToggle;
@@ -58,10 +56,7 @@ public class GameSettings : MonoBehaviour
 
         Refresh();
 
-        if(!loaded)
-            gameObject.SetActive(false);
-
-        loaded = true;
+        gameObject.SetActive(false);
     }
     
     public void Volume(float volume)

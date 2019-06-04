@@ -15,21 +15,36 @@ public class UIControlScript : MonoBehaviour
     
     void Update()
     {
+        //for instance when main menu is not active
         if (!UsefulReferences.initialized)
         {
             framerateUI.SetActive(false);
             return;
         }
 
-        if(!PauseMenu.menu)
+        #region ShowFPS
+
+        if (!PauseMenu.menu)
         {
             framerateUI.SetActive(GameSettings.showFPS);
         } else
             framerateUI.SetActive(false);
-        
-        foreach(var element in gui)
+
+        #endregion
+
+        #region ShowGUI
+
+        //disable the canvas component in all gui gameObjects (because we can't change the gameObject's active)
+        foreach (var canvas in gui)
         {
-            element.GetComponent<Canvas>().enabled = GameSettings.showGUI;
+            canvas.GetComponent<Canvas>().enabled = GameSettings.showGUI;
         }
+
+        foreach(var player3dText in GameObject.FindObjectsOfType<PlayerNickTextMesh>())
+        {
+            player3dText.gameObject.GetComponent<MeshRenderer>().enabled = GameSettings.showGUI;
+        }
+
+        #endregion
     }
 }

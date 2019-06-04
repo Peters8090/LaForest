@@ -9,19 +9,17 @@ Budowanie domu (każdy gracz ma swoją działkę na serwerze, są one symetryczn
 Generowanie terenu
 Jedzenie
 Wypadanie poza mapę
-PvP (pokazuj liczbę śmierci obu stron w czasie sesji)
 Ścinanie drzewa
 Anticheat
-Strzelanie podczas lotu
-Wchodzenie na górę zablokować
-Broń biała
-Eventy w anim granie dźwięków chodzenia
-Krew i inne particle
-Ustawienia; volume, show gui, fps
 Spawn miejsca
 Kompatybilność zapisów
 
 Done:
+Broń biała +
+Strzelanie podczas lotu +
+Wchodzenie na górę zablokować +
+Krew i inne particle +
+Ustawienia; volume, show gui, fps +
 Fix braku możliwości popychania ragdolla i jego rozszczepienia podczas popychania +
 Headshoty itp +
 Naprawić podnoszenie rąk +

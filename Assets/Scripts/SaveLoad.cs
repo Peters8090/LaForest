@@ -12,63 +12,55 @@ public class SaveLoad : MonoBehaviour
 
     void Awake()
     {
-        if(!FileSaveLoad.Load())
+        if (!FileSaveLoad.Load())
         {
             sd = new SaveData();
-            sd.volume = GameSettings.volume;
-            sd.graphicsIndex = GameSettings.graphicsIndex;
-            sd.resolutionIndex = GameSettings.resolutionIndex;
-            sd.showGUI = GameSettings.showGUI;
-            sd.showFPS = GameSettings.showFPS;
-            sd.fullscreen = GameSettings.fullscreen;
-            sd.nick = GameSettings.nick;
-            sd.health = 100f;
         }
     }
 
     void Start()
     {
-        InvokeRepeating("Save", 0.0f, 0.25f);
+        InvokeRepeating("Save", 1.0f, 0.25f);
     }
 
     void Save()
     {
-        FileSaveLoad.Save();
-    }
+        sd.volume = GameSettings.volume;
+        sd.graphicsIndex = GameSettings.graphicsIndex;
+        sd.resolutionIndex = GameSettings.resolutionIndex;
+        sd.showGUI = GameSettings.showGUI;
+        sd.showFPS = GameSettings.showFPS;
+        sd.fullscreen = GameSettings.fullscreen;
+        sd.nick = GameSettings.nick;
 
-
-    void Update()
-    {
-        if(GameSettings.loaded)
+        if (UsefulReferences.initialized)
         {
-            sd.volume = GameSettings.volume;
-            sd.graphicsIndex = GameSettings.graphicsIndex;
-            sd.resolutionIndex = GameSettings.resolutionIndex;
-            sd.showGUI = GameSettings.showGUI;
-            sd.showFPS = GameSettings.showFPS;
-            sd.fullscreen = GameSettings.fullscreen;
-            sd.nick = GameSettings.nick;
+            sd.health = UsefulReferences.playerHealth.health;
         }
+
+        FileSaveLoad.Save();
     }
 }
 
-[Serializable ()]
+[Serializable()]
 public class SaveData : ISerializable
 {
-    public float volume;
-    public int graphicsIndex;
-    public int resolutionIndex;
-    public bool showGUI;
-    public bool showFPS;
-    public bool fullscreen;
-    public string nick;
-    public float health;
-
+    //default values
+    public float volume = 1f;
+    public int graphicsIndex = 3;
+    public int resolutionIndex = 0;
+    public bool showGUI = true;
+    public bool showFPS = false;
+    public bool fullscreen = true;
+    public string nick = "";
+    public float health = 100f;
+    
     public SaveData() { }
 
+    //assigning variables data from info (loading data)
     public SaveData(SerializationInfo info, StreamingContext ctxt)
     {
-		volume = (float)info.GetValue("volume", typeof(float));
+        volume = (float)info.GetValue("volume", typeof(float));
         graphicsIndex = (int)info.GetValue("graphicsIndex", typeof(int));
         resolutionIndex = (int)info.GetValue("resolutionIndex", typeof(int));
         showGUI = (bool)info.GetValue("showGUI", typeof(bool));
@@ -77,31 +69,33 @@ public class SaveData : ISerializable
         nick = (string)info.GetValue("nick", typeof(string));
         health = (float)info.GetValue("health", typeof(float));
     }
- 
+
+    //adding values to info (saving data)
     public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
     {
-		info.AddValue("volume", volume);
-		info.AddValue("graphicsIndex", graphicsIndex);
-		info.AddValue("resolutionIndex", resolutionIndex);
-		info.AddValue("showGUI", showGUI);
-		info.AddValue("showFPS", showFPS);
-		info.AddValue("fullscreen", fullscreen);
-		info.AddValue("nick", nick);
-		info.AddValue("health", health);
+        info.AddValue("volume", volume);
+        info.AddValue("graphicsIndex", graphicsIndex);
+        info.AddValue("resolutionIndex", resolutionIndex);
+        info.AddValue("showGUI", showGUI);
+        info.AddValue("showFPS", showFPS);
+        info.AddValue("fullscreen", fullscreen);
+        info.AddValue("nick", nick);
+        info.AddValue("health", health);
     }
 }
 
-public class FileSaveLoad {
+public class FileSaveLoad
+{
 
-	public static string currentFilePath = Application.persistentDataPath + @"/saveData.dat";
-  
-	public static void Save()
-	{
-		Save (currentFilePath);
-	}
+    public static string currentFilePath = Application.persistentDataPath + @"/saveData.dat";
 
-	public static void Save(string filePath)
-	{
+    public static void Save()
+    {
+        Save(currentFilePath);
+    }
+
+    public static void Save(string filePath)
+    {
         Stream stream = File.Open(filePath, FileMode.Create);
         SaveData data = SaveLoad.sd;
         BinaryFormatter bformatter = new BinaryFormatter();
@@ -109,21 +103,22 @@ public class FileSaveLoad {
         bformatter.Serialize(stream, data);
         stream.Close();
     }
-	
-	public static bool Load ()
+
+    public static bool Load()
     {
         if (File.Exists(currentFilePath))
         {
             Load(currentFilePath);
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
-	}
+    }
 
-	public static void Load (string filePath) 
-	{
+    public static void Load(string filePath)
+    {
         Stream stream = File.Open(filePath, FileMode.Open);
         SaveData data = new SaveData();
         BinaryFormatter bformatter = new BinaryFormatter();
@@ -134,17 +129,17 @@ public class FileSaveLoad {
     }
 }
 
-public sealed class VersionDeserializationBinder : SerializationBinder 
-{ 
-    public override Type BindToType( string assemblyName, string typeName )
-    { 
-        if (!string.IsNullOrEmpty(assemblyName) && !string.IsNullOrEmpty(typeName)) 
-        { 
+public sealed class VersionDeserializationBinder : SerializationBinder
+{
+    public override Type BindToType(string assemblyName, string typeName)
+    {
+        if (!string.IsNullOrEmpty(assemblyName) && !string.IsNullOrEmpty(typeName))
+        {
             Type typeToDeserialize = null;
             assemblyName = Assembly.GetExecutingAssembly().FullName;
             typeToDeserialize = Type.GetType(string.Format("{0}, {1}", typeName, assemblyName));
             return typeToDeserialize;
-        } 
-        return null; 
-    } 
+        }
+        return null;
+    }
 }
