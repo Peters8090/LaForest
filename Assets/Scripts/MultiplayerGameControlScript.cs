@@ -151,7 +151,7 @@ public class MultiplayerGameControlScript : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Use to set the spawned player (set his nickname above his head, lower his footsteps' volume etc.)
+    /// Use to setup the spawned player (set his nickname above his head, lower his footsteps' volume etc.)
     /// </summary>
     /// <param name="pvID"></param>
     /// <param name="newPP"></param>
@@ -160,12 +160,16 @@ public class MultiplayerGameControlScript : MonoBehaviourPunCallbacks
     {
         GameObject newPlayer = PhotonView.Find(pvID).gameObject; //find the spawned player gameObject
         newPlayer.name = newPP.NickName; //set other player's name to his nickname
-        newPlayer.transform.position = ((GameObject)Resources.Load("Player")).gameObject.transform.position;
         newPlayer.transform.Find("TextMeshPro Nick").gameObject.GetComponent<TextMeshPro>().text = newPlayer.name; //let the 3d text above head show his nickname
         PlayerInfo.FindPlayerInfoByPP(newPP).gameObject = newPlayer; //set PlayerInfo gameObject reference to newPlayer's instance
         if (newPP == PhotonNetwork.LocalPlayer) //if we are new on this server
         {
             UsefulReferences.Initialize(newPlayer); //initialize the game
+
+            UsefulReferences.player.transform.position = new Vector3(SaveLoad.sd.playerPosX, SaveLoad.sd.playerPosY, SaveLoad.sd.playerPosZ);
+            UsefulReferences.player.transform.localEulerAngles = new Vector3(0, SaveLoad.sd.playerRotY, 0);
+            UsefulReferences.mainCamera.transform.localEulerAngles = new Vector3(SaveLoad.sd.playerRotX, 0, 0);
+
             UsefulReferences.localGameControlObject.GetComponent<MainMenu>().SetUpGame(false); //and disable everything, what could disturb the player while playing
         }
         else

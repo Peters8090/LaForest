@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     bool running = false;
     bool jumped = false;
-    public bool movementLocked = false;
+    public bool movementLocked = true;
     public bool mouseLookLocked = false;
     public bool moving = false;
     public bool slowDown = false;
@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded;
     bool prevIsGrounded;
     float delayBetweenGroundCheck = 0.2f;
+      
 
     void Start()
     {
@@ -53,14 +54,7 @@ public class PlayerMovement : MonoBehaviour
         mouseSensitivityDefaultValue = mouseSensitivity;
         InvokeRepeating("GroundCheck", 0f, delayBetweenGroundCheck);
     }
-
-    /// <summary>
-    /// isGrounded variable is updated 1/delayBetweenGroundCheck times per second to prevent problems while player would have been on an irregular surface
-    /// </summary>
-    void GroundCheck()
-    {
-        isGrounded = cc.isGrounded;
-    }
+    
 
     void Update()
     {
@@ -93,8 +87,9 @@ public class PlayerMovement : MonoBehaviour
         {
             mouseY -= Input.GetAxis("Joystick 5th axis") * mouseSensitivity;
         }
-
+        
         transform.Rotate(0, mouseX, 0);
+        
         mainCamera.transform.localRotation = Quaternion.Euler(mouseY, 0, 0);
         
         running = Input.GetButton("Run");
@@ -172,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
         move = transform.rotation * move;
         
         cc.Move(move * Time.deltaTime);
-
+        
         //to detect if we landed in the next frame
         prevIsGrounded = isGrounded;
     }
@@ -182,21 +177,6 @@ public class PlayerMovement : MonoBehaviour
         if(!movementLocked)
             ProgressStepCycle();
     }
-
-    /*
-    bool GroundCheck()
-    {
-        float distance = 1.5f;
-
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distance))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }*/
 
     /// <summary>
     /// Method from FirstPersonController script from Unity Standard Assets
@@ -253,7 +233,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+
+    /// <summary>
+    /// isGrounded variable is updated 1/delayBetweenGroundCheck times per second to prevent problems while player would have been on an irregular surface
+    /// </summary>
+    void GroundCheck()
+    {
+        isGrounded = cc.isGrounded;
+    }
 
     AudioClip[] ShuffleArray(AudioClip[] sounds)
     {

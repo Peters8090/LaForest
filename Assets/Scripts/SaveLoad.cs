@@ -36,6 +36,11 @@ public class SaveLoad : MonoBehaviour
         if (UsefulReferences.initialized)
         {
             sd.health = UsefulReferences.playerHealth.health;
+            sd.playerPosX = UsefulReferences.player.transform.position.x;
+            sd.playerPosY = UsefulReferences.player.transform.position.y;
+            sd.playerPosZ = UsefulReferences.player.transform.position.z;
+            sd.playerRotX = UsefulReferences.mainCamera.transform.localEulerAngles.x;
+            sd.playerRotY = UsefulReferences.player.transform.localEulerAngles.y;
         }
 
         FileSaveLoad.Save();
@@ -54,6 +59,11 @@ public class SaveData : ISerializable
     public bool fullscreen = true;
     public string nick = "";
     public float health = 100f;
+    public float playerPosX = UsefulReferences.playerResources.transform.position.x;
+    public float playerPosY = UsefulReferences.playerResources.transform.position.y;
+    public float playerPosZ = UsefulReferences.playerResources.transform.position.z;
+    public float playerRotX = UsefulReferences.playerResources.transform.localEulerAngles.x;
+    public float playerRotY = UsefulReferences.playerResources.transform.localEulerAngles.y;
     
     public SaveData() { }
 
@@ -68,6 +78,11 @@ public class SaveData : ISerializable
         fullscreen = (bool)info.GetValue("fullscreen", typeof(bool));
         nick = (string)info.GetValue("nick", typeof(string));
         health = (float)info.GetValue("health", typeof(float));
+        playerPosX = (float)info.GetValue("playerPosX", typeof(float));
+        playerPosY = (float)info.GetValue("playerPosY", typeof(float));
+        playerPosZ = (float)info.GetValue("playerPosZ", typeof(float));
+        playerRotX = (float)info.GetValue("playerRotX", typeof(float));
+        playerRotY = (float)info.GetValue("playerRotY", typeof(float));
     }
 
     //adding values to info (saving data)
@@ -81,6 +96,11 @@ public class SaveData : ISerializable
         info.AddValue("fullscreen", fullscreen);
         info.AddValue("nick", nick);
         info.AddValue("health", health);
+        info.AddValue("playerPosX", playerPosX);
+        info.AddValue("playerPosY", playerPosY);
+        info.AddValue("playerPosZ", playerPosZ);
+        info.AddValue("playerRotX", playerRotX);
+        info.AddValue("playerRotY", playerRotY);
     }
 }
 

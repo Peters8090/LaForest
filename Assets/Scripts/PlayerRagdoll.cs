@@ -33,7 +33,7 @@ public class PlayerRagdoll : MonoBehaviourPunCallbacks
         my3dNick = transform.Find("TextMeshPro Nick").gameObject;
 
         //first we save all player model's bones pos and rot
-        foreach (var bone in ((GameObject)Resources.Load("Player")).transform.Find("ybot").transform.GetComponentsInChildren<Transform>())
+        foreach (var bone in UsefulReferences.playerResources.transform.Find("ybot").transform.GetComponentsInChildren<Transform>())
         {
             playerModeldefaultPos.Add(bone.name, bone.localPosition);
             playerModelDefaultRot.Add(bone.name, bone.localRotation);

@@ -13,6 +13,7 @@ Wypadanie poza mapę
 Anticheat
 Spawn miejsca
 Kompatybilność zapisów
+Zapis pozycji i rotacji
 
 Done:
 Broń biała +

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UsefulReferences
 {
+    public static GameObject playerResources;
     public static GameObject player;
     public static GameObject mainCamera;
     public static GameObject ybot;
@@ -33,7 +34,6 @@ public class UsefulReferences
         if(myPlayer != null)
         {
             player = myPlayer;
-            //mainCamera = player.transform.Find("Main Camera").gameObject;
             mainCamera = player.GetComponent<UsefulReferencesPlayer>().mainCamera;
             ybot = player.transform.Find("ybot").gameObject;
             eq = player.GetComponent<UsefulReferencesPlayer>().eq;
@@ -48,7 +48,8 @@ public class UsefulReferences
             playerSounds = player.GetComponent<PlayerSounds>();
             initialized = true;
         }
-        
+
+        playerResources = (GameObject) Resources.Load("Player");
         ui = GameObject.Find("UI");
         activeWeaponImg = GameObject.Find("UI").transform.Find("Weapons/ActiveWeapon").gameObject.GetComponent<RawImage>();
         healthUI = ui.transform.Find("Health").gameObject;
