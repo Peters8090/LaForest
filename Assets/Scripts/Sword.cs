@@ -6,11 +6,6 @@ using Photon.Pun;
 public class Sword : MonoBehaviourPunCallbacks
 {
     /// <summary>
-    /// Range of the sword
-    /// </summary>
-    float range = 1f;
-
-    /// <summary>
     /// When this var is true, we are still scanning for objects which possibly can hit this sword (so we haven't found any object with any tag from the switch loop); if it is false we found the object (sword has hit it); this var is to prevent further sending info about hits after the sword has hit the object
     /// </summary>
     bool scanning = false;

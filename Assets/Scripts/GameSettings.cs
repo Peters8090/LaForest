@@ -25,7 +25,7 @@ public class GameSettings : MonoBehaviour
     
     public static Resolution[] resolutions;
 
-    void Start()
+    internal void Start()
     {
         showGUIToggle = transform.Find("First column/Toggles/Show GUI").gameObject.GetComponent<Toggle>();
         showFPSToggle = transform.Find("First column/Toggles/Show FPS").gameObject.GetComponent<Toggle>();
@@ -55,8 +55,6 @@ public class GameSettings : MonoBehaviour
         nickInputField.text = nick;
 
         Refresh();
-
-        gameObject.SetActive(false);
     }
     
     public void Volume(float volume)

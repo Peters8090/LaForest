@@ -27,8 +27,6 @@ public class PauseMenu : MonoBehaviour
         {
             panels.Add((pauseMenuUIObj.transform.Find("Panels").GetChild(i).name), (pauseMenuUIObj.transform.Find("Panels").GetChild(i).gameObject));
         }
-
-        //panels["Settings"].SetActive(true);
     }
 
     void Update()

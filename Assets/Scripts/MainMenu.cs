@@ -28,8 +28,8 @@ public class MainMenu : MonoBehaviour
             panels.Add((mainMenuUIObj.transform.Find("Panels").GetChild(i).name), (mainMenuUIObj.transform.Find("Panels").GetChild(i).gameObject));
         }
 
-        panels["Settings"].SetActive(true);
-
+        //setup game on its start with saved game settings
+        panels["Settings"].GetComponent<GameSettings>().Start();
     }
 
     void Update()
