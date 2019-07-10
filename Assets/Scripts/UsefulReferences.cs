@@ -5,28 +5,37 @@ using UnityEngine.UI;
 
 public class UsefulReferences
 {
+    //gameObjects
     public static GameObject playerResources;
     public static GameObject player;
     public static GameObject mainCamera;
     public static GameObject ybot;
     public static GameObject eq;
+    public static GameObject ui;
+    public static GameObject environment;
+    public static GameObject multiplayerGameControlObject;
+    public static GameObject localGameControlObject;
+    public static GameObject healthUI;
+    public static GameObject deathUI;
+    public static GameObject crosshairUI;
+
+    //my scripts
     public static PlayerMovement playerMovement;
     public static PlayerWeapons playerWeapons;
-    public static Animator playerAnimator;
     public static CharacterController playerCharacterController;
     public static PlayerDeath playerDeath;
     public static PlayerHealth playerHealth;
     public static PlayerRagdoll playerRagdoll;
     public static PlayerSounds playerSounds;
-    public static GameObject ui;
-    public static GameObject environment;
-    public static GameObject multiplayerGameControlObject;
-    public static GameObject localGameControlObject;
+    
+    //built-in scripts
+    public static Animator playerAnimator;
     public static RawImage activeWeaponImg;
-    public static GameObject healthUI;
-    public static GameObject deathUI;
-    public static GameObject crosshairUI;
     public static AudioSource playerAudioSource;
+    
+    //useful constant values
+    public const float terrainSize = 2500f;
+
     public static bool initialized = false;
 
     public static void Initialize(GameObject myPlayer)

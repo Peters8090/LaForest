@@ -1,21 +1,21 @@
 ﻿LaForest od nowa
 
-Todo:
+Todo {
 Przeciwnik pająk
 Zwierzę wilk
 Atak (zwierzęta, przeciwnicy)
-Prace
-Budowanie domu (każdy gracz ma swoją działkę na serwerze, są one symetrycznie wydzielone)
-Generowanie terenu
+System prac
+System budowania
 Jedzenie
 Wypadanie poza mapę
 Ścinanie drzewa
-Anticheat
 Spawn miejsca
 Kompatybilność zapisów
-Zapis pozycji i rotacji
+Zapis rotacji pionowej - bug fix
+}
 
-Done:
+Done
+{
 Broń biała +
 Strzelanie podczas lotu +
 Wchodzenie na górę zablokować +
@@ -60,18 +60,33 @@ Zmiana broni +
 Trzęsienie się graczy +
 Grounded, not grounded bug +
 Uznawanie broni za część ciała +
+}
 
+Zamysł gry {
 
-Notes:
-Mnożenie przez x*Time.deltatime przy += oznacza, że dany parametr będzie wzrastał x na sekundę
+Gracz ma różne bronie i jest możliwe pvp między graczami, kiedy gracz umrze wyrzuca 10% swojego eq
+
+System budowania: https://www.youtube.com/watch?v=OnGHhFBSm_A (z Rusta)
+
+Gracz może budować różne budowle, dom itp. w którym nie będą go atakować potwory; pająki itp. Zbudowane budowle może każdy zniszczyć.
+
+Każdy gracz ma swoją działkę na serwerze, są one symetrycznie wydzielone
+
+Gracz zarabia pieniądze sprzedając do sklepu ścięte kłody drewna, znalezione patyki, kamienie, diamenty itp.
+
+To gracze tworzą asortyment w sklepie tzn. w sklepie nie ma nieskończonych przedmiotów, najpierw ktoś musi sprzedać swój przedmiot, żeby później inny gracz mógł go kupić.
+
+Za pieniądze gracz będzie mógł kupić sobie ulepszenia broni, pancerz, rzeczy w sklepie.
+
+Byłyby różne dodatkowe tryby typu battle royale, deathmatche, wyzwania itp. na które można by było zaprosić innych graczy.
+
+Gracz kiedy zaczyna grę musi wybrać jakąś pracę, żeby przeżyć. Wybiera pierwszą ścieżkę zawodową np. Drwal.
+Dostaje służbową siekierę na czas pracy (bez ulepszeń, zablokowana możliwość korzystania z niej poza pracą)
+Otrzymuje zlecenia od pracodawcy i wykonuje je. Musi osiągnąć określoną liczbę zleceń. Jeśli postanowi zmienić pracę a nie osiągnął tej liczby zleceń, jego postęp przepada. Za zarobione pieniądze może wynajmować dom, kupić konia, rock guna etc. Jak osiągnie tą liczbę zleceń, dostaje wtedy swoją siekierę za darmo (albo kupuje do ustalenia) i w tym momencie (kończy staż i może zostaje drwalem) może zmienić pracę i mu się to zapisze albo może zostać i podpisać kontrakt i pracować na ulepszenia siekiery i na wyższą pensję. Jeśli w trakcie kontraktu przerwie pracę (albo zmieni) wtedy traci tylko postęp z pieniędzmi (wraca ten z końca stażu). Tak samo z innymi pracami.
+Jeśli praca jest fajniesza lub szybciej, wtedy są proporcjonalnie mniejsze zarobki, żeby każda praca była tak samo opłacalna.
+}
+
+Notes {
 https://doc.photonengine.com/en-us/realtime/current/connection-and-authentication/tcp-and-udp-port-numbers
 Cannot send op: 228 Not connected. PeerState: Disconnected
-Zamysł gry:
-Gracz ma różne bronie i jest możliwe pvp między graczami, kiedy gracz umrze wyrzuca 10% swojego eq
-System budowania: https://www.youtube.com/watch?v=OnGHhFBSm_A (z Rusta)
-Gracz może budować różne budowle, dom itp. w którym nie będą go atakować potwory; pająki itp. Zbudowane budowle może każdy zniszczyć.
-Gracz zarabia pieniądze sprzedając do sklepu ścięte kłody drewna, znalezione patyki, kamienie, diamenty itp.
-To gracze tworzą asortyment w sklepie tzn. w sklepie nie ma nieskończonych przedmiotów, najpierw ktoś musi sprzedać swój przedmiot, żeby później inny gracz mógł go kupić.
-Za pieniądze gracz będzie mógł kupić sobie ulepszenia broni, pancerz, rzeczy w sklepie.
-Byłyby różne dodatkowe tryby typu battle royale, deathmatche, wyzwania itp. na które można by było zaprosić innych graczy.
-Gracz kiedy zaczyna grę musi wybrać jakąś pracę, żeby przeżyć. Na przykład pójdzie do drwala. Wykona potrzebne questy (które zajmą mu dużo czasu, oczywiście będzie dostawał pieniądze za wykonane zadanie. Wykonywał on je wypożyczaną siekierą (za przekroczenie czasu wypożyczenia może stracić pracę albo pieniądze). Po stracie pracy można zacząć ją od nowa, ale postęp będzie stracony. (im dłużej się pracuje, tym większe wynagrodzenie za wykonaną pracę) Po zakończeniu questów można wykupić siekierę u tego pracodawcy (na przykład żeby samemu móc ścinać drzewa aby zbudować dom albo sprzedawać drewno w sklepie).
+}

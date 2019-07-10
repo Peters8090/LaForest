@@ -10333,7 +10333,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -10814,12 +10814,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.3
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -11075,7 +11075,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 0.3
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -11459,7 +11459,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 0.3
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -11649,7 +11649,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 0.3
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -11853,8 +11853,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 790, y: -460.1}
-  m_SizeDelta: {x: 180, y: 35}
+  m_AnchoredPosition: {x: 799.99994, y: -460.09998}
+  m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2125251322
 MonoBehaviour:
@@ -12056,6 +12056,11 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.25882354
       objectReference: {fileID: 0}
+    - target: {fileID: 2486232817688778494, guid: 4a3d20a14da526a43a6ebcdaaf8d9b61,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a3d20a14da526a43a6ebcdaaf8d9b61, type: 3}
 --- !u!1001 &4023031948892842396
@@ -12065,16 +12070,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 513511331}
     m_Modifications:
-    - target: {fileID: 4023031949213480160, guid: b0f9f7dd0adf32a40a7b7c0b21c9cfe2,
-        type: 3}
-      propertyPath: m_Name
-      value: Main Menu
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023031949213480160, guid: b0f9f7dd0adf32a40a7b7c0b21c9cfe2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4023031949213479965, guid: b0f9f7dd0adf32a40a7b7c0b21c9cfe2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12178,6 +12173,16 @@ PrefabInstance:
     - target: {fileID: 4023031949213479965, guid: b0f9f7dd0adf32a40a7b7c0b21c9cfe2,
         type: 3}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023031949213480160, guid: b0f9f7dd0adf32a40a7b7c0b21c9cfe2,
+        type: 3}
+      propertyPath: m_Name
+      value: Main Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023031949213480160, guid: b0f9f7dd0adf32a40a7b7c0b21c9cfe2,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4023031948834612236, guid: b0f9f7dd0adf32a40a7b7c0b21c9cfe2,
@@ -12534,6 +12539,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973659408726631255, guid: b0f9f7dd0adf32a40a7b7c0b21c9cfe2,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4023031949908851134, guid: b0f9f7dd0adf32a40a7b7c0b21c9cfe2,
         type: 3}
@@ -12923,6 +12933,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 387316661}
+    - target: {fileID: 6335648455267289246, guid: c37ab32a59fc1104fa0f5870eb6af44a,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8888918516802129882, guid: c37ab32a59fc1104fa0f5870eb6af44a,
         type: 3}
       propertyPath: m_AnchorMin.y

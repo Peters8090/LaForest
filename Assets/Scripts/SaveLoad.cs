@@ -64,7 +64,17 @@ public class SaveData : ISerializable
     public float playerPosZ = UsefulReferences.playerResources.transform.position.z;
     public float playerRotX = UsefulReferences.playerResources.transform.localEulerAngles.x;
     public float playerRotY = UsefulReferences.playerResources.transform.localEulerAngles.y;
-    
+
+    #region Previous Player Pos/Rot Defaults TODO:DELETE
+    /*
+    public float playerPosX = UsefulReferences.playerResources.transform.position.x;
+    public float playerPosY = UsefulReferences.playerResources.transform.position.y;
+    public float playerPosZ = UsefulReferences.playerResources.transform.position.z;
+    public float playerRotX = UsefulReferences.playerResources.transform.localEulerAngles.x;
+    public float playerRotY = UsefulReferences.playerResources.transform.localEulerAngles.y;
+    */
+    #endregion
+
     public SaveData() { }
 
     //assigning variables data from info (loading data)
